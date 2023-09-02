@@ -25,6 +25,7 @@ class TransactionsTableView: UITableViewController {
         transactions.append(Transaction(29, Date.now, "Groceries"))
         transactions.append(Transaction(34, Date.now, "Groceries"))
 
+        tableView.register(CustomCell.self, forCellReuseIdentifier: "cell")
     }
 
     // MARK: - Table view data source
@@ -34,10 +35,10 @@ class TransactionsTableView: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(frame: CG)
-        cell.textLabel?.text = transactions[indexPath.row].category
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomCell 
+        cell.amountLabel.text = String(transactions[indexPath.row].amount)
+        cell.categoryLabel.text = transactions[indexPath.row].category
         
-        cell.detailTextLabel?.text = transactions[indexPath.row].category
         return cell
     }
     
