@@ -9,23 +9,25 @@ import UIKit
 
 class TransactionsTableView: UITableViewController {
     
-    var transactions = [Transaction]()
+    var transactions: [Transaction] = {
+        var transactionsw = [Transaction]()
+        transactionsw.append(Transaction(12, Date.now, "Groceries"))
+        transactionsw.append(Transaction(23, Date.now, "Groceries"))
+        transactionsw.append(Transaction(35, Date.now, "Groceries"))
+        transactionsw.append(Transaction(65, Date.now, "Groceries"))
+        transactionsw.append(Transaction(3, Date.now, "Groceries"))
+        transactionsw.append(Transaction(29, Date.now, "Groceries"))
+        transactionsw.append(Transaction(34, Date.now, "Groceries"))
+        return transactionsw
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Details"
-        
         tableView.backgroundColor = .white
-        transactions.append(Transaction(12, Date.now, "Groceries"))
-        transactions.append(Transaction(23, Date.now, "Groceries"))
-        transactions.append(Transaction(35, Date.now, "Groceries"))
-        transactions.append(Transaction(65, Date.now, "Groceries"))
-        transactions.append(Transaction(3, Date.now, "Groceries"))
-        transactions.append(Transaction(29, Date.now, "Groceries"))
-        transactions.append(Transaction(34, Date.now, "Groceries"))
 
         tableView.register(CustomCell.self, forCellReuseIdentifier: "cell")
+        tableView.rowHeight = 68
     }
 
     // MARK: - Table view data source
@@ -36,9 +38,8 @@ class TransactionsTableView: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomCell 
-        cell.amountLabel.text = String(transactions[indexPath.row].amount)
+        cell.amountLabel.text = "\(transactions[indexPath.row].amount)"
         cell.categoryLabel.text = transactions[indexPath.row].category
-        
         return cell
     }
     
