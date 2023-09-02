@@ -1,5 +1,5 @@
 //
-//  TransactionsList.swift
+//  TransactionsTableView.swift
 //  Wallet App
 //
 //  Created by Vlad Klunduk on 02/09/2023.
@@ -7,26 +7,41 @@
 
 import UIKit
 
-class TransactionsList: UITableViewController {
+class TransactionsTableView: UITableViewController {
+    
+    var transactions = [Transaction]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.backgroundColor = .blue
+        title = "Details"
+        
+        tableView.backgroundColor = .white
+        transactions.append(Transaction(12, Date.now, "Groceries"))
+        transactions.append(Transaction(23, Date.now, "Groceries"))
+        transactions.append(Transaction(35, Date.now, "Groceries"))
+        transactions.append(Transaction(65, Date.now, "Groceries"))
+        transactions.append(Transaction(3, Date.now, "Groceries"))
+        transactions.append(Transaction(29, Date.now, "Groceries"))
+        transactions.append(Transaction(34, Date.now, "Groceries"))
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return transactions.count
     }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(frame: CG)
+        cell.textLabel?.text = transactions[indexPath.row].category
+        
+        cell.detailTextLabel?.text = transactions[indexPath.row].category
+        return cell
+    }
+    
+    
 
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

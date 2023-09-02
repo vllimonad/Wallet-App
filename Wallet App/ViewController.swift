@@ -12,8 +12,12 @@ class ViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let tr = TransactionsList()
-        self.setViewControllers([tr], animated: false)
+        let vc = MainViewController()
+        let navc = UINavigationController(rootViewController: vc)
+        vc.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 0)
+        let tr = TransactionsTableView()
+        tr.tabBarItem = UITabBarItem(tabBarSystemItem: .recents, tag: 1)
+        self.setViewControllers([navc,tr], animated: true)
     }
 
 
