@@ -9,10 +9,10 @@ import UIKit
 
 class Transaction {
     var amount: Int
-    var date: Date
+    var date: String
     var category: String
     
-    init(_ amount: Int, _ date: Date, _ category: String) {
+    init(_ amount: Int, _ date: String, _ category: String) {
         self.amount = amount
         self.date = date
         self.category = category

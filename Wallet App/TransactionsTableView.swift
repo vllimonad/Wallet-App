@@ -7,25 +7,58 @@
 
 import UIKit
 
+class Day {
+    var date: String
+    var arr: [Transaction]
+    
+    init(date: String, arr: [Transaction]) {
+        self.date = date
+        self.arr = arr
+    }
+}
+
 class TransactionsTableView: UITableViewController {
     
+    var dict: [Day] = {
+        var f = [Day]()
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        f.append(Day(date: formatter.string(from: Date.distantPast), arr: [Transaction(12, formatter.string(from: Date.now), "Groceries"), Transaction(52, formatter.string(from: Date.now), "Groceries")]))
+        f.append(Day(date: formatter.string(from: Date.now), arr: [Transaction(46, formatter.string(from: Date.now), "Groceries"), Transaction(25, formatter.string(from: Date.now), "Groceries")]))
+        f.sort(by: { $0.date < $1.date })
+        return f
+    }()
+    
+    /*
     var transactions: [Transaction] = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        print(formatter.string(from: Date.now))
         var transactionsw = [Transaction]()
-        transactionsw.append(Transaction(12, Date.now, "Groceries"))
-        transactionsw.append(Transaction(23, Date.now, "Groceries"))
-        transactionsw.append(Transaction(35, Date.now, "Groceries"))
-        transactionsw.append(Transaction(65, Date.now, "Groceries"))
-        transactionsw.append(Transaction(3, Date.now, "Groceries"))
-        transactionsw.append(Transaction(29, Date.now, "Groceries"))
-        transactionsw.append(Transaction(34, Date.now, "Groceries"))
+        transactionsw.append(Transaction(65, formatter.string(from: Date.distantPast), "Groceries"))
+        transactionsw.append(Transaction(12, formatter.string(from: Date.now), "Groceries"))
+        transactionsw.append(Transaction(23, formatter.string(from: Date.now), "Groceries"))
+        transactionsw.append(Transaction(35, formatter.string(from: Date.now), "Groceries"))
+        transactionsw.append(Transaction(3, formatter.string(from: Date.now), "Groceries"))
+        transactionsw.append(Transaction(29, formatter.string(from: Date.now), "Groceries"))
+        transactionsw.append(Transaction(34, formatter.string(from: Date.now), "Groceries"))
         return transactionsw
     }()
+    
+    var uniqueDays: Set<String> {
+        var set = Set<String>()
+        for i in transactions {
+            set.insert(i.date)
+        }
+        return set
+    }
+     */
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         tableView.backgroundColor = .white
-
         tableView.register(CustomCell.self, forCellReuseIdentifier: "cell")
         tableView.rowHeight = 68
     }
@@ -33,14 +66,26 @@ class TransactionsTableView: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return transactions.count
+        return dict[section].arr.count
+        /*let arr = Array(uniqueDays)
+        let date = arr[section]
+        return transactions.lastIndex(where: { $0.date == date })! - transactions.firstIndex(where: { $0.date == date })! + 1
+         */
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomCell 
-        cell.amountLabel.text = "\(transactions[indexPath.row].amount)"
-        cell.categoryLabel.text = transactions[indexPath.row].category
+        cell.amountLabel.text = "\(dict[indexPath.section].arr[indexPath.row].amount)"
+        cell.categoryLabel.text = dict[indexPath.section].arr[indexPath.row].category
         return cell
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return dict.count
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return dict[section].date
     }
     
     
