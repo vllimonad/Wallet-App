@@ -59,10 +59,8 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource {
         return tableView
     }()
     
-    var notesTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Notes"
-        textField.backgroundColor = .lightGray
+    var notesTextField: NotesTextField = {
+        let textField = NotesTextField(placeholder: "Notes")
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -118,9 +116,9 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -400),
             
-            notesTextField.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 10),
-            notesTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            notesTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            notesTextField.topAnchor.constraint(equalTo: tableView.bottomAnchor),
+            notesTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            notesTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             notesTextField.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -200)
         ])
     }

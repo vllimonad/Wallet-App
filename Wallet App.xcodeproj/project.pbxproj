@@ -17,6 +17,7 @@
 		2B5EC0A92AA3608B00305D14 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC0A82AA3608B00305D14 /* Transaction.swift */; };
 		2B5EC0AD2AA37A4F00305D14 /* TransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC0AC2AA37A4F00305D14 /* TransactionCell.swift */; };
 		2B8541592AA507EF00ADECEB /* NewTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8541582AA507EF00ADECEB /* NewTransactionViewController.swift */; };
+		2B85415B2AA545DE00ADECEB /* NotesTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B85415A2AA545DE00ADECEB /* NotesTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		2B5EC0A82AA3608B00305D14 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		2B5EC0AC2AA37A4F00305D14 /* TransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCell.swift; sourceTree = "<group>"; };
 		2B8541582AA507EF00ADECEB /* NewTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTransactionViewController.swift; sourceTree = "<group>"; };
+		2B85415A2AA545DE00ADECEB /* NotesTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 				2B5EC0A22AA3587500305D14 /* MainViewController.swift */,
 				2B8541582AA507EF00ADECEB /* NewTransactionViewController.swift */,
 				2B5EC0A62AA359E700305D14 /* TransactionsTableViewController.swift */,
+				2B85415A2AA545DE00ADECEB /* NotesTextField.swift */,
 				2B5EC0A82AA3608B00305D14 /* Transaction.swift */,
 				2B5EC0AC2AA37A4F00305D14 /* TransactionCell.swift */,
 				2B5EC0952AA34ECA00305D14 /* Assets.xcassets */,
@@ -155,6 +158,7 @@
 				2B5EC08D2AA34EC900305D14 /* AppDelegate.swift in Sources */,
 				2B8541592AA507EF00ADECEB /* NewTransactionViewController.swift in Sources */,
 				2B5EC08F2AA34EC900305D14 /* SceneDelegate.swift in Sources */,
+				2B85415B2AA545DE00ADECEB /* NotesTextField.swift in Sources */,
 				2B5EC0AD2AA37A4F00305D14 /* TransactionCell.swift in Sources */,
 				2B5EC0A32AA3587500305D14 /* MainViewController.swift in Sources */,
 			);
