@@ -14,7 +14,6 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource {
     var dollarButton: UIButton = {
         let button = UIButton()
         button.setTitle("USD", for: .normal)
-        button.titleLabel?.textColor = .black
         button.backgroundColor = .lightGray
         button.layer.cornerRadius = 20
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -23,9 +22,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource {
     var euroButton: UIButton = {
         let button = UIButton()
         button.setTitle("EUR", for: .normal)
-        //button.titleLabel?.font = .boldSystemFont(ofSize: 21)
         button.backgroundColor = .lightGray
-        button.titleLabel?.textColor = .black
         button.layer.cornerRadius = 20
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -34,7 +31,6 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource {
         let button = UIButton()
         button.setTitle("PLN", for: .normal)
         button.backgroundColor = .lightGray
-        button.titleLabel?.textColor = .black
         button.layer.cornerRadius = 20
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -43,9 +39,10 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource {
     var amountTextField: UITextField = {
         let textField = UITextField()
         textField.text = "-0"
-        textField.textAlignment = .right
+        textField.textAlignment = .center
         textField.font = UIFont.systemFont(ofSize: 45)
         textField.backgroundColor = .lightGray
+        textField.layer.cornerRadius = 20
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -93,7 +90,8 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource {
 
         NSLayoutConstraint.activate([
             amountTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            amountTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1),
+            amountTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            amountTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             amountTextField.heightAnchor.constraint(equalToConstant: 100),
             
             dollarButton.topAnchor.constraint(equalTo: amountTextField.bottomAnchor, constant: 20),
