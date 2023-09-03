@@ -13,11 +13,18 @@ class ViewController: UITabBarController {
         super.viewDidLoad()
         
         let vc = MainViewController()
-        let navc = UINavigationController(rootViewController: vc)
         vc.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 0)
-        let tr = TransactionsTableView()
+        let add = NewTransactionViewController()
+        add.tabBarItem = UITabBarItem(tabBarSystemItem: .downloads, tag: 2)
+        let navc2 = UINavigationController(rootViewController: add)
+        
+//        navc2.modalPresentationStyle = .formSheet
+//        present(navc2, animated: true)
+        
+        let tr = TransactionsTableViewController()
         tr.tabBarItem = UITabBarItem(tabBarSystemItem: .recents, tag: 1)
-        self.setViewControllers([navc,tr], animated: true)
+        
+        self.setViewControllers([vc, navc2, tr], animated: true)
     }
 
 

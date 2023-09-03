@@ -17,15 +17,15 @@ class Day {
     }
 }
 
-class TransactionsTableView: UITableViewController {
+class TransactionsTableViewController: UITableViewController {
     
     var dict: [Day] = {
         var f = [Day]()
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .none
-        f.append(Day(date: formatter.string(from: Date.distantPast), arr: [Transaction(12, formatter.string(from: Date.now), "Groceries"), Transaction(52, formatter.string(from: Date.now), "Groceries")]))
-        f.append(Day(date: formatter.string(from: Date.now), arr: [Transaction(46, formatter.string(from: Date.now), "Groceries"), Transaction(25, formatter.string(from: Date.now), "Groceries")]))
+        f.append(Day(date: formatter.string(from: Date.distantPast), arr: [Transaction(12, formatter.string(from: Date.now), "Car"), Transaction(52, formatter.string(from: Date.now), "Groceries")]))
+        f.append(Day(date: formatter.string(from: Date.now), arr: [Transaction(46, formatter.string(from: Date.now), "Bar"), Transaction(25, formatter.string(from: Date.now), "Care")]))
         f.sort(by: { $0.date < $1.date })
         return f
     }()
@@ -59,7 +59,7 @@ class TransactionsTableView: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.backgroundColor = .white
-        tableView.register(CustomCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(TransactionCell.self, forCellReuseIdentifier: "cell")
         tableView.rowHeight = 68
     }
 
@@ -74,8 +74,8 @@ class TransactionsTableView: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomCell 
-        cell.amountLabel.text = "\(dict[indexPath.section].arr[indexPath.row].amount)"
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TransactionCell
+        cell.amountLabel.text = " -\(dict[indexPath.section].arr[indexPath.row].amount) pln"
         cell.categoryLabel.text = dict[indexPath.section].arr[indexPath.row].category
         return cell
     }
