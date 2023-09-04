@@ -8,7 +8,7 @@
 import UIKit
 import Charts
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
     
     let pieChart = PieChartView()
     let categories = ["Food", "Shopping", "Housing", "Health", "Transportation", "Entertainment"]
@@ -16,31 +16,39 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .white
-        setChart()
+        setupChart()
     }
     
-    func setChart() {
+    func setupChart() {
         view.addSubview(pieChart)
-        
-        var dataEntries = [PieChartDataEntry]()
-        for i in 0..<categories.count {
-            let entry = ChartDataEntry(x: Double(i), y: Double(amounts[i]), data: categories[i] as String)
-            let a = PieChartDataEntry(value: Double(amounts[i]), label: categories[i])
-            dataEntries.append(a)
-        }
-        
-        pieChart.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.width)
+        pieChart.frame.size = CGSize(width: 360, height: 360)
         pieChart.center = view.center
         
+        var dataEntries = [PieChartDataEntry]()
+        var sum = 0
+        
+        for i in 0..<categories.count {
+            let a = PieChartDataEntry(value: Double(amounts[i]), label: categories[i])
+            dataEntries.append(a)
+            sum += amounts[i]
+        }
+
+        pieChart.holeRadiusPercent = 0.45
+        pieChart.center = view.center
+        pieChart.legend.enabled = false
+        let centerText = NSAttributedString(string: "\(sum)")
+        pieChart.centerAttributedText = centerText
+        
         let pieChartDataSet = PieChartDataSet(entries: dataEntries)
-        pieChartDataSet.colors = ChartColorTemplates.pastel()
         let pieChartdata = PieChartData(dataSet: pieChartDataSet)
         pieChart.data = pieChartdata
         
+        pieChartDataSet.colors = ChartColorTemplates.pastel()
+        
     }
-
+    
+    
 }
 
 
