@@ -74,6 +74,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource {
         setupTableView()
         setupLayout()
     }
+    
     func setupTableView() {
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "k")

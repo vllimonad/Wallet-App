@@ -8,25 +8,31 @@
 import UIKit
 
 class ViewController: UITabBarController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let vc = MainViewController()
-        vc.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 0)
-        let add = NewTransactionViewController()
-        add.tabBarItem = UITabBarItem(tabBarSystemItem: .downloads, tag: 2)
-        let navc2 = UINavigationController(rootViewController: add)
-        
-//        navc2.modalPresentationStyle = .formSheet
-//        present(navc2, animated: true)
-        
-        let tr = TransactionsTableViewController()
-        tr.tabBarItem = UITabBarItem(tabBarSystemItem: .recents, tag: 1)
-        
-        self.setViewControllers([vc, navc2, tr], animated: true)
+        setViews()
     }
+    
+    func setViews() {
+        let mainView = MainViewController()
+        mainView.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 0)
 
+        let transactionView = UIViewController()
+        transactionView.tabBarItem = UITabBarItem(tabBarSystemItem: .downloads, tag: 1)
 
+        let tableView = TransactionsTableViewController()
+        tableView.tabBarItem = UITabBarItem(tabBarSystemItem: .recents, tag: 2)
+            
+        setViewControllers([mainView, transactionView, tableView], animated: false)
+    }
+    
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        if item.tag == 1 {
+            let transactionView = UINavigationController(rootViewController: NewTransactionViewController())
+            transactionView.modalPresentationStyle = UIModalPresentationStyle.formSheet
+            present(transactionView, animated: true)
+        }
+    }
 }
 

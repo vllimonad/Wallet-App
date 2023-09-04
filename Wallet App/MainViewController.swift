@@ -6,30 +6,25 @@
 //
 
 import UIKit
+import Charts
 
 class MainViewController: UIViewController {
+    
+    
+    let categories = ["Food", "Shopping", "Housing", "Health", "Transportation", "Entertainment"]
+    let amounts = [43, 56, 52, 87, 56, 0]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTransaction))
+        setChart()
     }
     
-    @objc func addTransaction(){
-        
+    func setChart() {
+        //var dataEntries: [ChartDataEntry]
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
+
+

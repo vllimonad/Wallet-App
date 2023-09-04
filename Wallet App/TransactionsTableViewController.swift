@@ -58,6 +58,7 @@ class TransactionsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Records"
         tableView.backgroundColor = .white
         tableView.register(TransactionCell.self, forCellReuseIdentifier: "cell")
         tableView.rowHeight = 68
