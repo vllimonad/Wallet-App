@@ -24,7 +24,7 @@ class ViewController: UITabBarController {
         let tableView = TransactionsTableViewController()
         tableView.tabBarItem = UITabBarItem(tabBarSystemItem: .recents, tag: 2)
             
-        setViewControllers([mainView, transactionView, tableView], animated: false)
+        viewControllers = [mainView, transactionView, tableView]
     }
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
