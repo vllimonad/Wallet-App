@@ -55,6 +55,13 @@ final class NewTransactionViewController: UIViewController, UITableViewDataSourc
         return tableView
     }()
     
+    var datePicker: UIDatePicker = {
+        let picker = UIDatePicker()
+        picker.datePickerMode = .date
+        picker.translatesAutoresizingMaskIntoConstraints = false
+        return picker
+    }()
+    
     var notesTextField: NotesTextField = {
         let textField = NotesTextField(placeholder: "Notes")
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -127,11 +134,12 @@ final class NewTransactionViewController: UIViewController, UITableViewDataSourc
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "option", for: indexPath)
         cell.textLabel?.text = options[indexPath.row]
-        cell.accessoryType = .disclosureIndicator
         if indexPath.row == 1 {
-            let datePicker = UIDatePicker()
-            datePicker.datePickerMode = .date
-            cell.textLabel?.addSubview(datePicker)
+            cell.contentView.addSubview(datePicker)
+            datePicker.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -20).isActive = true
+            datePicker.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
+        } else {
+            cell.accessoryType = .disclosureIndicator
         }
         return cell
     }
@@ -141,39 +149,8 @@ final class NewTransactionViewController: UIViewController, UITableViewDataSourc
             let table = TableOfCategoriesViewController()
             table.delegate = self
             present(table, animated: true)
-        } else {
-            setDate()
         }
         tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    func setDate() {
-        //let alert = UIAlertController(title: "", message: nil, preferredStyle: .alert)
-        //setupDatePicker(alert, datePicker)
-        
-        /*let action = UIAlertAction(title: "OK", style: .default) { _ in
-            
-        }
-        let action2 = UIAlertAction(title: "Cancel", style: .default)
-        alert.addAction(action)
-        alert.addAction(action2)
-        
-        present(alert, animated: true)
-         */
-    }
-    
-    func setupDatePicker(_ alert: UIAlertController, _ datePicker: UIDatePicker) {
-        alert.view.addSubview(datePicker)
-        //datePicker.center = alert.view.center
-        //alert.view.frame.size = CGSize(width: 400, height: 400)
-        datePicker.datePickerMode = .date
-        
-        NSLayoutConstraint.activate([
-            datePicker.topAnchor.constraint(equalTo: alert.view.topAnchor, constant: 260),
-            datePicker.bottomAnchor.constraint(equalTo: alert.view.bottomAnchor, constant: -130),
-            datePicker.leadingAnchor.constraint(equalTo: alert.view.leadingAnchor, constant: 130),
-            datePicker.trailingAnchor.constraint(equalTo: alert.view.trailingAnchor, constant: -130)
-        ])
     }
 }
 
