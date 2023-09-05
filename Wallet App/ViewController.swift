@@ -16,13 +16,15 @@ class ViewController: UITabBarController {
     
     func setViews() {
         let mainView = MainViewController()
-        mainView.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 0)
+        mainView.tabBarItem = UITabBarItem(title: "Statistics", image: UIImage(named: "statisticsIcon"), tag: 0)
+        
 
         let transactionView = UIViewController()
-        transactionView.tabBarItem = UITabBarItem(tabBarSystemItem: .downloads, tag: 1)
+        transactionView.view.backgroundColor = .white
+        transactionView.tabBarItem = UITabBarItem(title: nil , image: UIImage(named: "add"), tag: 1)
 
         let tableView = TransactionsTableViewController()
-        tableView.tabBarItem = UITabBarItem(tabBarSystemItem: .recents, tag: 2)
+        tableView.tabBarItem = UITabBarItem(title: "History", image: UIImage(named: "history"), tag: 2)
             
         viewControllers = [mainView, transactionView, tableView]
     }

@@ -16,7 +16,7 @@ final class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.systemBackground
         setupChart()
     }
     
@@ -26,28 +26,38 @@ final class MainViewController: UIViewController {
         pieChart.center = view.center
         
         var dataEntries = [PieChartDataEntry]()
-        var sum = 0
+        var totalSum = 0
         
         for i in 0..<categories.count {
             let a = PieChartDataEntry(value: Double(amounts[i]), label: categories[i])
             dataEntries.append(a)
-            sum += amounts[i]
+            totalSum += amounts[i]
         }
-
-        pieChart.holeRadiusPercent = 0.45
-        pieChart.center = view.center
-        pieChart.legend.enabled = false
-        let centerText = NSAttributedString(string: "\(sum)")
-        pieChart.centerAttributedText = centerText
         
         let pieChartDataSet = PieChartDataSet(entries: dataEntries)
         let pieChartdata = PieChartData(dataSet: pieChartDataSet)
         pieChart.data = pieChartdata
-        
-        pieChartDataSet.colors = ChartColorTemplates.pastel()
-        
+        formatChart(totalSum)
+        formatChartDataSet(pieChartDataSet)
     }
     
+    func formatChart(_ totalSum: Int) {
+        pieChart.holeRadiusPercent = 0.5
+        pieChart.transparentCircleRadiusPercent = 0.0
+        pieChart.legend.enabled = false
+        pieChart.rotationEnabled = false
+        
+        let centerText = NSAttributedString(string: "\(totalSum) pln", attributes: [
+            .foregroundColor: UIColor.black,
+            .font: UIFont.boldSystemFont(ofSize: 19)
+        ])
+        pieChart.centerAttributedText = centerText
+    }
+    
+    func formatChartDataSet(_ pieChartDataSet: PieChartDataSet) {
+        pieChartDataSet.colors = ChartColorTemplates.pastel()
+        pieChartDataSet.valueFont = NSUIFont.systemFont(ofSize: 16)
+    }
     
 }
 

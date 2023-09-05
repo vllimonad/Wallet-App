@@ -65,7 +65,6 @@ class TransactionCell: UITableViewCell {
     }
     
     func setupLayout() {
-        amountLabel.text = "spivub"
         addSubview(icon)
         addSubview(categoryLabel)
         addSubview(desciptionLabel)
