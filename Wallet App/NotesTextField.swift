@@ -9,7 +9,7 @@ import UIKit
 
 class NotesTextField: UITextField {
 
-    let padding = UIEdgeInsets(top: -50, left: 10, bottom: 0, right: 20)
+    let padding = UIEdgeInsets(top: -80, left: 15, bottom: 0, right: 20)
     
     init(placeholder: String) {
         super.init(frame: .zero)

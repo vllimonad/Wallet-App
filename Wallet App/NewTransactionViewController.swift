@@ -10,7 +10,6 @@ import UIKit
 class NewTransactionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var options = ["Category", "Date"]
-    var categories = ["Food", "Transportation", "Health", "Shopping", "Entertainment", "Housihg"]
     
     var dollarButton: UIButton = {
         let button = UIButton()
@@ -64,10 +63,10 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Add Record"
+        view.backgroundColor = .white
         tableView.delegate = self
         tableView.dataSource = self
-        view.backgroundColor = .white
-        title = "Add Record"
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: nil)
         
@@ -137,12 +136,14 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
             let table = TableOfCategoriesViewController()
             navigationController?.pushViewController(table, animated: true)
         }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
 final class TableOfCategoriesViewController: UITableViewController {
     
     var categories = ["Groceries", "Transportation", "Shopping", "Entertainment", "Housing"]
+    var selectedCategory = "Groceries"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -156,19 +157,22 @@ final class TableOfCategoriesViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "category", for: indexPath) as! CategoryViewCell
-        cell.categoryLabel.text = categories[indexPath.row].lowercased()
+        cell.categoryLabel.text = categories[indexPath.row]
         cell.icon.image = UIImage(named: categories[indexPath.row].lowercased())
-        cell.accessoryType = .disclosureIndicator
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedCategory = categories[indexPath.row]
+        tableView.deselectRow(at: indexPath, animated: true)
+        navigationController?.popViewController(animated: true)
+    }
 }
 
 final class CategoryViewCell: UITableViewCell {
     
     var icon: UIImageView = {
         let icon = UIImageView()
-        icon.layer.borderWidth = 1
         icon.layer.borderColor = UIColor.black.cgColor
         icon.translatesAutoresizingMaskIntoConstraints = false
         return icon
@@ -178,7 +182,6 @@ final class CategoryViewCell: UITableViewCell {
         let label = UILabel()
         label.numberOfLines = 1
         label.textAlignment = .natural
-        label.layer.borderWidth = 1
         label.layer.borderColor = UIColor.black.cgColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -201,7 +204,7 @@ final class CategoryViewCell: UITableViewCell {
             icon.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             icon.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-            categoryLabel.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 10),
+            categoryLabel.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 15),
             categoryLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
