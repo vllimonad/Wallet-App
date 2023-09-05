@@ -9,21 +9,24 @@ import UIKit
 
 class ViewController: UITabBarController {
     
+    let mainView = MainViewController()
+    let transactionView = UIViewController()
+    let tableView = TransactionsTableViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setViews()
     }
     
     func setViews() {
-        let mainView = MainViewController()
+        //let mainView = MainViewController()
         mainView.tabBarItem = UITabBarItem(title: "Statistics", image: UIImage(named: "statisticsIcon"), tag: 0)
         
-
-        let transactionView = UIViewController()
+        //let transactionView = UIViewController()
         transactionView.view.backgroundColor = .white
         transactionView.tabBarItem = UITabBarItem(title: nil , image: UIImage(named: "add"), tag: 1)
 
-        let tableView = TransactionsTableViewController()
+        //let tableView = TransactionsTableViewController()
         tableView.tabBarItem = UITabBarItem(title: "History", image: UIImage(named: "history"), tag: 2)
             
         viewControllers = [mainView, transactionView, tableView]

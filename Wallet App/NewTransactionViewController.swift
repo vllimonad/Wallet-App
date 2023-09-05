@@ -67,6 +67,26 @@ final class NewTransactionViewController: UIViewController, UITableViewDataSourc
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
+    
+    var saveButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .lightGray
+        button.setTitle("Save", for: .normal)
+        button.layer.cornerRadius = 17
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(NewTransactionViewController.self, action: #selector(saveTransaction), for: .touchUpInside)
+        return button
+    }()
+    
+    var cancelButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .lightGray
+        button.setTitle("Cancel", for: .normal)
+        button.layer.cornerRadius = 17
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(NewTransactionViewController.self, action: #selector(cancelTransaction), for: .touchUpInside)
+        return button
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,8 +94,6 @@ final class NewTransactionViewController: UIViewController, UITableViewDataSourc
         view.backgroundColor = .white
         tableView.delegate = self
         tableView.dataSource = self
-
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: nil)
         
         setupTableView()
         setupLayout()
@@ -93,6 +111,8 @@ final class NewTransactionViewController: UIViewController, UITableViewDataSourc
         view.addSubview(zlotyButton)
         view.addSubview(tableView)
         view.addSubview(notesTextField)
+        view.addSubview(cancelButton)
+        view.addSubview(saveButton)
 
         NSLayoutConstraint.activate([
             amountTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
@@ -123,7 +143,17 @@ final class NewTransactionViewController: UIViewController, UITableViewDataSourc
             notesTextField.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 20),
             notesTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             notesTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            notesTextField.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -200)
+            notesTextField.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -200),
+            
+            cancelButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            cancelButton.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -20),
+            cancelButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.42),
+            cancelButton.heightAnchor.constraint(equalToConstant: 50),
+            
+            saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            saveButton.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -20),
+            saveButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.42),
+            saveButton.heightAnchor.constraint(equalToConstant: 50),
         ])
     }
     
@@ -151,6 +181,14 @@ final class NewTransactionViewController: UIViewController, UITableViewDataSourc
             present(table, animated: true)
         }
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    @objc func cancelTransaction() {
+        dismiss(animated: true)
+    }
+    
+    @objc func saveTransaction() {
+        
     }
 }
 
