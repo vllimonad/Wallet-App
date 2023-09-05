@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NewTransactionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+final class NewTransactionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var options = ["Category", "Date"]
     
@@ -75,7 +75,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     func setupTableView() {
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "k")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "option")
         tableView.backgroundColor = .clear
     }
     
@@ -125,25 +125,73 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "k", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "option", for: indexPath)
         cell.textLabel?.text = options[indexPath.row]
         cell.accessoryType = .disclosureIndicator
+        if indexPath.row == 1 {
+            let datePicker = UIDatePicker()
+            datePicker.datePickerMode = .date
+            cell.textLabel?.addSubview(datePicker)
+        }
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             let table = TableOfCategoriesViewController()
-            navigationController?.pushViewController(table, animated: true)
+            table.delegate = self
+            present(table, animated: true)
+        } else {
+            setDate()
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    func setDate() {
+        //let alert = UIAlertController(title: "", message: nil, preferredStyle: .alert)
+        //setupDatePicker(alert, datePicker)
+        
+        /*let action = UIAlertAction(title: "OK", style: .default) { _ in
+            
+        }
+        let action2 = UIAlertAction(title: "Cancel", style: .default)
+        alert.addAction(action)
+        alert.addAction(action2)
+        
+        present(alert, animated: true)
+         */
+    }
+    
+    func setupDatePicker(_ alert: UIAlertController, _ datePicker: UIDatePicker) {
+        alert.view.addSubview(datePicker)
+        //datePicker.center = alert.view.center
+        //alert.view.frame.size = CGSize(width: 400, height: 400)
+        datePicker.datePickerMode = .date
+        
+        NSLayoutConstraint.activate([
+            datePicker.topAnchor.constraint(equalTo: alert.view.topAnchor, constant: 260),
+            datePicker.bottomAnchor.constraint(equalTo: alert.view.bottomAnchor, constant: -130),
+            datePicker.leadingAnchor.constraint(equalTo: alert.view.leadingAnchor, constant: 130),
+            datePicker.trailingAnchor.constraint(equalTo: alert.view.trailingAnchor, constant: -130)
+        ])
+    }
 }
 
-final class TableOfCategoriesViewController: UITableViewController {
+extension NewTransactionViewController: TableOfCategoriesViewControllerDelegate {
+    func selectedItem(_ item: String) {
+        options[0] = item
+        tableView.reloadData()
+    }
+}
+
+protocol TableOfCategoriesViewControllerDelegate: AnyObject {
+    func selectedItem(_ item: String)
+}
+
+class TableOfCategoriesViewController: UITableViewController {
     
+    var delegate: TableOfCategoriesViewControllerDelegate?
     var categories = ["Groceries", "Transportation", "Shopping", "Entertainment", "Housing"]
-    var selectedCategory = "Groceries"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -163,10 +211,11 @@ final class TableOfCategoriesViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedCategory = categories[indexPath.row]
+        delegate?.selectedItem(categories[indexPath.row])
         tableView.deselectRow(at: indexPath, animated: true)
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true)
     }
+    
 }
 
 final class CategoryViewCell: UITableViewCell {
