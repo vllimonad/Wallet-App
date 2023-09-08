@@ -14,8 +14,9 @@ class TableOfCategoriesViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Categoreis"
         tableView.register(CategoryViewCell.self, forCellReuseIdentifier: "category")
-        tableView.rowHeight = 70
+        tableView.rowHeight = 60
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

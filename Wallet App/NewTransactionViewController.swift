@@ -184,7 +184,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
         if indexPath.row == 0 {
             let table = TableOfCategoriesViewController()
             table.delegate = self
-            present(table, animated: true)
+            present(UINavigationController(rootViewController: table), animated: true)
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }

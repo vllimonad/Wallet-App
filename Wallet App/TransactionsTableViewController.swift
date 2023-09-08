@@ -29,49 +29,19 @@ class TransactionsTableViewController: UITableViewController {
         f.sort(by: { $0.date < $1.date })
         return f
     }()
-    
-    /*
-    var transactions: [Transaction] = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .none
-        print(formatter.string(from: Date.now))
-        var transactionsw = [Transaction]()
-        transactionsw.append(Transaction(65, formatter.string(from: Date.distantPast), "Groceries"))
-        transactionsw.append(Transaction(12, formatter.string(from: Date.now), "Groceries"))
-        transactionsw.append(Transaction(23, formatter.string(from: Date.now), "Groceries"))
-        transactionsw.append(Transaction(35, formatter.string(from: Date.now), "Groceries"))
-        transactionsw.append(Transaction(3, formatter.string(from: Date.now), "Groceries"))
-        transactionsw.append(Transaction(29, formatter.string(from: Date.now), "Groceries"))
-        transactionsw.append(Transaction(34, formatter.string(from: Date.now), "Groceries"))
-        return transactionsw
-    }()
-    
-    var uniqueDays: Set<String> {
-        var set = Set<String>()
-        for i in transactions {
-            set.insert(i.date)
-        }
-        return set
-    }
-     */
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Records"
         tableView.backgroundColor = .white
         tableView.register(TransactionCell.self, forCellReuseIdentifier: "cell")
-        tableView.rowHeight = 68
+        tableView.rowHeight = 60
     }
 
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dict[section].arr.count
-        /*let arr = Array(uniqueDays)
-        let date = arr[section]
-        return transactions.lastIndex(where: { $0.date == date })! - transactions.firstIndex(where: { $0.date == date })! + 1
-         */
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -89,17 +59,9 @@ class TransactionsTableViewController: UITableViewController {
         return dict[section].date
     }
     
-    
-
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.
