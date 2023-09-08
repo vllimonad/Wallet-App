@@ -19,16 +19,7 @@ class Day {
 
 class TransactionsTableViewController: UITableViewController {
     
-    var dict: [Day] = {
-        var f = [Day]()
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .none
-        f.append(Day(date: formatter.string(from: Date.distantPast), arr: [Transaction(12, formatter.string(from: Date.now), "Car"), Transaction(52, formatter.string(from: Date.now), "Groceries")]))
-        f.append(Day(date: formatter.string(from: Date.now), arr: [Transaction(46, formatter.string(from: Date.now), "Bar"), Transaction(25, formatter.string(from: Date.now), "Care")]))
-        f.sort(by: { $0.date < $1.date })
-        return f
-    }()
+    var transactionsList = [Day]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,26 +32,39 @@ class TransactionsTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dict[section].arr.count
+        return transactionsList[section].arr.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TransactionCell
-        cell.amountLabel.text = "\(dict[indexPath.section].arr[indexPath.row].amount) pln"
-        cell.categoryLabel.text = dict[indexPath.section].arr[indexPath.row].category
+        cell.amountLabel.text = "\(transactionsList[indexPath.section].arr[indexPath.row].amount) pln"
+        cell.categoryLabel.text = transactionsList[indexPath.section].arr[indexPath.row].category
+        cell.desciptionLabel.text = transactionsList[indexPath.section].arr[indexPath.row].description
         return cell
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return dict.count
+        return transactionsList.count
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return dict[section].date
+        return transactionsList[section].date
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let swipe = UISwipeActionsConfiguration(actions: [UIContextualAction(style: .destructive, title: "Delete", handler: { [weak self] _,_,_ in
+            self?.transactionsList[indexPath.section].arr.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .right)
+            if self?.transactionsList[indexPath.section].arr.count == 0 {
+                self?.transactionsList.remove(at: indexPath.section)
+                tableView.deleteSections(IndexSet(arrayLiteral: indexPath.section), with: .top)
+            }
+        })])
+        return swipe
     }
 
     /*
@@ -111,12 +115,16 @@ class TransactionsTableViewController: UITableViewController {
 }
 
 extension TransactionsTableViewController: NewTransactionViewControllerDelegate {
+    
+    
+    
     func addNewTransaction(_ transaction: Transaction) {
-        if let index = dict.firstIndex(where: { $0.date == transaction.date}) {
-            dict[index].arr.append(transaction)
+        if let index = transactionsList.firstIndex(where: { $0.date == transaction.date}) {
+            transactionsList[index].arr.append(transaction)
         } else {
-            dict.append(Day(date: transaction.date, arr: [transaction]))
+            transactionsList.append(Day(date: transaction.date, arr: [transaction]))
         }
+        transactionsList.sort(by: { $0.date > $1.date })
         tableView.reloadData()
     }
 }

@@ -11,10 +11,12 @@ class Transaction {
     var amount: Int
     var date: String
     var category: String
+    var description: String
     
-    init(_ amount: Int, _ date: String, _ category: String) {
+    init(amount: Int, date: String, category: String, description: String) {
         self.amount = amount
         self.date = date
         self.category = category
+        self.description = description
     }
 }

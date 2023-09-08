@@ -10,8 +10,8 @@ import UIKit
 class NewTransactionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var options = ["Category", "Date"]
-    var category = ""
-    var currency = ""
+    var cselectedCategory: String?
+    var currency = "pln"
     var delegateController: NewTransactionViewControllerDelegate?
     
     var dollarButton: UIButton = {
@@ -76,7 +76,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     
     var saveButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .lightGray
+        button.backgroundColor = .systemGray
         button.setTitle("Save", for: .normal)
         button.layer.cornerRadius = 17
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -86,7 +86,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     
     var cancelButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .lightGray
+        button.backgroundColor = .systemGray
         button.setTitle("Cancel", for: .normal)
         button.layer.cornerRadius = 17
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -195,37 +195,39 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     
     @objc func saveTransaction() {
         guard let amount = amountTextField.text else { return }
+        guard let category = cselectedCategory else { return }
+        let description = notesTextField.text == nil ? "" : notesTextField.text!
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
-        var transaction = Transaction(Int(amount)!, formatter.string(from: datePicker.date), category)
+        var transaction = Transaction(amount: Int(amount)!, date: formatter.string(from: datePicker.date), category: category, description: description)
         delegateController?.addNewTransaction(transaction)
         dismiss(animated: true)
     }
     
     @objc func dollarButtonTapped() {
-        category = "usd"
-        dollarButton.backgroundColor = .systemBlue
+        //category = "usd"
+        dollarButton.backgroundColor = .systemGray
         euroButton.backgroundColor = .systemGray4
         zlotyButton.backgroundColor = .systemGray4
     }
     @objc func euroButtonTapped() {
-        category = "eur"
+        //category = "eur"
         dollarButton.backgroundColor = .systemGray4
-        euroButton.backgroundColor = .systemBlue
+        euroButton.backgroundColor = .systemGray
         zlotyButton.backgroundColor = .systemGray4
     }
     @objc func zlotyButtonTapped() {
-        category = "pln"
+        //category = "pln"
         dollarButton.backgroundColor = .systemGray4
         euroButton.backgroundColor = .systemGray4
-        zlotyButton.backgroundColor = .systemBlue
+        zlotyButton.backgroundColor = .systemGray
     }
 }
 
 extension NewTransactionViewController: TableOfCategoriesViewControllerDelegate {
     func selectedItem(_ item: String) {
         options[0] = item
-        category = item
+        cselectedCategory = item
         tableView.reloadData()
     }
 }

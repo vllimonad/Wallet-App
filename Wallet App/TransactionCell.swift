@@ -67,10 +67,10 @@ class TransactionCell: UITableViewCell {
             icon.centerYAnchor.constraint(equalTo: centerYAnchor),
             
             categoryLabel.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 10),
-            categoryLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -10),
+            categoryLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -5),
             
             desciptionLabel.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 10),
-            desciptionLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 6),
+            desciptionLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 4),
             
             amountLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
             amountLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
