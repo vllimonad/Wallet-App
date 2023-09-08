@@ -13,8 +13,6 @@ class TransactionCell: UITableViewCell {
         let label = UILabel()
         label.numberOfLines = 1
         label.textAlignment = .natural
-        label.layer.borderWidth = 1
-        label.layer.borderColor = UIColor.black.cgColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -23,8 +21,6 @@ class TransactionCell: UITableViewCell {
         let label = UILabel()
         label.numberOfLines = 1
         label.textAlignment = .natural
-        label.layer.borderWidth = 1
-        label.layer.borderColor = UIColor.black.cgColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -35,16 +31,12 @@ class TransactionCell: UITableViewCell {
         label.font = UIFont.systemFont(ofSize: 12)
         label.text = "description"
         label.textAlignment = .natural
-        label.layer.borderWidth = 1
-        label.layer.borderColor = UIColor.black.cgColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     var icon: UIImageView = {
         let icon = UIImageView()
-        icon.layer.borderWidth = 1
-        icon.layer.borderColor = UIColor.black.cgColor
         icon.translatesAutoresizingMaskIntoConstraints = false
         icon.image = UIImage(named: "groceries")
         return icon

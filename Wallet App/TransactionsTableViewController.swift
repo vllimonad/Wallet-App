@@ -76,7 +76,7 @@ class TransactionsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TransactionCell
-        cell.amountLabel.text = " -\(dict[indexPath.section].arr[indexPath.row].amount) pln"
+        cell.amountLabel.text = "\(dict[indexPath.section].arr[indexPath.row].amount) pln"
         cell.categoryLabel.text = dict[indexPath.section].arr[indexPath.row].category
         return cell
     }
@@ -146,4 +146,15 @@ class TransactionsTableViewController: UITableViewController {
     }
     */
 
+}
+
+extension TransactionsTableViewController: NewTransactionViewControllerDelegate {
+    func addNewTransaction(_ transaction: Transaction) {
+        if let index = dict.firstIndex(where: { $0.date == transaction.date}) {
+            dict[index].arr.append(transaction)
+        } else {
+            dict.append(Day(date: transaction.date, arr: [transaction]))
+        }
+        tableView.reloadData()
+    }
 }

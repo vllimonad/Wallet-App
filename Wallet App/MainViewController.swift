@@ -8,55 +8,69 @@
 import UIKit
 import Charts
 
-final class MainViewController: UIViewController {
+class MainViewController: UIViewController {
     
-    let pieChart = PieChartView()
+    var newTransactionDelegate: NewTransactionViewControllerDelegate?
+    
+    let barChart: BarChartView = {
+        let chart = BarChartView()
+        chart.xAxis.drawAxisLineEnabled = false
+        chart.xAxis.drawGridLinesEnabled = false
+        chart.xAxis.drawLabelsEnabled = false
+        
+        chart.rightAxis.drawAxisLineEnabled = false
+        chart.rightAxis.drawLabelsEnabled = false
+        chart.leftAxis.drawAxisLineEnabled = false
+        chart.leftAxis.drawLabelsEnabled = false
+        chart.legend.enabled = false
+        return chart
+    }()
     let categories = ["Food", "Shopping", "Housing", "Health", "Transportation", "Entertainment"]
-    let amounts = [43, 56, 52, 87, 56, 0]
+    var amounts = [43, 56, 52, 87, 56, 0]
+    var totalSum = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.systemBackground
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTransaction))
         setupChart()
     }
     
     func setupChart() {
-        view.addSubview(pieChart)
-        pieChart.frame.size = CGSize(width: 360, height: 360)
-        pieChart.center = view.center
+        view.addSubview(barChart)
+        barChart.frame = CGRect(x: 0, y: 200, width: view.frame.width, height: view.frame.width)
         
-        var dataEntries = [PieChartDataEntry]()
+        var dataEntries = [BarChartDataEntry]()
         var totalSum = 0
         
         for i in 0..<categories.count {
-            let a = PieChartDataEntry(value: Double(amounts[i]), label: categories[i])
+            let a = BarChartDataEntry(x: Double(i), y: Double(amounts[i]))
             dataEntries.append(a)
             totalSum += amounts[i]
         }
         
-        let pieChartDataSet = PieChartDataSet(entries: dataEntries)
-        let pieChartdata = PieChartData(dataSet: pieChartDataSet)
-        pieChart.data = pieChartdata
+        let barChartDataSet = BarChartDataSet(entries: dataEntries)
+        let barChartdata = BarChartData(dataSet: barChartDataSet)
+        barChart.data = barChartdata
         formatChart(totalSum)
-        formatChartDataSet(pieChartDataSet)
+        formatChartDataSet(barChartDataSet)
     }
     
     func formatChart(_ totalSum: Int) {
-        pieChart.holeRadiusPercent = 0.5
-        pieChart.transparentCircleRadiusPercent = 0.0
-        pieChart.legend.enabled = false
-        pieChart.rotationEnabled = false
         
-        let centerText = NSAttributedString(string: "\(totalSum) pln", attributes: [
-            .foregroundColor: UIColor.black,
-            .font: UIFont.boldSystemFont(ofSize: 19)
-        ])
-        pieChart.centerAttributedText = centerText
     }
     
-    func formatChartDataSet(_ pieChartDataSet: PieChartDataSet) {
+    func formatChartDataSet(_ pieChartDataSet: BarChartDataSet) {
         pieChartDataSet.colors = ChartColorTemplates.pastel()
         pieChartDataSet.valueFont = NSUIFont.systemFont(ofSize: 16)
+    }
+    
+    @objc func addTransaction() {
+        let transactionView = NewTransactionViewController()
+        transactionView.modalPresentationStyle = .formSheet
+        transactionView.delegateController = newTransactionDelegate
+        present(UINavigationController(rootViewController: transactionView), animated: true)
     }
     
 }
