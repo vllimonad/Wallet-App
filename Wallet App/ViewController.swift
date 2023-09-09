@@ -18,26 +18,13 @@ class ViewController: UITabBarController {
     }
     
     func setViews() {
-        //let mainView = MainViewController()
         mainView.tabBarItem = UITabBarItem(title: "Statistics", image: UIImage(named: "statisticsIcon"), tag: 0)
         
-        //let transactionView = UIViewController()
-        //transactionView.view.backgroundColor = .white
-        //transactionView.tabBarItem = UITabBarItem(title: nil , image: UIImage(named: "add"), tag: 1)
-
-        //let tableView = TransactionsTableViewController()
         tableView.tabBarItem = UITabBarItem(title: "History", image: UIImage(named: "history"), tag: 2)
         mainView.newTransactionDelegate = tableView
-            
+        tableView.mainVewController = mainView
+        
         viewControllers = [UINavigationController(rootViewController: mainView), tableView]
     }
-    
-    /*override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        if item.tag == 1 {
-            let transactionView = UINavigationController(rootViewController: NewTransactionViewController())
-            transactionView.modalPresentationStyle = UIModalPresentationStyle.formSheet
-            present(transactionView, animated: true)
-        }
-    }*/
 }
 

@@ -35,7 +35,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     var zlotyButton: UIButton = {
         let button = UIButton()
         button.setTitle("PLN", for: .normal)
-        button.backgroundColor = .systemBlue
+        button.backgroundColor = .systemGray
         button.layer.cornerRadius = 20
         button.addTarget(self, action: #selector(zlotyButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -47,7 +47,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
         textField.text = "-0"
         textField.textAlignment = .center
         textField.font = UIFont.systemFont(ofSize: 45)
-        textField.backgroundColor = .lightGray
+        textField.backgroundColor = .systemGray4
         textField.layer.cornerRadius = 20
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -70,6 +70,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     
     var notesTextField: NotesTextField = {
         let textField = NotesTextField(placeholder: "Notes")
+        textField.backgroundColor = .systemGray2
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -199,7 +200,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
         let description = notesTextField.text == nil ? "" : notesTextField.text!
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
-        var transaction = Transaction(amount: Int(amount)!, date: formatter.string(from: datePicker.date), category: category, description: description)
+        var transaction = Transaction(amount: Double(amount)!, date: formatter.string(from: datePicker.date), category: category, description: description)
         delegateController?.addNewTransaction(transaction)
         dismiss(animated: true)
     }

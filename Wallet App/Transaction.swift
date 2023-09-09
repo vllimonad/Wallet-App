@@ -8,12 +8,12 @@
 import UIKit
 
 class Transaction {
-    var amount: Int
+    var amount: Double
     var date: String
     var category: String
     var description: String
     
-    init(amount: Int, date: String, category: String, description: String) {
+    init(amount: Double, date: String, category: String, description: String) {
         self.amount = amount
         self.date = date
         self.category = category
