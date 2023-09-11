@@ -1,2 +1,1 @@
-# Wallet-App
 # In progress..
