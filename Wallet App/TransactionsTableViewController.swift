@@ -19,6 +19,7 @@ class Day {
 
 class TransactionsTableViewController: UITableViewController {
     
+    var multiplier = 1.0
     var transactionsList = [Day]()
     var mainVewController: MainViewController?
 
@@ -38,7 +39,7 @@ class TransactionsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TransactionCell
-        cell.amountLabel.text = "\(transactionsList[indexPath.section].arr[indexPath.row].amount) pln"
+        cell.amountLabel.text = "\(transactionsList[indexPath.section].arr[indexPath.row].amount) \(transactionsList[indexPath.section].arr[indexPath.row].currency)"
         cell.categoryLabel.text = transactionsList[indexPath.section].arr[indexPath.row].category
         cell.desciptionLabel.text = transactionsList[indexPath.section].arr[indexPath.row].description
         return cell
@@ -72,12 +73,11 @@ class TransactionsTableViewController: UITableViewController {
         var sum: Double = 0
         for i in transactionsList {
             for transaction in i.arr {
-                sum += transaction.amount
+                sum += transaction.amount / transaction.exchangeRate
             }
         }
-        return sum
+        return (sum * 100).rounded() / 100
     }
-
 }
 
 extension TransactionsTableViewController: NewTransactionViewControllerDelegate {
@@ -88,7 +88,7 @@ extension TransactionsTableViewController: NewTransactionViewControllerDelegate 
         } else {
             transactionsList.append(Day(date: transaction.date, arr: [transaction]))
         }
-        mainVewController?.amountLabel.text = "Total: \(countSum()) pln"
+        mainVewController?.amountLabel.text = "Total: \(countSum()) eur"
         transactionsList.sort(by: { $0.date > $1.date })
         tableView.reloadData()
     }

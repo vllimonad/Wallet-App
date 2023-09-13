@@ -11,11 +11,12 @@ import Charts
 class MainViewController: UIViewController {
     
     var newTransactionDelegate: NewTransactionViewControllerDelegate?
+    var monthIndex = 1
     
     var monthLabel: UILabel = {
         var label = UILabel()
         label.backgroundColor = .systemGray6
-        label.text = "Febriary 2023"
+        label.text = "Current month"
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -27,6 +28,7 @@ class MainViewController: UIViewController {
         button.backgroundColor = .systemGray6
         let config = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular)
         button.setImage(UIImage(systemName: "chevron.backward", withConfiguration: config), for: .normal)
+        button.addTarget(self, action: #selector(showPreviousMonth), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -60,7 +62,7 @@ class MainViewController: UIViewController {
     var amountLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 25)
-        label.text = "Total: 0 pln"
+        label.text = "Total: 0 eur"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -82,7 +84,7 @@ class MainViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             backwardButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            backwardButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            backwardButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 20),
             backwardButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25),
             backwardButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.04),
             
@@ -137,6 +139,12 @@ class MainViewController: UIViewController {
         transactionView.modalPresentationStyle = .formSheet
         transactionView.delegateController = newTransactionDelegate
         present(UINavigationController(rootViewController: transactionView), animated: true)
+    }
+    
+    @objc func showPreviousMonth() {
+        let index = Calendar.current.component(.month, from: Date())
+        let month = "\(Calendar.current.standaloneMonthSymbols[index-monthIndex]) \(Calendar.current.component(.year, from: Date()))"
+        monthLabel.text = month
     }
     
 }

@@ -7,11 +7,17 @@
 
 import UIKit
 
+enum Currency{
+    case pln
+    case usd
+    case eur
+}
+
 class NewTransactionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var options = ["Category", "Date"]
-    var cselectedCategory: String?
-    var currency = "pln"
+    var selectedCategory: String?
+    var currency = Currency.eur
     var delegateController: NewTransactionViewControllerDelegate?
     
     var dollarButton: UIButton = {
@@ -26,7 +32,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     var euroButton: UIButton = {
         let button = UIButton()
         button.setTitle("EUR", for: .normal)
-        button.backgroundColor = .systemGray4
+        button.backgroundColor = .systemGray
         button.layer.cornerRadius = 20
         button.addTarget(self, action: #selector(euroButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -35,7 +41,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     var zlotyButton: UIButton = {
         let button = UIButton()
         button.setTitle("PLN", for: .normal)
-        button.backgroundColor = .systemGray
+        button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 20
         button.addTarget(self, action: #selector(zlotyButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -99,14 +105,14 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
         super.viewDidLoad()
         title = "Add Record"
         view.backgroundColor = .white
-        tableView.delegate = self
-        tableView.dataSource = self
         
-        setupTableView()
+        configureTableView()
         setupLayout()
     }
     
-    func setupTableView() {
+    func configureTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "option")
         tableView.backgroundColor = .clear
     }
@@ -196,29 +202,45 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     
     @objc func saveTransaction() {
         guard let amount = amountTextField.text else { return }
-        guard let category = cselectedCategory else { return }
+        guard let category = selectedCategory else { return }
         let description = notesTextField.text == nil ? "" : notesTextField.text!
         let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        var transaction = Transaction(amount: Double(amount)!, date: formatter.string(from: datePicker.date), category: category, description: description)
-        delegateController?.addNewTransaction(transaction)
+        formatter.dateStyle = .long
+        var transaction = Transaction(amount: Double(amount)!, currency: currency, date: formatter.string(from: datePicker.date), category: category, description: description, exchangeRate: 1.0)
+        getExchangeRate(for: transaction)
         dismiss(animated: true)
     }
     
+    func getExchangeRate(for transaction: Transaction) {
+        let request = URLRequest(url: URL(string: "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur.json")!)
+        let task = URLSession.shared.dataTask(with: request) { data,_,error in
+        guard let data = data, let rate = try? JSONDecoder().decode(Rate.self, from: data) else { return }
+            switch transaction.currency {
+            case .usd: transaction.exchangeRate = rate.eur["usd"]!
+            case .pln: transaction.exchangeRate = rate.eur["pln"]!
+            default: break
+            }
+            DispatchQueue.main.async { [weak self] in
+                self!.delegateController?.addNewTransaction(transaction)
+            }
+        }
+        task.resume()
+    }
+    
     @objc func dollarButtonTapped() {
-        //category = "usd"
+        currency = .usd
         dollarButton.backgroundColor = .systemGray
         euroButton.backgroundColor = .systemGray4
         zlotyButton.backgroundColor = .systemGray4
     }
     @objc func euroButtonTapped() {
-        //category = "eur"
+        currency = .eur
         dollarButton.backgroundColor = .systemGray4
         euroButton.backgroundColor = .systemGray
         zlotyButton.backgroundColor = .systemGray4
     }
     @objc func zlotyButtonTapped() {
-        //category = "pln"
+        currency = .pln
         dollarButton.backgroundColor = .systemGray4
         euroButton.backgroundColor = .systemGray4
         zlotyButton.backgroundColor = .systemGray
@@ -228,7 +250,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
 extension NewTransactionViewController: TableOfCategoriesViewControllerDelegate {
     func selectedItem(_ item: String) {
         options[0] = item
-        cselectedCategory = item
+        selectedCategory = item
         tableView.reloadData()
     }
 }
