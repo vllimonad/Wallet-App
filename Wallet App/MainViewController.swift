@@ -43,18 +43,19 @@ class MainViewController: UIViewController {
         return button
     }()
     
-    let barChart: BarChartView = {
-        let chart = BarChartView()
-        chart.backgroundColor = .systemGray4
-        chart.layer.cornerRadius = 20
-        chart.layer.borderWidth = 1
-        chart.xAxis.drawAxisLineEnabled = false
+    var barChart: HorizontalBarChartView = {
+        let chart = HorizontalBarChartView()
+        //chart.backgroundColor = .systemGray5
+        //chart.xAxis.drawAxisLineEnabled = false
         chart.xAxis.drawGridLinesEnabled = false
-        chart.xAxis.drawLabelsEnabled = false
+        chart.xAxis.drawLabelsEnabled = true
         chart.rightAxis.drawAxisLineEnabled = false
         chart.rightAxis.drawLabelsEnabled = false
+        chart.rightAxis.drawGridLinesEnabled = false
         chart.leftAxis.drawAxisLineEnabled = false
-        //chart.leftAxis.drawLabelsEnabled = false
+        chart.leftAxis.drawLabelsEnabled = false
+        chart.leftAxis.drawGridLinesEnabled = false
+        chart.leftAxis.axisMinimum = 0
         chart.legend.enabled = false
         return chart
     }()
@@ -66,8 +67,9 @@ class MainViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
     let categories = ["Food", "Shopping", "Housing", "Health", "Transportation", "Entertainment"]
-    var amounts = [43, 56, 52, 87, 56, 0]
+    var amounts = [10, 29, 43, 52, 56, 87]
     var totalSum = 0
 
     override func viewDidLoad() {
@@ -101,32 +103,34 @@ class MainViewController: UIViewController {
             amountLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             amountLabel.topAnchor.constraint(equalTo: backwardButton.bottomAnchor, constant: 20)
         ])
-        //setupChart()
+        
+        drawChart()
     }
     
-    func setupChart() {
+    func drawChart() {
         view.addSubview(barChart)
-        barChart.frame = CGRect(x: 0, y: 200, width: view.frame.width*0.8, height: view.frame.width*0.8)
+        barChart.frame = CGRect(x: 10, y: 280, width: view.frame.width*0.9, height: view.frame.width)
         
         var dataEntries = [BarChartDataEntry]()
-        var totalSum = 0
-        
         for i in 0..<categories.count {
             let a = BarChartDataEntry(x: Double(i), y: Double(amounts[i]))
             dataEntries.append(a)
-            totalSum += amounts[i]
         }
-        
         let barChartDataSet = BarChartDataSet(entries: dataEntries)
         let barChartdata = BarChartData(dataSet: barChartDataSet)
-        barChart.data?.setDrawValues(true)
+        barChartdata.setDrawValues(true)
+        barChartdata.setValueFont(UIFont.systemFont(ofSize: 12))
+        barChartdata.setValueTextColor(UIColor.black)
+        barChartdata.barWidth = 0.5
         barChart.data = barChartdata
-        formatChart(totalSum)
-        formatChartDataSet(barChartDataSet)
-    }
-    
-    func formatChart(_ totalSum: Int) {
         
+        formatChartDataSet(barChartDataSet)
+        
+        barChart.xAxis.valueFormatter = IndexAxisValueFormatter(values: categories)
+        barChart.xAxis.labelPosition = .bottom
+        barChart.xAxis.labelFont = UIFont.systemFont(ofSize: 14)
+        barChart.setExtraOffsets(left: 80.0, top: 0.0, right: 20.0, bottom: 0.0)
+
     }
     
     func formatChartDataSet(_ pieChartDataSet: BarChartDataSet) {

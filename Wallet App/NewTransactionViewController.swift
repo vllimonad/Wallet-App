@@ -32,7 +32,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     var euroButton: UIButton = {
         let button = UIButton()
         button.setTitle("EUR", for: .normal)
-        button.backgroundColor = .systemGray
+        button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 20
         button.addTarget(self, action: #selector(euroButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -76,15 +76,16 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     
     var notesTextField: NotesTextField = {
         let textField = NotesTextField(placeholder: "Notes")
-        textField.backgroundColor = .systemGray2
+        textField.backgroundColor = .systemGray4
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
     var saveButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .systemGray
+        let button = UIButton(type: .system)
+        button.backgroundColor = .systemGray3
         button.setTitle("Save", for: .normal)
+        button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 17
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(saveTransaction), for: .touchUpInside)
@@ -92,9 +93,10 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     }()
     
     var cancelButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .systemGray
+        let button = UIButton(type: .system)
+        button.backgroundColor = .systemGray3
         button.setTitle("Cancel", for: .normal)
+        button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 17
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(cancelTransaction), for: .touchUpInside)
