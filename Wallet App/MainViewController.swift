@@ -45,8 +45,7 @@ class MainViewController: UIViewController {
     
     var barChart: HorizontalBarChartView = {
         let chart = HorizontalBarChartView()
-        //chart.backgroundColor = .systemGray5
-        //chart.xAxis.drawAxisLineEnabled = false
+        chart.drawValueAboveBarEnabled = true
         chart.xAxis.drawGridLinesEnabled = false
         chart.xAxis.drawLabelsEnabled = true
         chart.rightAxis.drawAxisLineEnabled = false
@@ -79,6 +78,15 @@ class MainViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTransaction))
         
+        setupLayout()
+        //drawChart()
+    }
+    
+    func setupLayout() {
+        let bar = Bar()
+        view.addSubview(bar)
+        bar.frame = CGRect(x: 10, y: 300, width: view.frame.width-20, height: 30)
+        //bar.layer.position = CGPoint(x: 0, y: 300)
         view.addSubview(amountLabel)
         view.addSubview(backwardButton)
         view.addSubview(forwardButton)
@@ -103,13 +111,15 @@ class MainViewController: UIViewController {
             amountLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             amountLabel.topAnchor.constraint(equalTo: backwardButton.bottomAnchor, constant: 20)
         ])
-        
-        drawChart()
     }
     
     func drawChart() {
         view.addSubview(barChart)
-        barChart.frame = CGRect(x: 10, y: 280, width: view.frame.width*0.9, height: view.frame.width)
+        barChart.frame = CGRect(x: 10, y: 270, width: view.frame.width*0.9, height: view.frame.width)
+        barChart.xAxis.valueFormatter = IndexAxisValueFormatter(values: categories)
+        barChart.xAxis.labelPosition = .top
+        barChart.xAxis.labelFont = UIFont.systemFont(ofSize: 14)
+        barChart.setExtraOffsets(left: 0.0, top: 0.0, right: 0.0, bottom: 0.0)
         
         var dataEntries = [BarChartDataEntry]()
         for i in 0..<categories.count {
@@ -117,25 +127,23 @@ class MainViewController: UIViewController {
             dataEntries.append(a)
         }
         let barChartDataSet = BarChartDataSet(entries: dataEntries)
-        let barChartdata = BarChartData(dataSet: barChartDataSet)
-        barChartdata.setDrawValues(true)
-        barChartdata.setValueFont(UIFont.systemFont(ofSize: 12))
-        barChartdata.setValueTextColor(UIColor.black)
-        barChartdata.barWidth = 0.5
-        barChart.data = barChartdata
+        let barChartData = BarChartData(dataSet: barChartDataSet)
+        barChart.data = barChartData
         
+        formatChartData(barChartData)
         formatChartDataSet(barChartDataSet)
-        
-        barChart.xAxis.valueFormatter = IndexAxisValueFormatter(values: categories)
-        barChart.xAxis.labelPosition = .bottom
-        barChart.xAxis.labelFont = UIFont.systemFont(ofSize: 14)
-        barChart.setExtraOffsets(left: 80.0, top: 0.0, right: 20.0, bottom: 0.0)
-
     }
     
-    func formatChartDataSet(_ pieChartDataSet: BarChartDataSet) {
-        pieChartDataSet.colors = ChartColorTemplates.pastel()
-        pieChartDataSet.valueFont = NSUIFont.systemFont(ofSize: 16)
+    func formatChartData(_ barChartData: BarChartData) {
+        barChartData.setDrawValues(true)
+        barChartData.setValueFont(UIFont.systemFont(ofSize: 12))
+        barChartData.setValueTextColor(UIColor.black)
+        barChartData.barWidth = 0.5
+    }
+    
+    func formatChartDataSet(_ barChartDataSet: BarChartDataSet) {
+        barChartDataSet.colors = ChartColorTemplates.pastel()
+        barChartDataSet.valueFont = NSUIFont.systemFont(ofSize: 16)
     }
     
     @objc func addTransaction() {
@@ -153,4 +161,61 @@ class MainViewController: UIViewController {
     
 }
 
+class Bar: UIView {
+    
+    let categoryLabel: UILabel = {
+        var label = UILabel()
+        label.textAlignment = .left
+        label.text = "food"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let amountLabel: UILabel = {
+        var label = UILabel()
+        label.text = "134.0"
+        label.textAlignment = .right
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let progressView: UIProgressView = {
+        let progress = UIProgressView()
+        progress.progress = 0.5
+        progress.layer.cornerRadius = 12
+        progress.progressViewStyle = .default
+        progress.translatesAutoresizingMaskIntoConstraints = false
+        return progress
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        //backgroundColor = .systemGray6
+        setupLayout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupLayout() {
+        addSubview(categoryLabel)
+        addSubview(amountLabel)
+        addSubview(progressView)
+        
+        NSLayoutConstraint.activate([
+            categoryLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            categoryLabel.topAnchor.constraint(equalTo: topAnchor),
+            categoryLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5),
+            
+            amountLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            amountLabel.topAnchor.constraint(equalTo: topAnchor),
+            amountLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5),
 
+            progressView.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 5),
+            progressView.heightAnchor.constraint(equalToConstant: 30),
+            progressView.widthAnchor.constraint(equalTo: widthAnchor)
+        ])
+    }
+}

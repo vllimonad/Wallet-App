@@ -78,6 +78,11 @@ class TransactionsTableViewController: UITableViewController {
         }
         return (sum * 100).rounded() / 100
     }
+    
+    func getValues() -> (String, Int) {
+        let a = ("sdv", 5)
+        return a
+    }
 }
 
 extension TransactionsTableViewController: NewTransactionViewControllerDelegate {
