@@ -12,6 +12,7 @@ class MainViewController: UIViewController {
     
     var newTransactionDelegate: NewTransactionViewControllerDelegate?
     var monthIndex = 1
+    var values: [(Double, String)] = [(124, "food"),(89, "car"),(70, "housing")]
     
     var monthLabel: UILabel = {
         var label = UILabel()
@@ -43,7 +44,7 @@ class MainViewController: UIViewController {
         return button
     }()
     
-    var barChart: HorizontalBarChartView = {
+    /*var barChart: HorizontalBarChartView = {
         let chart = HorizontalBarChartView()
         chart.drawValueAboveBarEnabled = true
         chart.xAxis.drawGridLinesEnabled = false
@@ -57,7 +58,7 @@ class MainViewController: UIViewController {
         chart.leftAxis.axisMinimum = 0
         chart.legend.enabled = false
         return chart
-    }()
+    }()*/
     
     var amountLabel: UILabel = {
         let label = UILabel()
@@ -67,9 +68,18 @@ class MainViewController: UIViewController {
         return label
     }()
     
-    let categories = ["Food", "Shopping", "Housing", "Health", "Transportation", "Entertainment"]
-    var amounts = [10, 29, 43, 52, 56, 87]
-    var totalSum = 0
+    var stackView: UIStackView = {
+        let stack = UIStackView()
+        stack.spacing = 70
+        //stack.layer.borderWidth = 2
+        stack.axis = .vertical
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+    
+    //let categories = ["Food", "Shopping", "Housing", "Health", "Transportation", "Entertainment"]
+    //var amounts = [10, 29, 43, 52, 56, 87]
+    //var totalSum = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,18 +89,19 @@ class MainViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTransaction))
         
         setupLayout()
+        formatStackView()
         //drawChart()
     }
     
     func setupLayout() {
-        let bar = Bar()
-        view.addSubview(bar)
-        bar.frame = CGRect(x: 10, y: 300, width: view.frame.width-20, height: 30)
+        //view.addSubview(bar)
+        //bar.frame = CGRect(x: 10, y: 300, width: view.frame.width-20, height: 30)
         //bar.layer.position = CGPoint(x: 0, y: 300)
         view.addSubview(amountLabel)
         view.addSubview(backwardButton)
         view.addSubview(forwardButton)
         view.addSubview(monthLabel)
+        view.addSubview(stackView)
         
         NSLayoutConstraint.activate([
             backwardButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -109,11 +120,16 @@ class MainViewController: UIViewController {
             monthLabel.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.04),
 
             amountLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            amountLabel.topAnchor.constraint(equalTo: backwardButton.bottomAnchor, constant: 20)
+            amountLabel.topAnchor.constraint(equalTo: backwardButton.bottomAnchor, constant: 20),
+            
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            stackView.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 30),
+            stackView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -20)
         ])
     }
     
-    func drawChart() {
+    /*func drawChart() {
         view.addSubview(barChart)
         barChart.frame = CGRect(x: 10, y: 270, width: view.frame.width*0.9, height: view.frame.width)
         barChart.xAxis.valueFormatter = IndexAxisValueFormatter(values: categories)
@@ -144,7 +160,7 @@ class MainViewController: UIViewController {
     func formatChartDataSet(_ barChartDataSet: BarChartDataSet) {
         barChartDataSet.colors = ChartColorTemplates.pastel()
         barChartDataSet.valueFont = NSUIFont.systemFont(ofSize: 16)
-    }
+    } */
     
     @objc func addTransaction() {
         let transactionView = NewTransactionViewController()
@@ -159,6 +175,16 @@ class MainViewController: UIViewController {
         monthLabel.text = month
     }
     
+    func formatStackView() {
+        for value in values {
+            var bar = Bar()
+            bar.amountLabel.text = "\(value.0)"
+            bar.categoryLabel.text = value.1
+            bar.progressView.progress = Float(value.0/values.first!.0)
+            stackView.addArrangedSubview(bar)
+        }
+    }
+    
 }
 
 class Bar: UIView {
@@ -166,14 +192,12 @@ class Bar: UIView {
     let categoryLabel: UILabel = {
         var label = UILabel()
         label.textAlignment = .left
-        label.text = "food"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let amountLabel: UILabel = {
         var label = UILabel()
-        label.text = "134.0"
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -190,8 +214,6 @@ class Bar: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        //backgroundColor = .systemGray6
         setupLayout()
     }
     
