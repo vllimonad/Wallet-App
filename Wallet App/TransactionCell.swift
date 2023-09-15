@@ -38,7 +38,6 @@ class TransactionCell: UITableViewCell {
     var icon: UIImageView = {
         let icon = UIImageView()
         icon.translatesAutoresizingMaskIntoConstraints = false
-        icon.image = UIImage(named: "housing")
         return icon
     }()
 

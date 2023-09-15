@@ -23,6 +23,7 @@ class ViewController: UITabBarController {
         tableView.tabBarItem = UITabBarItem(title: "History", image: UIImage(named: "history"), tag: 2)
         mainView.transactionsTableViewDelegate = tableView
         tableView.mainVewController = mainView
+        tableView.readData()
         
         viewControllers = [UINavigationController(rootViewController: mainView), tableView]
     }

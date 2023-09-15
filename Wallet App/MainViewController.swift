@@ -49,7 +49,7 @@ class MainViewController: UIViewController {
     var amountLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 25)
-        label.text = "Total: 0 eur"
+        label.text = "Total: 0.0 eur"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -102,7 +102,6 @@ class MainViewController: UIViewController {
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             stackView.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 30),
-            //stackView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -20)
         ])
     }
     
@@ -116,37 +115,44 @@ class MainViewController: UIViewController {
     @objc func previousMonth() {
         let index = Calendar.current.component(.month, from: Date())
         if index - monthIndex - 1 < 0 {
-            yearIndex -= 31471200
+            yearIndex -= 31_577_600
             monthIndex -= 12
         }
         monthIndex += 1
         monthLabel.text = "\(Calendar.current.standaloneMonthSymbols[index-monthIndex]) \(Calendar.current.component(.year, from: Date.now.addingTimeInterval(TimeInterval(yearIndex))))"
+        updateStackView()
+        updateTotalSum()
     }
     
     @objc func nextMonth() {
         let index = Calendar.current.component(.month, from: Date())
         if index - monthIndex + 1 > 11 {
-            yearIndex += 31471200
+            yearIndex += 31_577_600
             monthIndex += 12
         }
         monthIndex -= 1
         monthLabel.text = "\(Calendar.current.standaloneMonthSymbols[index-monthIndex]) \(Calendar.current.component(.year, from: Date.now.addingTimeInterval(TimeInterval(yearIndex))))"
+        updateStackView()
+        updateTotalSum()
     }
 
     func updateStackView() {
         for view in stackView.arrangedSubviews {
             view.removeFromSuperview()
         }
-        var values = transactionsTableViewDelegate!.getValues().sorted(by: { $0.value < $1.value } )
+        var values = transactionsTableViewDelegate!.getValues().sorted(by: { $0.value > $1.value } )
         for value in values {
             var bar = Bar()
             bar.amountLabel.text = "\(value.value)"
             bar.categoryLabel.text = value.key
-            bar.progressView.setProgress(Float(value.value/values.first!.value), animated: true)
+            bar.progressView.setProgress(Float(value.value/values.first!.value), animated: false)
             stackView.addArrangedSubview(bar)
         }
     }
     
+    func updateTotalSum() {
+        amountLabel.text = "Total: \(transactionsTableViewDelegate?.countSum() ?? 0) eur"
+    }
 }
 
 class Bar: UIView {

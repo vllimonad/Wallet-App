@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum Currency{
+enum Currency: Codable{
     case pln
     case usd
     case eur

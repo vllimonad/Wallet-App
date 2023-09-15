@@ -7,7 +7,7 @@
 
 import UIKit
 
-class Day {
+class Day: Codable {
     var date: String
     var arr: [Transaction]
     
@@ -19,7 +19,6 @@ class Day {
 
 class TransactionsTableViewController: UITableViewController {
     
-    var multiplier = 1.0
     var transactionsList = [Day]()
     var mainVewController: MainViewController?
     var categories = ["Groceries", "Transportation", "Shopping", "Entertainment", "Housing"]
@@ -43,6 +42,7 @@ class TransactionsTableViewController: UITableViewController {
         cell.amountLabel.text = "\(transactionsList[indexPath.section].arr[indexPath.row].amount) \(transactionsList[indexPath.section].arr[indexPath.row].currency)"
         cell.categoryLabel.text = transactionsList[indexPath.section].arr[indexPath.row].category
         cell.desciptionLabel.text = transactionsList[indexPath.section].arr[indexPath.row].description
+        cell.icon.image = UIImage(named: "\(transactionsList[indexPath.section].arr[indexPath.row].category.lowercased())")
         return cell
     }
     
@@ -65,39 +65,66 @@ class TransactionsTableViewController: UITableViewController {
             if self?.transactionsList[indexPath.section].arr.count == 0 {
                 self?.transactionsList.remove(at: indexPath.section)
                 tableView.deleteSections(IndexSet(arrayLiteral: indexPath.section), with: .top)
-                self?.updateMainViewControllerTitle()
+                self?.updateMainViewController()
             }
         })])
         return swipe
     }
 
     func countSum() -> Double {
+        let date = mainVewController?.monthLabel.text!.components(separatedBy: " ")
         var sum: Double = 0
-        for i in transactionsList {
-            for transaction in i.arr {
-                sum += transaction.amount / transaction.exchangeRate
+        for day in transactionsList {
+            if day.date.hasPrefix(date![0]) && day.date.hasSuffix(date![1]){
+                for transaction in day.arr {
+                    sum += transaction.amount / transaction.exchangeRate
+                }
             }
         }
-        return (sum * 100).rounded() / 100
+        return sum == 0 ? 0 : (sum * 100).rounded() / 100
     }
     
     func getValues() -> [String: Double] {
+        let date = mainVewController?.monthLabel.text!.components(separatedBy: " ")
         var values = [String: Double]()
         for day in transactionsList {
-            for transaction in day.arr {
-                if let index = values.index(forKey: transaction.category){
-                    values[transaction.category]! += (transaction.amount / transaction.exchangeRate * 100).rounded() / 100
-                } else {
-                    values[transaction.category] = (transaction.amount / transaction.exchangeRate * 100).rounded() / 100
+            if day.date.hasPrefix(date![0]) && day.date.hasSuffix(date![1]){
+                for transaction in day.arr {
+                    if let index = values.index(forKey: transaction.category){
+                        values[transaction.category]! += (transaction.amount / transaction.exchangeRate * 100).rounded() / 100
+                    } else {
+                        values[transaction.category] = (transaction.amount / transaction.exchangeRate * 100).rounded() / 100
+                    }
                 }
             }
         }
         return values
     }
     
-    func updateMainViewControllerTitle() {
+    func updateMainViewController() {
         mainVewController?.amountLabel.text = "Total: \(countSum()) eur"
         mainVewController?.updateStackView()
+        saveData()
+    }
+    
+    func saveData() {
+        if let data = try? JSONEncoder().encode(transactionsList){
+            let defaults = UserDefaults.standard
+            defaults.set(data, forKey: "list")
+        }
+    }
+    
+    func readData() {
+        let defaults = UserDefaults.standard
+        if let data = defaults.object(forKey: "list") as? Data {
+            do {
+                transactionsList = try JSONDecoder().decode([Day].self, from: data)
+            } catch {
+                print("reading failed")
+            }
+        }
+        updateMainViewController()
+        tableView.reloadData()
     }
 }
 
@@ -109,7 +136,7 @@ extension TransactionsTableViewController: NewTransactionViewControllerDelegate 
         } else {
             transactionsList.append(Day(date: transaction.date, arr: [transaction]))
         }
-        updateMainViewControllerTitle()
+        updateMainViewController()
         transactionsList.sort(by: { $0.date > $1.date })
         tableView.reloadData()
     }
