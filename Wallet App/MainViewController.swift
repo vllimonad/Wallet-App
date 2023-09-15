@@ -10,9 +10,8 @@ import Charts
 
 class MainViewController: UIViewController {
     
-    var newTransactionDelegate: NewTransactionViewControllerDelegate?
+    var transactionsTableViewDelegate: TransactionsTableViewController?
     var monthIndex = 1
-    var values: [(Double, String)] = [(124, "food"),(89, "car"),(70, "housing")]
     
     var monthLabel: UILabel = {
         var label = UILabel()
@@ -44,22 +43,6 @@ class MainViewController: UIViewController {
         return button
     }()
     
-    /*var barChart: HorizontalBarChartView = {
-        let chart = HorizontalBarChartView()
-        chart.drawValueAboveBarEnabled = true
-        chart.xAxis.drawGridLinesEnabled = false
-        chart.xAxis.drawLabelsEnabled = true
-        chart.rightAxis.drawAxisLineEnabled = false
-        chart.rightAxis.drawLabelsEnabled = false
-        chart.rightAxis.drawGridLinesEnabled = false
-        chart.leftAxis.drawAxisLineEnabled = false
-        chart.leftAxis.drawLabelsEnabled = false
-        chart.leftAxis.drawGridLinesEnabled = false
-        chart.leftAxis.axisMinimum = 0
-        chart.legend.enabled = false
-        return chart
-    }()*/
-    
     var amountLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 25)
@@ -71,15 +54,10 @@ class MainViewController: UIViewController {
     var stackView: UIStackView = {
         let stack = UIStackView()
         stack.spacing = 70
-        //stack.layer.borderWidth = 2
         stack.axis = .vertical
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
-    
-    //let categories = ["Food", "Shopping", "Housing", "Health", "Transportation", "Entertainment"]
-    //var amounts = [10, 29, 43, 52, 56, 87]
-    //var totalSum = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,14 +67,10 @@ class MainViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTransaction))
         
         setupLayout()
-        formatStackView()
-        //drawChart()
+        updateStackView()
     }
     
     func setupLayout() {
-        //view.addSubview(bar)
-        //bar.frame = CGRect(x: 10, y: 300, width: view.frame.width-20, height: 30)
-        //bar.layer.position = CGPoint(x: 0, y: 300)
         view.addSubview(amountLabel)
         view.addSubview(backwardButton)
         view.addSubview(forwardButton)
@@ -125,47 +99,14 @@ class MainViewController: UIViewController {
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             stackView.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 30),
-            stackView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -20)
+            //stackView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -20)
         ])
     }
-    
-    /*func drawChart() {
-        view.addSubview(barChart)
-        barChart.frame = CGRect(x: 10, y: 270, width: view.frame.width*0.9, height: view.frame.width)
-        barChart.xAxis.valueFormatter = IndexAxisValueFormatter(values: categories)
-        barChart.xAxis.labelPosition = .top
-        barChart.xAxis.labelFont = UIFont.systemFont(ofSize: 14)
-        barChart.setExtraOffsets(left: 0.0, top: 0.0, right: 0.0, bottom: 0.0)
-        
-        var dataEntries = [BarChartDataEntry]()
-        for i in 0..<categories.count {
-            let a = BarChartDataEntry(x: Double(i), y: Double(amounts[i]))
-            dataEntries.append(a)
-        }
-        let barChartDataSet = BarChartDataSet(entries: dataEntries)
-        let barChartData = BarChartData(dataSet: barChartDataSet)
-        barChart.data = barChartData
-        
-        formatChartData(barChartData)
-        formatChartDataSet(barChartDataSet)
-    }
-    
-    func formatChartData(_ barChartData: BarChartData) {
-        barChartData.setDrawValues(true)
-        barChartData.setValueFont(UIFont.systemFont(ofSize: 12))
-        barChartData.setValueTextColor(UIColor.black)
-        barChartData.barWidth = 0.5
-    }
-    
-    func formatChartDataSet(_ barChartDataSet: BarChartDataSet) {
-        barChartDataSet.colors = ChartColorTemplates.pastel()
-        barChartDataSet.valueFont = NSUIFont.systemFont(ofSize: 16)
-    } */
     
     @objc func addTransaction() {
         let transactionView = NewTransactionViewController()
         transactionView.modalPresentationStyle = .formSheet
-        transactionView.delegateController = newTransactionDelegate
+        transactionView.delegateController = transactionsTableViewDelegate
         present(UINavigationController(rootViewController: transactionView), animated: true)
     }
     
@@ -175,12 +116,16 @@ class MainViewController: UIViewController {
         monthLabel.text = month
     }
     
-    func formatStackView() {
+    func updateStackView() {
+        for view in stackView.arrangedSubviews {
+            view.removeFromSuperview()
+        }
+        var values = transactionsTableViewDelegate!.getValues().sorted(by: { $0.value < $1.value } )
         for value in values {
             var bar = Bar()
-            bar.amountLabel.text = "\(value.0)"
-            bar.categoryLabel.text = value.1
-            bar.progressView.progress = Float(value.0/values.first!.0)
+            bar.amountLabel.text = "\(value.value)"
+            bar.categoryLabel.text = value.key
+            bar.progressView.setProgress(Float(value.value/values.first!.value), animated: true)
             stackView.addArrangedSubview(bar)
         }
     }
@@ -196,17 +141,15 @@ class Bar: UIView {
         return label
     }()
     
-    let amountLabel: UILabel = {
+    var amountLabel: UILabel = {
         var label = UILabel()
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let progressView: UIProgressView = {
-        let progress = UIProgressView()
-        progress.progress = 0.5
-        progress.layer.cornerRadius = 12
+    var progressView: UIProgressView = {
+        var progress = UIProgressView()
         progress.progressViewStyle = .default
         progress.translatesAutoresizingMaskIntoConstraints = false
         return progress
@@ -236,7 +179,7 @@ class Bar: UIView {
             amountLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5),
 
             progressView.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 5),
-            progressView.heightAnchor.constraint(equalToConstant: 30),
+            progressView.heightAnchor.constraint(equalToConstant: 15),
             progressView.widthAnchor.constraint(equalTo: widthAnchor)
         ])
     }

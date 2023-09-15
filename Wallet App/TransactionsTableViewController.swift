@@ -22,6 +22,7 @@ class TransactionsTableViewController: UITableViewController {
     var multiplier = 1.0
     var transactionsList = [Day]()
     var mainVewController: MainViewController?
+    var categories = ["Groceries", "Transportation", "Shopping", "Entertainment", "Housing"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,6 +65,7 @@ class TransactionsTableViewController: UITableViewController {
             if self?.transactionsList[indexPath.section].arr.count == 0 {
                 self?.transactionsList.remove(at: indexPath.section)
                 tableView.deleteSections(IndexSet(arrayLiteral: indexPath.section), with: .top)
+                self?.updateMainViewControllerTitle()
             }
         })])
         return swipe
@@ -79,9 +81,23 @@ class TransactionsTableViewController: UITableViewController {
         return (sum * 100).rounded() / 100
     }
     
-    func getValues() -> (String, Int) {
-        let a = ("sdv", 5)
-        return a
+    func getValues() -> [String: Double] {
+        var values = [String: Double]()
+        for day in transactionsList {
+            for transaction in day.arr {
+                if let index = values.index(forKey: transaction.category){
+                    values[transaction.category]! += (transaction.amount / transaction.exchangeRate * 100).rounded() / 100
+                } else {
+                    values[transaction.category] = (transaction.amount / transaction.exchangeRate * 100).rounded() / 100
+                }
+            }
+        }
+        return values
+    }
+    
+    func updateMainViewControllerTitle() {
+        mainVewController?.amountLabel.text = "Total: \(countSum()) eur"
+        mainVewController?.updateStackView()
     }
 }
 
@@ -93,7 +109,7 @@ extension TransactionsTableViewController: NewTransactionViewControllerDelegate 
         } else {
             transactionsList.append(Day(date: transaction.date, arr: [transaction]))
         }
-        mainVewController?.amountLabel.text = "Total: \(countSum()) eur"
+        updateMainViewControllerTitle()
         transactionsList.sort(by: { $0.date > $1.date })
         tableView.reloadData()
     }

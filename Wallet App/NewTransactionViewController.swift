@@ -50,7 +50,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     
     var amountTextField: UITextField = {
         let textField = UITextField()
-        textField.text = "-0"
+        textField.placeholder = "1234"
         textField.textAlignment = .center
         textField.font = UIFont.systemFont(ofSize: 45)
         textField.backgroundColor = .systemGray4
