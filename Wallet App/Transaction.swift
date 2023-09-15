@@ -10,12 +10,12 @@ import UIKit
 class Transaction: Codable {
     var amount: Double
     var currency: Currency
-    var date: String
+    var date: Date
     var category: String
     var description: String
     var exchangeRate: Double
     
-    init(amount: Double, currency: Currency, date: String, category: String, description: String, exchangeRate: Double) {
+    init(amount: Double, currency: Currency, date: Date, category: String, description: String, exchangeRate: Double) {
         self.amount = amount
         self.currency = currency
         self.date = date

@@ -140,9 +140,9 @@ class MainViewController: UIViewController {
         for view in stackView.arrangedSubviews {
             view.removeFromSuperview()
         }
-        var values = transactionsTableViewDelegate!.getValues().sorted(by: { $0.value > $1.value } )
+        let values = transactionsTableViewDelegate!.getValues().sorted(by: { $0.value > $1.value } )
         for value in values {
-            var bar = Bar()
+            let bar = Bar()
             bar.amountLabel.text = "\(value.value)"
             bar.categoryLabel.text = value.key
             bar.progressView.setProgress(Float(value.value/values.first!.value), animated: false)

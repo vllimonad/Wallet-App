@@ -8,10 +8,10 @@
 import UIKit
 
 class Day: Codable {
-    var date: String
+    var date: Date
     var arr: [Transaction]
     
-    init(date: String, arr: [Transaction]) {
+    init(date: Date, arr: [Transaction]) {
         self.date = date
         self.arr = arr
     }
@@ -21,7 +21,12 @@ class TransactionsTableViewController: UITableViewController {
     
     var transactionsList = [Day]()
     var mainVewController: MainViewController?
-    var categories = ["Groceries", "Transportation", "Shopping", "Entertainment", "Housing"]
+    let formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.timeStyle = .none
+        return formatter
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +56,7 @@ class TransactionsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return transactionsList[section].date
+        return formatter.string(from: transactionsList[section].date)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -65,8 +70,8 @@ class TransactionsTableViewController: UITableViewController {
             if self?.transactionsList[indexPath.section].arr.count == 0 {
                 self?.transactionsList.remove(at: indexPath.section)
                 tableView.deleteSections(IndexSet(arrayLiteral: indexPath.section), with: .top)
-                self?.updateMainViewController()
             }
+            self?.updateMainViewController()
         })])
         return swipe
     }
@@ -75,7 +80,8 @@ class TransactionsTableViewController: UITableViewController {
         let date = mainVewController?.monthLabel.text!.components(separatedBy: " ")
         var sum: Double = 0
         for day in transactionsList {
-            if day.date.hasPrefix(date![0]) && day.date.hasSuffix(date![1]){
+            let formattedDate = formatter.string(from: day.date)
+            if formattedDate.hasPrefix(date![0]) && formattedDate.hasSuffix(date![1]){
                 for transaction in day.arr {
                     sum += transaction.amount / transaction.exchangeRate
                 }
@@ -88,7 +94,8 @@ class TransactionsTableViewController: UITableViewController {
         let date = mainVewController?.monthLabel.text!.components(separatedBy: " ")
         var values = [String: Double]()
         for day in transactionsList {
-            if day.date.hasPrefix(date![0]) && day.date.hasSuffix(date![1]){
+            let formattedDate = formatter.string(from: day.date)
+            if formattedDate.hasPrefix(date![0]) && formattedDate.hasSuffix(date![1]){
                 for transaction in day.arr {
                     if let index = values.index(forKey: transaction.category){
                         values[transaction.category]! += (transaction.amount / transaction.exchangeRate * 100).rounded() / 100
@@ -131,7 +138,7 @@ class TransactionsTableViewController: UITableViewController {
 extension TransactionsTableViewController: NewTransactionViewControllerDelegate {
     
     func addNewTransaction(_ transaction: Transaction) {
-        if let index = transactionsList.firstIndex(where: { $0.date == transaction.date}) {
+        if let index = transactionsList.firstIndex(where: { formatter.string(from: $0.date) == formatter.string(from: transaction.date)}) {
             transactionsList[index].arr.append(transaction)
         } else {
             transactionsList.append(Day(date: transaction.date, arr: [transaction]))
