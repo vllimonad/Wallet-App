@@ -12,11 +12,13 @@ class MainViewController: UIViewController {
     
     var transactionsTableViewDelegate: TransactionsTableViewController?
     var monthIndex = 1
+    var yearIndex = 0
     
     var monthLabel: UILabel = {
         var label = UILabel()
         label.backgroundColor = .systemGray6
-        label.text = "Current month"
+        let index = Calendar.current.component(.month, from: Date())
+        label.text = "\(Calendar.current.standaloneMonthSymbols[index-1]) \(Calendar.current.component(.year, from: Date()))"
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -28,7 +30,7 @@ class MainViewController: UIViewController {
         button.backgroundColor = .systemGray6
         let config = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular)
         button.setImage(UIImage(systemName: "chevron.backward", withConfiguration: config), for: .normal)
-        button.addTarget(self, action: #selector(showPreviousMonth), for: .touchUpInside)
+        button.addTarget(self, action: #selector(previousMonth), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -39,6 +41,7 @@ class MainViewController: UIViewController {
         button.backgroundColor = .systemGray6
         let config = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular)
         button.setImage(UIImage(systemName: "chevron.forward", withConfiguration: config), for: .normal)
+        button.addTarget(self, action: #selector(nextMonth), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -110,12 +113,26 @@ class MainViewController: UIViewController {
         present(UINavigationController(rootViewController: transactionView), animated: true)
     }
     
-    @objc func showPreviousMonth() {
+    @objc func previousMonth() {
         let index = Calendar.current.component(.month, from: Date())
-        let month = "\(Calendar.current.standaloneMonthSymbols[index-monthIndex]) \(Calendar.current.component(.year, from: Date()))"
-        monthLabel.text = month
+        if index - monthIndex - 1 < 0 {
+            yearIndex -= 31471200
+            monthIndex -= 12
+        }
+        monthIndex += 1
+        monthLabel.text = "\(Calendar.current.standaloneMonthSymbols[index-monthIndex]) \(Calendar.current.component(.year, from: Date.now.addingTimeInterval(TimeInterval(yearIndex))))"
     }
     
+    @objc func nextMonth() {
+        let index = Calendar.current.component(.month, from: Date())
+        if index - monthIndex + 1 > 11 {
+            yearIndex += 31471200
+            monthIndex += 12
+        }
+        monthIndex -= 1
+        monthLabel.text = "\(Calendar.current.standaloneMonthSymbols[index-monthIndex]) \(Calendar.current.component(.year, from: Date.now.addingTimeInterval(TimeInterval(yearIndex))))"
+    }
+
     func updateStackView() {
         for view in stackView.arrangedSubviews {
             view.removeFromSuperview()
