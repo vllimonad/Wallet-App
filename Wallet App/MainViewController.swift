@@ -14,9 +14,9 @@ class MainViewController: UIViewController {
     var monthIndex = 1
     var yearIndex = 0
     
-    var monthLabel: UILabel = {
+    let monthLabel: UILabel = {
         var label = UILabel()
-        label.backgroundColor = .systemGray6
+        label.backgroundColor = .systemBackground
         let index = Calendar.current.component(.month, from: Date())
         label.text = "\(Calendar.current.standaloneMonthSymbols[index-1]) \(Calendar.current.component(.year, from: Date()))"
         label.textAlignment = .center
@@ -24,10 +24,10 @@ class MainViewController: UIViewController {
         return label
     }()
     
-    var backwardButton: UIButton = {
+    let backwardButton: UIButton = {
         var button = UIButton()
         button.layer.cornerRadius = 10
-        button.backgroundColor = .systemGray6
+        button.backgroundColor = .systemBackground
         let config = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular)
         button.setImage(UIImage(systemName: "chevron.backward", withConfiguration: config), for: .normal)
         button.addTarget(self, action: #selector(previousMonth), for: .touchUpInside)
@@ -35,10 +35,10 @@ class MainViewController: UIViewController {
         return button
     }()
     
-    var forwardButton: UIButton = {
+    let forwardButton: UIButton = {
         var button = UIButton()
         button.layer.cornerRadius = 10
-        button.backgroundColor = .systemGray6
+        button.backgroundColor = .systemBackground
         let config = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular)
         button.setImage(UIImage(systemName: "chevron.forward", withConfiguration: config), for: .normal)
         button.addTarget(self, action: #selector(nextMonth), for: .touchUpInside)
@@ -46,9 +46,21 @@ class MainViewController: UIViewController {
         return button
     }()
     
+    let backView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 20
+        view.layer.shadowColor = UIColor.systemGray.cgColor
+        view.layer.shadowOpacity = 0.4
+        view.layer.shadowOffset = .zero
+        view.layer.shadowRadius = 10
+        view.backgroundColor = .systemBackground
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     var amountLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 25)
+        label.font = UIFont.boldSystemFont(ofSize: 22)
         label.text = "Total: 0.0 eur"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -64,7 +76,8 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.systemBackground
+        view.backgroundColor = UIColor(named: "background")
+        //view.backgroundColor = UIColor.systemBackground
         title = "Statistics"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTransaction))
@@ -74,15 +87,16 @@ class MainViewController: UIViewController {
     }
     
     func setupLayout() {
-        view.addSubview(amountLabel)
         view.addSubview(backwardButton)
         view.addSubview(forwardButton)
         view.addSubview(monthLabel)
-        view.addSubview(stackView)
+        view.addSubview(backView)
+        backView.addSubview(amountLabel)
+        backView.addSubview(stackView)
         
         NSLayoutConstraint.activate([
             backwardButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            backwardButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 20),
+            backwardButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             backwardButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25),
             backwardButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.04),
             
@@ -95,12 +109,17 @@ class MainViewController: UIViewController {
             monthLabel.centerYAnchor.constraint(equalTo: backwardButton.centerYAnchor),
             monthLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
             monthLabel.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.04),
-
-            amountLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            amountLabel.topAnchor.constraint(equalTo: backwardButton.bottomAnchor, constant: 20),
             
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            backView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            backView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            backView.topAnchor.constraint(equalTo: monthLabel.bottomAnchor, constant: 20),
+            backView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -150),
+
+            amountLabel.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 20),
+            amountLabel.topAnchor.constraint(equalTo: backView.topAnchor, constant: 20),
+            
+            stackView.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -20),
             stackView.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 30),
         ])
     }
@@ -173,6 +192,7 @@ class Bar: UIView {
     
     var progressView: UIProgressView = {
         var progress = UIProgressView()
+        //progress.progressTintColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
         progress.progressViewStyle = .default
         progress.translatesAutoresizingMaskIntoConstraints = false
         return progress

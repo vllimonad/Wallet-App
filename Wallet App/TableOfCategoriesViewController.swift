@@ -7,6 +7,14 @@
 
 import UIKit
 
+enum Category: Codable {
+    case groceries
+    case transportation
+    case shopping
+    case entertainment
+    case housing
+}
+
 class TableOfCategoriesViewController: UITableViewController {
     
     var delegate: TableOfCategoriesViewControllerDelegate?
@@ -14,9 +22,10 @@ class TableOfCategoriesViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Categoreis"
+        title = "Categories"
+        navigationController?.navigationBar.prefersLargeTitles = true
         tableView.register(CategoryViewCell.self, forCellReuseIdentifier: "category")
-        tableView.rowHeight = 60
+        tableView.rowHeight = 70
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

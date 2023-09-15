@@ -12,6 +12,7 @@ class TransactionCell: UITableViewCell {
     var amountLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
+        label.font = UIFont.boldSystemFont(ofSize: 16)
         label.textAlignment = .natural
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -20,6 +21,7 @@ class TransactionCell: UITableViewCell {
     var categoryLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
+        label.font = UIFont.boldSystemFont(ofSize: 16)
         label.textAlignment = .natural
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -29,7 +31,6 @@ class TransactionCell: UITableViewCell {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = UIFont.systemFont(ofSize: 12)
-        label.text = "description"
         label.textAlignment = .natural
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -37,6 +38,9 @@ class TransactionCell: UITableViewCell {
     
     var icon: UIImageView = {
         let icon = UIImageView()
+        icon.layer.cornerRadius = 25
+        icon.contentMode = .center
+        icon.backgroundColor = UIColor(named: "background")
         icon.translatesAutoresizingMaskIntoConstraints = false
         return icon
     }()
@@ -62,14 +66,16 @@ class TransactionCell: UITableViewCell {
         addSubview(amountLabel)
         
         NSLayoutConstraint.activate([
-            icon.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            icon.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            icon.widthAnchor.constraint(equalToConstant: 50),
+            icon.heightAnchor.constraint(equalToConstant: 50),
             icon.centerYAnchor.constraint(equalTo: centerYAnchor),
             
             categoryLabel.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 10),
-            categoryLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -5),
+            categoryLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -2),
             
             desciptionLabel.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 10),
-            desciptionLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 4),
+            desciptionLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor),
             
             amountLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
             amountLabel.centerYAnchor.constraint(equalTo: centerYAnchor),

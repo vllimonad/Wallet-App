@@ -206,8 +206,6 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
         guard let amount = amountTextField.text else { return }
         guard let category = selectedCategory else { return }
         let description = notesTextField.text == nil ? "" : notesTextField.text!
-        //let formatter = DateFormatter()
-        //formatter.dateStyle = .long
         let transaction = Transaction(amount: Double(amount)!, currency: currency, date: datePicker.date, category: category, description: description, exchangeRate: 1.0)
         getExchangeRate(for: transaction)
         dismiss(animated: true)

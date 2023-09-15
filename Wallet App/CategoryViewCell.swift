@@ -11,7 +11,9 @@ final class CategoryViewCell: UITableViewCell {
     
     var icon: UIImageView = {
         let icon = UIImageView()
-        icon.layer.borderColor = UIColor.black.cgColor
+        icon.backgroundColor = UIColor(named: "background")
+        icon.contentMode = .center
+        icon.layer.cornerRadius = 25
         icon.translatesAutoresizingMaskIntoConstraints = false
         return icon
     }()
@@ -39,7 +41,9 @@ final class CategoryViewCell: UITableViewCell {
         addSubview(categoryLabel)
         
         NSLayoutConstraint.activate([
-            icon.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            icon.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            icon.widthAnchor.constraint(equalToConstant: 50),
+            icon.heightAnchor.constraint(equalToConstant: 50),
             icon.centerYAnchor.constraint(equalTo: centerYAnchor),
             
             categoryLabel.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 15),
