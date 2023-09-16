@@ -23,7 +23,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     var dollarButton: UIButton = {
         let button = UIButton()
         button.setTitle("USD", for: .normal)
-        button.backgroundColor = .systemGray4
+        button.backgroundColor = UIColor(named: "button")
         button.layer.cornerRadius = 20
         button.addTarget(self, action: #selector(dollarButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -32,7 +32,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     var euroButton: UIButton = {
         let button = UIButton()
         button.setTitle("EUR", for: .normal)
-        button.backgroundColor = .systemGray4
+        button.backgroundColor = UIColor(named: "button")
         button.layer.cornerRadius = 20
         button.addTarget(self, action: #selector(euroButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -41,7 +41,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     var zlotyButton: UIButton = {
         let button = UIButton()
         button.setTitle("PLN", for: .normal)
-        button.backgroundColor = .systemGray4
+        button.backgroundColor = UIColor(named: "button")
         button.layer.cornerRadius = 20
         button.addTarget(self, action: #selector(zlotyButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -53,7 +53,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
         textField.placeholder = "1234"
         textField.textAlignment = .center
         textField.font = UIFont.systemFont(ofSize: 45)
-        textField.backgroundColor = .systemGray4
+        textField.backgroundColor = .systemGray6
         textField.layer.cornerRadius = 20
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -62,6 +62,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     var tableView: UITableView = {
         let tableView = UITableView()
         tableView.rowHeight = 70
+        tableView.layer.cornerRadius = 20
         tableView.isScrollEnabled = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
@@ -76,14 +77,14 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     
     var notesTextField: NotesTextField = {
         let textField = NotesTextField(placeholder: "Notes")
-        textField.backgroundColor = .systemGray4
+        textField.backgroundColor = .systemGray6
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
     var saveButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = .systemGray3
+        button.backgroundColor = .tintColor
         button.setTitle("Save", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 17
@@ -94,7 +95,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     
     var cancelButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = .systemGray3
+        button.backgroundColor = .tintColor
         button.setTitle("Cancel", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 17
@@ -102,14 +103,92 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
         button.addTarget(self, action: #selector(cancelTransaction), for: .touchUpInside)
         return button
     }()
+    
+    //MARK: second version of ui
+    
+    let backView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 20
+        view.layer.shadowColor = UIColor.systemGray.cgColor
+        view.layer.shadowOpacity = 0.4
+        view.layer.shadowOffset = .zero
+        view.layer.shadowRadius = 10
+        view.backgroundColor = .systemBackground
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    func setupLayout2() {
+        view.addSubview(backView)
+        backView.addSubview(amountTextField)
+        backView.addSubview(dollarButton)
+        backView.addSubview(euroButton)
+        backView.addSubview(zlotyButton)
+        backView.addSubview(tableView)
+        backView.addSubview(notesTextField)
+        backView.addSubview(saveButton)
+        backView.addSubview(cancelButton)
+        
+        amountTextField.font = UIFont.systemFont(ofSize: 35)
+        //amountTextField.backgroundColor = .white
+        
+        NSLayoutConstraint.activate([
+            backView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            backView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            backView.topAnchor.constraint(equalTo: view.topAnchor, constant: 120),
+            backView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
+            
+            amountTextField.topAnchor.constraint(equalTo: backView.topAnchor, constant: 20),
+            amountTextField.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 10),
+            amountTextField.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -10),
+            amountTextField.heightAnchor.constraint(equalToConstant: 70),
+            
+            dollarButton.topAnchor.constraint(equalTo: amountTextField.bottomAnchor, constant: 20),
+            dollarButton.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 20),
+            dollarButton.widthAnchor.constraint(equalTo: backView.widthAnchor, multiplier: 0.24),
+            dollarButton.heightAnchor.constraint(equalToConstant: 40),
+            
+            euroButton.centerYAnchor.constraint(equalTo: dollarButton.centerYAnchor),
+            euroButton.centerXAnchor.constraint(equalTo: backView.centerXAnchor),
+            euroButton.widthAnchor.constraint(equalTo: backView.widthAnchor, multiplier: 0.24),
+            euroButton.heightAnchor.constraint(equalToConstant: 40),
+            
+            zlotyButton.centerYAnchor.constraint(equalTo: dollarButton.centerYAnchor),
+            zlotyButton.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -20),
+            zlotyButton.widthAnchor.constraint(equalTo: backView.widthAnchor, multiplier: 0.24),
+            zlotyButton.heightAnchor.constraint(equalToConstant: 40),
+            
+            tableView.topAnchor.constraint(equalTo: dollarButton.bottomAnchor, constant: 20),
+            tableView.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 10),
+            tableView.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -10),
+            tableView.heightAnchor.constraint(equalToConstant: 140),
+            
+            notesTextField.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 20),
+            notesTextField.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 10),
+            notesTextField.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -10),
+            notesTextField.bottomAnchor.constraint(equalTo: cancelButton.topAnchor, constant: -50),
+            
+            cancelButton.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 20),
+            cancelButton.bottomAnchor.constraint(equalTo: backView.bottomAnchor, constant: -20),
+            cancelButton.widthAnchor.constraint(equalTo: backView.widthAnchor, multiplier: 0.42),
+            cancelButton.heightAnchor.constraint(equalToConstant: 40),
+            
+            saveButton.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -20),
+            saveButton.bottomAnchor.constraint(equalTo: backView.bottomAnchor, constant: -20),
+            saveButton.widthAnchor.constraint(equalTo: backView.widthAnchor, multiplier: 0.42),
+            saveButton.heightAnchor.constraint(equalToConstant: 40),
+        ])
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Add Record"
-        view.backgroundColor = .white
+        navigationController?.navigationBar.prefersLargeTitles = true
+        view.backgroundColor = UIColor(named: "background")
         
         configureTableView()
-        setupLayout()
+        setupLayout2()
+        //setupLayout()
     }
     
     func configureTableView() {
@@ -178,6 +257,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "option", for: indexPath)
+        cell.backgroundColor = .systemGray6
         cell.textLabel?.text = options[indexPath.row]
         if indexPath.row == 1 {
             cell.contentView.addSubview(datePicker)

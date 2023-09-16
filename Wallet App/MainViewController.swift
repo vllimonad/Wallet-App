@@ -26,7 +26,7 @@ class MainViewController: UIViewController {
     
     let backwardButton: UIButton = {
         var button = UIButton()
-        button.layer.cornerRadius = 10
+        button.layer.cornerRadius = 13
         button.backgroundColor = .systemBackground
         let config = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular)
         button.setImage(UIImage(systemName: "chevron.backward", withConfiguration: config), for: .normal)
@@ -37,7 +37,7 @@ class MainViewController: UIViewController {
     
     let forwardButton: UIButton = {
         var button = UIButton()
-        button.layer.cornerRadius = 10
+        button.layer.cornerRadius = 13
         button.backgroundColor = .systemBackground
         let config = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular)
         button.setImage(UIImage(systemName: "chevron.forward", withConfiguration: config), for: .normal)
@@ -95,12 +95,12 @@ class MainViewController: UIViewController {
         backView.addSubview(stackView)
         
         NSLayoutConstraint.activate([
-            backwardButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            backwardButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
             backwardButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             backwardButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25),
             backwardButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.04),
             
-            forwardButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            forwardButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
             forwardButton.centerYAnchor.constraint(equalTo: backwardButton.centerYAnchor),
             forwardButton.widthAnchor.constraint(equalTo: backwardButton.widthAnchor),
             forwardButton.heightAnchor.constraint(equalTo: backwardButton.heightAnchor),
@@ -110,8 +110,8 @@ class MainViewController: UIViewController {
             monthLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
             monthLabel.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.04),
             
-            backView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            backView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            backView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            backView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
             backView.topAnchor.constraint(equalTo: monthLabel.bottomAnchor, constant: 20),
             backView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -150),
 
