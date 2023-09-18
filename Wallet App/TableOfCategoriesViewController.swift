@@ -18,7 +18,7 @@ enum Category: Codable {
 class TableOfCategoriesViewController: UITableViewController {
     
     var delegate: TableOfCategoriesViewControllerDelegate?
-    var categories = ["Groceries", "Transportation", "Shopping", "Entertainment", "Housing"]
+    var categories = ["Food", "Transportation", "Shopping", "Communication", "Entertainment", "Housing", "Financial expenses", "Other"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
