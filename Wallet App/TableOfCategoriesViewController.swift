@@ -40,7 +40,7 @@ class TableOfCategoriesViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.selectedItem(categories[indexPath.row])
+        delegate?.selectItem(categories[indexPath.row])
         tableView.deselectRow(at: indexPath, animated: true)
         dismiss(animated: true)
     }
@@ -48,5 +48,5 @@ class TableOfCategoriesViewController: UITableViewController {
 }
 
 protocol TableOfCategoriesViewControllerDelegate {
-    func selectedItem(_ item: String)
+    func selectItem(_ item: String)
 }

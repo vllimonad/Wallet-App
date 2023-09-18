@@ -16,43 +16,54 @@ enum Currency: Codable{
 class NewTransactionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var options = ["Category", "Date"]
-    var selectedCategory: String?
     var currency = Currency.eur
     var delegateController: NewTransactionViewControllerDelegate?
     
     var dollarButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         button.setTitle("USD", for: .normal)
-        button.backgroundColor = UIColor(named: "button")
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .systemGray6
         button.layer.cornerRadius = 20
+        //button.layer.borderWidth = 1
+        //button.layer.borderColor = UIColor.systemGray4.cgColor
         button.addTarget(self, action: #selector(dollarButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     var euroButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         button.setTitle("EUR", for: .normal)
-        button.backgroundColor = UIColor(named: "button")
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 20
+        //button.layer.borderWidth = 1
+        //button.layer.borderColor = UIColor.systemGray4.cgColor
         button.addTarget(self, action: #selector(euroButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     var zlotyButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         button.setTitle("PLN", for: .normal)
-        button.backgroundColor = UIColor(named: "button")
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .systemGray6
         button.layer.cornerRadius = 20
+        //button.layer.borderWidth = 1
+        //button.layer.borderColor = UIColor.systemGray4.cgColor
         button.addTarget(self, action: #selector(zlotyButtonTapped), for: .touchUpInside)
+    
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     var amountTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "1234"
+        textField.placeholder = "1234.56"
+        //textField.layer.borderWidth = 1
+        //textField.layer.borderColor = UIColor.systemGray4.cgColor
         textField.textAlignment = .center
-        textField.font = UIFont.systemFont(ofSize: 45)
+        textField.font = UIFont.systemFont(ofSize: 35)
         textField.backgroundColor = .systemGray6
         textField.layer.cornerRadius = 20
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -62,6 +73,8 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     var tableView: UITableView = {
         let tableView = UITableView()
         tableView.rowHeight = 70
+        //tableView.layer.borderWidth = 1
+        //tableView.layer.borderColor = UIColor.systemGray4.cgColor
         tableView.layer.cornerRadius = 20
         tableView.isScrollEnabled = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -78,15 +91,17 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     var notesTextField: NotesTextField = {
         let textField = NotesTextField(placeholder: "Notes")
         textField.backgroundColor = .systemGray6
+        //textField.layer.borderWidth = 1
+        //textField.layer.borderColor = UIColor.systemGray4.cgColor
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
     var saveButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = .tintColor
+        button.backgroundColor = .systemGray5
         button.setTitle("Save", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 17
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(saveTransaction), for: .touchUpInside)
@@ -95,9 +110,9 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     
     var cancelButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = .tintColor
+        button.backgroundColor = .systemGray5
         button.setTitle("Cancel", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 17
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(cancelTransaction), for: .touchUpInside)
@@ -110,15 +125,23 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
         let view = UIView()
         view.layer.cornerRadius = 20
         view.layer.shadowColor = UIColor.systemGray.cgColor
-        view.layer.shadowOpacity = 0.4
+        view.layer.shadowOpacity = 0.2
         view.layer.shadowOffset = .zero
         view.layer.shadowRadius = 10
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    func setupLayout2() {
+    let categoryCellLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Required"
+        label.textColor = .systemRed
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    func setupLayout() {
         view.addSubview(backView)
         backView.addSubview(amountTextField)
         backView.addSubview(dollarButton)
@@ -128,10 +151,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
         backView.addSubview(notesTextField)
         backView.addSubview(saveButton)
         backView.addSubview(cancelButton)
-        
-        amountTextField.font = UIFont.systemFont(ofSize: 35)
-        //amountTextField.backgroundColor = .white
-        
+                
         NSLayoutConstraint.activate([
             backView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
             backView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
@@ -187,8 +207,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
         view.backgroundColor = UIColor(named: "background")
         
         configureTableView()
-        setupLayout2()
-        //setupLayout()
+        setupLayout()
     }
     
     func configureTableView() {
@@ -198,73 +217,23 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
         tableView.backgroundColor = .clear
     }
     
-    func setupLayout() {
-        view.addSubview(amountTextField)
-        view.addSubview(dollarButton)
-        view.addSubview(euroButton)
-        view.addSubview(zlotyButton)
-        view.addSubview(tableView)
-        view.addSubview(notesTextField)
-        view.addSubview(cancelButton)
-        view.addSubview(saveButton)
-
-        NSLayoutConstraint.activate([
-            amountTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            amountTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            amountTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            amountTextField.heightAnchor.constraint(equalToConstant: 100),
-            
-            dollarButton.topAnchor.constraint(equalTo: amountTextField.bottomAnchor, constant: 20),
-            dollarButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            dollarButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.24),
-            dollarButton.heightAnchor.constraint(equalToConstant: 40),
-            
-            euroButton.centerYAnchor.constraint(equalTo: dollarButton.centerYAnchor),
-            euroButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            euroButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.24),
-            euroButton.heightAnchor.constraint(equalToConstant: 40),
-            
-            zlotyButton.centerYAnchor.constraint(equalTo: dollarButton.centerYAnchor),
-            zlotyButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            zlotyButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.24),
-            zlotyButton.heightAnchor.constraint(equalToConstant: 40),
-            
-            tableView.topAnchor.constraint(equalTo: dollarButton.bottomAnchor, constant: 20),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -400),
-            
-            notesTextField.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 20),
-            notesTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            notesTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            notesTextField.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -200),
-            
-            cancelButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            cancelButton.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -20),
-            cancelButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.42),
-            cancelButton.heightAnchor.constraint(equalToConstant: 40),
-            
-            saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            saveButton.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -20),
-            saveButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.42),
-            saveButton.heightAnchor.constraint(equalToConstant: 40),
-        ])
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "option", for: indexPath)
-        cell.backgroundColor = .systemGray6
         cell.textLabel?.text = options[indexPath.row]
+        cell.backgroundColor = .systemGray6
         if indexPath.row == 1 {
             cell.contentView.addSubview(datePicker)
             datePicker.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -20).isActive = true
             datePicker.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
         } else {
             cell.accessoryType = .disclosureIndicator
+            cell.contentView.addSubview(categoryCellLabel)
+            categoryCellLabel.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -40).isActive = true
+            categoryCellLabel.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
         }
         return cell
     }
@@ -284,7 +253,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     
     @objc func saveTransaction() {
         guard let amount = amountTextField.text else { return }
-        guard let category = selectedCategory else { return }
+        guard let category = categoryCellLabel.text, category != "Required" else { return }
         let description = notesTextField.text == nil ? "" : notesTextField.text!
         let transaction = Transaction(amount: Double(amount)!, currency: currency, date: datePicker.date, category: category, description: description, exchangeRate: 1.0)
         getExchangeRate(for: transaction)
@@ -309,28 +278,28 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     
     @objc func dollarButtonTapped() {
         currency = .usd
-        dollarButton.backgroundColor = .systemGray
-        euroButton.backgroundColor = .systemGray4
-        zlotyButton.backgroundColor = .systemGray4
+        dollarButton.backgroundColor = .systemGray4
+        euroButton.backgroundColor = .systemGray6
+        zlotyButton.backgroundColor = .systemGray6
     }
     @objc func euroButtonTapped() {
         currency = .eur
-        dollarButton.backgroundColor = .systemGray4
-        euroButton.backgroundColor = .systemGray
-        zlotyButton.backgroundColor = .systemGray4
+        dollarButton.backgroundColor = .systemGray6
+        euroButton.backgroundColor = .systemGray4
+        zlotyButton.backgroundColor = .systemGray6
     }
     @objc func zlotyButtonTapped() {
         currency = .pln
-        dollarButton.backgroundColor = .systemGray4
-        euroButton.backgroundColor = .systemGray4
-        zlotyButton.backgroundColor = .systemGray
+        dollarButton.backgroundColor = .systemGray6
+        euroButton.backgroundColor = .systemGray6
+        zlotyButton.backgroundColor = .systemGray4
     }
 }
 
 extension NewTransactionViewController: TableOfCategoriesViewControllerDelegate {
-    func selectedItem(_ item: String) {
-        options[0] = item
-        selectedCategory = item
+    func selectItem(_ item: String) {
+        categoryCellLabel.text = item
+        categoryCellLabel.textColor = .black
         tableView.reloadData()
     }
 }

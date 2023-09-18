@@ -31,6 +31,7 @@ class TransactionsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Records"
+        //tableView.backgroundColor = UIColor(named: "background")
         tableView.register(TransactionCell.self, forCellReuseIdentifier: "cell")
         tableView.rowHeight = 80
     }
@@ -43,6 +44,7 @@ class TransactionsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TransactionCell
+        //cell.backgroundColor = UIColor(named: "background")
         cell.amountLabel.text = "\(transactionsList[indexPath.section].arr[indexPath.row].amount) \(transactionsList[indexPath.section].arr[indexPath.row].currency)"
         cell.categoryLabel.text = transactionsList[indexPath.section].arr[indexPath.row].category
         cell.desciptionLabel.text = transactionsList[indexPath.section].arr[indexPath.row].description
@@ -108,7 +110,7 @@ class TransactionsTableViewController: UITableViewController {
     }
     
     func updateMainViewController() {
-        mainVewController?.amountLabel.text = "Total: \(countSum()) eur"
+        mainVewController?.updateTotalSum()
         mainVewController?.updateStackView()
         saveData()
     }
