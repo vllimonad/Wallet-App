@@ -15,7 +15,8 @@ class ViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "background")
-        //appearance()
+        tabBar.layer.borderWidth = 0
+        appearance()
         setViews()
     }
     
@@ -23,16 +24,18 @@ class ViewController: UITabBarController {
         let scrollEdgeAppearance = UITabBarAppearance()
         let standardAppearance = UITabBarAppearance()
         standardAppearance.configureWithOpaqueBackground()
-        scrollEdgeAppearance.configureWithOpaqueBackground()
-        standardAppearance.backgroundColor = UIColor(named: "background")
-        tabBar.standardAppearance = standardAppearance
-        tabBar.scrollEdgeAppearance = standardAppearance
+        scrollEdgeAppearance.configureWithTransparentBackground()
+        //scrollEdgeAppearance.configureWithOpaqueBackground()
+        //scrollEdgeAppearance.backgroundColor = .white
+        standardAppearance.backgroundColor = UIColor.white
+        tabBar.standardAppearance = scrollEdgeAppearance
+        tabBar.scrollEdgeAppearance = scrollEdgeAppearance
     }
     
     func setViews() {
         mainView.tabBarItem = UITabBarItem(title: "Statistics", image: UIImage(named: "statisticsIcon"), tag: 0)
         tableView.tabBarItem = UITabBarItem(title: "History", image: UIImage(named: "history"), tag: 1)
-        mainView.transactionsTableViewDelegate = tableView
+        mainView.transactionsTableViewController = tableView
         tableView.mainVewController = mainView
         tableView.readData()
         

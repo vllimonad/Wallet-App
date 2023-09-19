@@ -31,7 +31,6 @@ class TransactionsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Records"
-        //tableView.backgroundColor = UIColor(named: "background")
         tableView.register(TransactionCell.self, forCellReuseIdentifier: "cell")
         tableView.rowHeight = 80
     }
@@ -44,7 +43,6 @@ class TransactionsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TransactionCell
-        //cell.backgroundColor = UIColor(named: "background")
         cell.amountLabel.text = "\(transactionsList[indexPath.section].arr[indexPath.row].amount) \(transactionsList[indexPath.section].arr[indexPath.row].currency)"
         cell.categoryLabel.text = transactionsList[indexPath.section].arr[indexPath.row].category
         cell.desciptionLabel.text = transactionsList[indexPath.section].arr[indexPath.row].description
@@ -77,21 +75,15 @@ class TransactionsTableViewController: UITableViewController {
         return swipe
     }
 
-    func countSum() -> Double {
-        let date = mainVewController?.monthLabel.text!.components(separatedBy: " ")
+    func getTotalMontnSum() -> Double {
         var sum: Double = 0
-        for day in transactionsList {
-            let formattedDate = formatter.string(from: day.date)
-            if formattedDate.hasPrefix(date![0]) && formattedDate.hasSuffix(date![1]){
-                for transaction in day.arr {
-                    sum += transaction.amount / transaction.exchangeRate
-                }
-            }
+        for i in getExpensesByCategories() {
+            sum += i.value
         }
         return sum == 0 ? 0 : (sum * 100).rounded() / 100
     }
     
-    func getValues() -> [String: Double] {
+    func getExpensesByCategories() -> [String: Double] {
         let date = mainVewController?.monthLabel.text!.components(separatedBy: " ")
         var values = [String: Double]()
         for day in transactionsList {
@@ -131,7 +123,6 @@ class TransactionsTableViewController: UITableViewController {
                 print("reading failed")
             }
         }
-        updateMainViewController()
         tableView.reloadData()
     }
 }

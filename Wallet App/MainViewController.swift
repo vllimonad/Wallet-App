@@ -10,7 +10,7 @@ import Charts
 
 class MainViewController: UIViewController {
     
-    var transactionsTableViewDelegate: TransactionsTableViewController?
+    var transactionsTableViewController: TransactionsTableViewController?
     var monthIndex = 1
     var yearIndex = 0
     
@@ -48,7 +48,7 @@ class MainViewController: UIViewController {
         stack.layer.shadowOpacity = 0.2
         stack.layer.shadowOffset = .zero
         stack.layer.shadowRadius = 10
-        stack.backgroundColor = .white
+        stack.backgroundColor = UIColor(named: "view")
         stack.layer.cornerRadius = 13
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
@@ -56,12 +56,12 @@ class MainViewController: UIViewController {
     
     let backView: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = 20
+        view.layer.cornerRadius = 24
         view.layer.shadowColor = UIColor.systemGray.cgColor
         view.layer.shadowOpacity = 0.2
         view.layer.shadowOffset = .zero
         view.layer.shadowRadius = 10
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = UIColor(named: "view")
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -69,7 +69,6 @@ class MainViewController: UIViewController {
     var amountLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 22)
-        //label.text = "Total: 0.0 €"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -90,6 +89,7 @@ class MainViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTransaction))
         setupLayout()
         updateStackView()
+        updateTotalSum()
     }
     
     func setupLayout() {
@@ -102,20 +102,6 @@ class MainViewController: UIViewController {
         backView.addSubview(stackView)
         
         NSLayoutConstraint.activate([
-            /*backwardButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-            backwardButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
-            backwardButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25),
-            backwardButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.04),
-            
-            forwardButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-            forwardButton.centerYAnchor.constraint(equalTo: backwardButton.centerYAnchor),
-            forwardButton.widthAnchor.constraint(equalTo: backwardButton.widthAnchor),
-            forwardButton.heightAnchor.constraint(equalTo: backwardButton.heightAnchor),
-            
-            monthLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            monthLabel.centerYAnchor.constraint(equalTo: backwardButton.centerYAnchor),
-            monthLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
-            monthLabel.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.04),*/
             
             backwardButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25),
             forwardButton.widthAnchor.constraint(equalTo: backwardButton.widthAnchor),
@@ -128,21 +114,21 @@ class MainViewController: UIViewController {
             backView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
             backView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
             backView.topAnchor.constraint(equalTo: monthLabel.bottomAnchor, constant: 20),
-            backView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -150),
+            backView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -20),
 
             amountLabel.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 20),
             amountLabel.topAnchor.constraint(equalTo: backView.topAnchor, constant: 20),
             
             stackView.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 20),
             stackView.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -20),
-            stackView.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 30),
+            stackView.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 20),
         ])
     }
     
     @objc func addTransaction() {
         let transactionView = NewTransactionViewController()
         transactionView.modalPresentationStyle = .formSheet
-        transactionView.delegateController = transactionsTableViewDelegate
+        transactionView.delegateController = transactionsTableViewController
         present(UINavigationController(rootViewController: transactionView), animated: true)
     }
     
@@ -174,7 +160,7 @@ class MainViewController: UIViewController {
         for view in stackView.arrangedSubviews {
             view.removeFromSuperview()
         }
-        let values = transactionsTableViewDelegate!.getValues().sorted(by: { $0.value > $1.value } )
+        let values = transactionsTableViewController!.getExpensesByCategories().sorted(by: { $0.value > $1.value } )
         for value in values {
             let bar = Bar()
             bar.amountLabel.text = "\(value.value)"
@@ -185,7 +171,7 @@ class MainViewController: UIViewController {
     }
     
     func updateTotalSum() {
-        amountLabel.text = "Total: €\(transactionsTableViewDelegate?.countSum() ?? 0.0)"
+        amountLabel.text = "Total: €\(transactionsTableViewController?.getTotalMontnSum() ?? 0.0)"
     }
 }
 
@@ -207,7 +193,6 @@ class Bar: UIView {
     
     var progressView: UIProgressView = {
         var progress = UIProgressView()
-        //progress.progressTintColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
         progress.progressViewStyle = .default
         progress.translatesAutoresizingMaskIntoConstraints = false
         return progress
