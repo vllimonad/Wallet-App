@@ -16,18 +16,13 @@ class ViewController: UITabBarController {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "background")
         tabBar.layer.borderWidth = 0
-        appearance()
+        setupAppearance()
         setViews()
     }
     
-    func appearance() {
+    func setupAppearance() {
         let scrollEdgeAppearance = UITabBarAppearance()
-        let standardAppearance = UITabBarAppearance()
-        standardAppearance.configureWithOpaqueBackground()
-        scrollEdgeAppearance.configureWithTransparentBackground()
-        //scrollEdgeAppearance.configureWithOpaqueBackground()
-        //scrollEdgeAppearance.backgroundColor = .white
-        standardAppearance.backgroundColor = UIColor.white
+        scrollEdgeAppearance.backgroundColor = UIColor(named: "background")
         tabBar.standardAppearance = scrollEdgeAppearance
         tabBar.scrollEdgeAppearance = scrollEdgeAppearance
     }
