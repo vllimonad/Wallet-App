@@ -17,19 +17,19 @@ class ViewController: UITabBarController {
         view.backgroundColor = UIColor(named: "background")
         tabBar.layer.borderWidth = 0
         setupAppearance()
-        setViews()
+        addViews()
     }
     
     func setupAppearance() {
-        let scrollEdgeAppearance = UITabBarAppearance()
-        scrollEdgeAppearance.backgroundColor = UIColor(named: "background")
-        tabBar.standardAppearance = scrollEdgeAppearance
-        tabBar.scrollEdgeAppearance = scrollEdgeAppearance
+        let appearance = UITabBarAppearance()
+        appearance.configureWithTransparentBackground()
+        tabBar.standardAppearance = appearance
+        tabBar.scrollEdgeAppearance = appearance
     }
     
-    func setViews() {
+    func addViews() {
         mainView.tabBarItem = UITabBarItem(title: "Statistics", image: UIImage(named: "statisticsIcon"), tag: 0)
-        tableView.tabBarItem = UITabBarItem(title: "History", image: UIImage(named: "history"), tag: 1)
+        tableView.tabBarItem = UITabBarItem(title: "Records", image: UIImage(named: "history"), tag: 1)
         mainView.transactionsTableViewController = tableView
         tableView.mainVewController = mainView
         tableView.readData()

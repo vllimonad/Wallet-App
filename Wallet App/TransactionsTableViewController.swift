@@ -17,8 +17,15 @@ class Day: Codable {
     }
 }
 
-class TransactionsTableViewController: UITableViewController {
+class TransactionsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    let tableView: UITableView = {
+        let table = UITableView()
+        table.register(TransactionCell.self, forCellReuseIdentifier: "cell")
+        table.rowHeight = 80
+        table.translatesAutoresizingMaskIntoConstraints = false
+        return table
+    }()
     var transactionsList = [Day]()
     var mainVewController: MainViewController?
     let formatter: DateFormatter = {
@@ -30,19 +37,31 @@ class TransactionsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Records"
-        tableView.register(TransactionCell.self, forCellReuseIdentifier: "cell")
-        tableView.rowHeight = 80
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.backgroundColor = UIColor(named: "background")
+        setupLayout()
+    }
+    
+    func setupLayout() {
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
 
     // MARK: - Table view data source
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return transactionsList[section].arr.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TransactionCell
+        cell.backgroundColor = UIColor(named: "cell")
         cell.amountLabel.text = "\(transactionsList[indexPath.section].arr[indexPath.row].amount) \(transactionsList[indexPath.section].arr[indexPath.row].currency)"
         cell.categoryLabel.text = transactionsList[indexPath.section].arr[indexPath.row].category
         cell.desciptionLabel.text = transactionsList[indexPath.section].arr[indexPath.row].description
@@ -50,19 +69,19 @@ class TransactionsTableViewController: UITableViewController {
         return cell
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return transactionsList.count
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return formatter.string(from: transactionsList[section].date)
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let swipe = UISwipeActionsConfiguration(actions: [UIContextualAction(style: .destructive, title: "Delete", handler: { [weak self] _,_,_ in
             self?.transactionsList[indexPath.section].arr.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .right)

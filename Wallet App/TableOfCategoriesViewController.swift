@@ -26,6 +26,7 @@ class TableOfCategoriesViewController: UITableViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         tableView.register(CategoryViewCell.self, forCellReuseIdentifier: "category")
         tableView.rowHeight = 70
+        tableView.backgroundColor = UIColor(named: "cell")
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -34,6 +35,7 @@ class TableOfCategoriesViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "category", for: indexPath) as! CategoryViewCell
+        cell.backgroundColor = UIColor(named: "cell")
         cell.categoryLabel.text = categories[indexPath.row]
         cell.icon.image = UIImage(named: categories[indexPath.row].lowercased())
         return cell
