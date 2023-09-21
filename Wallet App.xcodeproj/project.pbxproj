@@ -66,6 +66,56 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2B00FAAA2ABCFB48001D7E1E /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				2B5EC08C2AA34EC900305D14 /* AppDelegate.swift */,
+				2B5EC08E2AA34EC900305D14 /* SceneDelegate.swift */,
+			);
+			name = Application;
+			sourceTree = "<group>";
+		};
+		2B00FAAB2ABCFB6B001D7E1E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				2B5EC0952AA34ECA00305D14 /* Assets.xcassets */,
+				2B5EC0972AA34ECA00305D14 /* LaunchScreen.storyboard */,
+				2B5EC09A2AA34ECA00305D14 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		2B00FAAC2ABCFE5B001D7E1E /* TransactionsList */ = {
+			isa = PBXGroup;
+			children = (
+				2B5EC0A62AA359E700305D14 /* TransactionsTableViewController.swift */,
+				2B5EC0AC2AA37A4F00305D14 /* TransactionCell.swift */,
+				2B5EC0A82AA3608B00305D14 /* Transaction.swift */,
+			);
+			name = TransactionsList;
+			sourceTree = "<group>";
+		};
+		2B00FAAD2ABCFEA7001D7E1E /* NewTransaction */ = {
+			isa = PBXGroup;
+			children = (
+				2B8541582AA507EF00ADECEB /* NewTransactionViewController.swift */,
+				2BC96F2C2AAB7652001D7042 /* TableOfCategoriesViewController.swift */,
+				2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */,
+				2B85415A2AA545DE00ADECEB /* NotesTextField.swift */,
+				2BF1760F2AAE0C0900C6AFD3 /* Rate.swift */,
+			);
+			path = NewTransaction;
+			sourceTree = "<group>";
+		};
+		2B00FAAE2ABCFF0B001D7E1E /* StartView */ = {
+			isa = PBXGroup;
+			children = (
+				2B5EC0902AA34EC900305D14 /* ViewController.swift */,
+				2B5EC0A22AA3587500305D14 /* MainViewController.swift */,
+			);
+			name = StartView;
+			sourceTree = "<group>";
+		};
 		2B5EC0802AA34EC900305D14 = {
 			isa = PBXGroup;
 			children = (
@@ -87,21 +137,11 @@
 		2B5EC08B2AA34EC900305D14 /* Wallet App */ = {
 			isa = PBXGroup;
 			children = (
-				2B5EC08C2AA34EC900305D14 /* AppDelegate.swift */,
-				2B5EC08E2AA34EC900305D14 /* SceneDelegate.swift */,
-				2B5EC0902AA34EC900305D14 /* ViewController.swift */,
-				2B5EC0A22AA3587500305D14 /* MainViewController.swift */,
-				2B8541582AA507EF00ADECEB /* NewTransactionViewController.swift */,
-				2BC96F2C2AAB7652001D7042 /* TableOfCategoriesViewController.swift */,
-				2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */,
-				2B5EC0A62AA359E700305D14 /* TransactionsTableViewController.swift */,
-				2B5EC0AC2AA37A4F00305D14 /* TransactionCell.swift */,
-				2B5EC0A82AA3608B00305D14 /* Transaction.swift */,
-				2BF1760F2AAE0C0900C6AFD3 /* Rate.swift */,
-				2B85415A2AA545DE00ADECEB /* NotesTextField.swift */,
-				2B5EC0952AA34ECA00305D14 /* Assets.xcassets */,
-				2B5EC0972AA34ECA00305D14 /* LaunchScreen.storyboard */,
-				2B5EC09A2AA34ECA00305D14 /* Info.plist */,
+				2B00FAAA2ABCFB48001D7E1E /* Application */,
+				2B00FAAE2ABCFF0B001D7E1E /* StartView */,
+				2B00FAAD2ABCFEA7001D7E1E /* NewTransaction */,
+				2B00FAAC2ABCFE5B001D7E1E /* TransactionsList */,
+				2B00FAAB2ABCFB6B001D7E1E /* Resources */,
 			);
 			path = "Wallet App";
 			sourceTree = "<group>";

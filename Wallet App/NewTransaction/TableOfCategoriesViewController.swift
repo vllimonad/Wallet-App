@@ -7,14 +7,6 @@
 
 import UIKit
 
-enum Category: Codable {
-    case groceries
-    case transportation
-    case shopping
-    case entertainment
-    case housing
-}
-
 class TableOfCategoriesViewController: UITableViewController {
     
     var delegate: TableOfCategoriesViewControllerDelegate?
