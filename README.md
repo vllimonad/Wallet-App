@@ -1,9 +1,11 @@
 # Spending Tracker
-iOS application to track and organise spendings by categories and dates.
+Spending Tracker is an iOS application to track and organise spendings by categories and dates.
+
+### Frameworks
+1. UIKit
 
 ### Technologies
-1. UIKit
-2. JSON
-3. REST API
-4. Multithreading
+1. JSON
+2. REST API
+3. Multithreading
 
