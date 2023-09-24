@@ -7,10 +7,10 @@
 
 import UIKit
 
-class TransactionsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+final class TransactionsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var transactionsList = [[Transaction]]()
-    var mainVewController: MainViewController?
+    var transactionsTableViewControllerDelegate: MainViewController?
     let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
@@ -31,6 +31,12 @@ class TransactionsTableViewController: UIViewController, UITableViewDelegate, UI
         tableView.delegate = self
         tableView.backgroundColor = UIColor(named: "background")
         setupLayout()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        transactionsList = transactionsTableViewControllerDelegate?.transactionsList ?? [[]]
+        tableView.reloadData()
     }
     
     func setupLayout() {
@@ -64,7 +70,7 @@ class TransactionsTableViewController: UIViewController, UITableViewDelegate, UI
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return formatter.string(from: transactionsList[section][0].date)
+        return formatter.string(from: transactionsList[section].first?.date ?? Date.now)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -74,78 +80,15 @@ class TransactionsTableViewController: UIViewController, UITableViewDelegate, UI
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let swipe = UISwipeActionsConfiguration(actions: [UIContextualAction(style: .destructive, title: "Delete", handler: { [weak self] _,_,_ in
             self?.transactionsList[indexPath.section].remove(at: indexPath.row)
+            self?.transactionsTableViewControllerDelegate?.transactionsList[indexPath.section].remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .right)
             if self?.transactionsList[indexPath.section].count == 0 {
                 self?.transactionsList.remove(at: indexPath.section)
+                self?.transactionsTableViewControllerDelegate?.transactionsList.remove(at: indexPath.section)
                 tableView.deleteSections(IndexSet(arrayLiteral: indexPath.section), with: .top)
             }
-            self?.updateMainViewController()
         })])
+        transactionsTableViewControllerDelegate?.saveData()
         return swipe
-    }
-
-    func getTotalMontnSum() -> Double {
-        var sum: Double = 0
-        for i in getExpensesByCategories() {
-            sum += i.value
-        }
-        return sum == 0 ? 0 : (sum * 100).rounded() / 100
-    }
-    
-    func getExpensesByCategories() -> [String: Double] {
-        let date = mainVewController?.monthLabel.text!.components(separatedBy: " ")
-        var values = [String: Double]()
-        for day in transactionsList {
-            let formattedDate = formatter.string(from: day[0].date)
-            if formattedDate.hasPrefix(date![0]) && formattedDate.hasSuffix(date![1]){
-                for transaction in day {
-                    if let index = values.index(forKey: transaction.category){
-                        values[transaction.category]! += (transaction.amount / transaction.exchangeRate * 100).rounded() / 100
-                    } else {
-                        values[transaction.category] = (transaction.amount / transaction.exchangeRate * 100).rounded() / 100
-                    }
-                }
-            }
-        }
-        return values
-    }
-    
-    func updateMainViewController() {
-        mainVewController?.updateTotalSum()
-        mainVewController?.updateStackView()
-        saveData()
-    }
-    
-    func saveData() {
-        if let data = try? JSONEncoder().encode(transactionsList){
-            let defaults = UserDefaults.standard
-            defaults.set(data, forKey: "list")
-        }
-    }
-    
-    func readData() {
-        let defaults = UserDefaults.standard
-        if let data = defaults.object(forKey: "list") as? Data {
-            do {
-                transactionsList = try JSONDecoder().decode([[Transaction]].self, from: data)
-            } catch {
-                print("reading failed")
-            }
-        }
-        tableView.reloadData()
-    }
-}
-
-extension TransactionsTableViewController: NewTransactionViewControllerDelegate {
-    
-    func addNewTransaction(_ transaction: Transaction) {
-        if let index = transactionsList.firstIndex(where: { formatter.string(from: $0[0].date) == formatter.string(from: transaction.date)}) {
-            transactionsList[index].append(transaction)
-        } else {
-            transactionsList.append([transaction])
-        }
-        updateMainViewController()
-        transactionsList.sort(by: { $0[0].date > $1[0].date })
-        tableView.reloadData()
     }
 }

@@ -8,9 +8,16 @@
 import UIKit
 import Charts
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
     
-    var transactionsTableViewController: TransactionsTableViewController?
+    var transactionsList = [[Transaction]]()
+    let formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.timeStyle = .none
+        return formatter
+    }()
+    
     var monthIndex = 1
     var yearIndex = 0
     
@@ -88,8 +95,12 @@ class MainViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTransaction))
         setupLayout()
-        updateStackView()
-        updateTotalSum()
+        updateStackAndTitle()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateStackAndTitle()
     }
     
     func setupLayout() {
@@ -128,7 +139,7 @@ class MainViewController: UIViewController {
     @objc func addTransaction() {
         let transactionView = NewTransactionViewController()
         transactionView.modalPresentationStyle = .formSheet
-        transactionView.delegateController = transactionsTableViewController
+        transactionView.delegateController = self
         present(UINavigationController(rootViewController: transactionView), animated: true)
     }
     
@@ -140,8 +151,7 @@ class MainViewController: UIViewController {
         }
         monthIndex += 1
         monthLabel.text = "\(Calendar.current.standaloneMonthSymbols[index-monthIndex]) \(Calendar.current.component(.year, from: Date.now.addingTimeInterval(TimeInterval(yearIndex))))"
-        updateStackView()
-        updateTotalSum()
+        updateStackAndTitle()
     }
     
     @objc func nextMonth() {
@@ -152,17 +162,17 @@ class MainViewController: UIViewController {
         }
         monthIndex -= 1
         monthLabel.text = "\(Calendar.current.standaloneMonthSymbols[index-monthIndex]) \(Calendar.current.component(.year, from: Date.now.addingTimeInterval(TimeInterval(yearIndex))))"
-        updateStackView()
-        updateTotalSum()
+        updateStackAndTitle()
     }
 
-    func updateStackView() {
+    func updateStackAndTitle() {
+        amountLabel.text = "Total: €\(getTotalMontnSum())"
         for view in stackView.arrangedSubviews {
             view.removeFromSuperview()
         }
-        let values = transactionsTableViewController!.getExpensesByCategories().sorted(by: { $0.value > $1.value } )
+        let values = getExpensesByCategories().sorted(by: { $0.value > $1.value } )
         for value in values {
-            let bar = Bar()
+            let bar = BarView()
             bar.amountLabel.text = "\(value.value)"
             bar.categoryLabel.text = value.key
             bar.progressView.setProgress(Float(value.value/values.first!.value), animated: false)
@@ -170,60 +180,60 @@ class MainViewController: UIViewController {
         }
     }
     
-    func updateTotalSum() {
-        amountLabel.text = "Total: €\(transactionsTableViewController?.getTotalMontnSum() ?? 0.0)"
+    func getTotalMontnSum() -> Double {
+        var sum: Double = 0
+        for i in getExpensesByCategories() {
+            sum += i.value
+        }
+        return sum == 0 ? 0 : (sum * 100).rounded() / 100
     }
-}
+    
+    func getExpensesByCategories() -> [String: Double] {
+        let date = monthLabel.text!.components(separatedBy: " ")
+        var values = [String: Double]()
+        for day in transactionsList {
+            let formattedDate = formatter.string(from: day[0].date)
+            if formattedDate.hasPrefix(date[0]) && formattedDate.hasSuffix(date[1]){
+                for transaction in day {
+                    if let index = values.index(forKey: transaction.category){
+                        values[transaction.category]! += (transaction.amount / transaction.exchangeRate * 100).rounded() / 100
+                    } else {
+                        values[transaction.category] = (transaction.amount / transaction.exchangeRate * 100).rounded() / 100
+                    }
+                }
+            }
+        }
+        return values
+    }
+    
+    func saveData() {
+        if let data = try? JSONEncoder().encode(transactionsList){
+            let defaults = UserDefaults.standard
+            defaults.set(data, forKey: "list")
+        }
+    }
+    
+    func readData() {
+        let defaults = UserDefaults.standard
+        if let data = defaults.object(forKey: "list") as? Data {
+            do {
+                transactionsList = try JSONDecoder().decode([[Transaction]].self, from: data)
+            } catch {
+                print("reading failed")
+            }
+        }
+    }
+} 
 
-class Bar: UIView {
-    
-    let categoryLabel: UILabel = {
-        var label = UILabel()
-        label.textAlignment = .left
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    var amountLabel: UILabel = {
-        var label = UILabel()
-        label.textAlignment = .right
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    var progressView: UIProgressView = {
-        var progress = UIProgressView()
-        progress.progressViewStyle = .default
-        progress.translatesAutoresizingMaskIntoConstraints = false
-        return progress
-    }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupLayout()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setupLayout() {
-        addSubview(categoryLabel)
-        addSubview(amountLabel)
-        addSubview(progressView)
-        
-        NSLayoutConstraint.activate([
-            categoryLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            categoryLabel.topAnchor.constraint(equalTo: topAnchor),
-            categoryLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5),
-            
-            amountLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-            amountLabel.topAnchor.constraint(equalTo: topAnchor),
-            amountLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5),
-
-            progressView.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 5),
-            progressView.heightAnchor.constraint(equalToConstant: 15),
-            progressView.widthAnchor.constraint(equalTo: widthAnchor)
-        ])
+extension MainViewController: NewTransactionViewControllerDelegate {
+    func addNewTransaction(_ transaction: Transaction) {
+        if let index = transactionsList.firstIndex(where: { formatter.string(from: $0[0].date) == formatter.string(from: transaction.date)}) {
+            transactionsList[index].insert(transaction, at: 0)
+        } else {
+            transactionsList.append([transaction])
+        }
+        transactionsList.sort(by: { $0[0].date > $1[0].date })
+        updateStackAndTitle()
+        saveData()
     }
 }

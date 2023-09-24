@@ -13,11 +13,12 @@ enum Currency: Codable{
     case eur
 }
 
-class NewTransactionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+final class NewTransactionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var options = ["Category", "Date"]
     var currency = Currency.eur
     var delegateController: NewTransactionViewControllerDelegate?
+    //var saveTransaction: ((Transaction) -> Void)?
     
     var dollarButton: UIButton = {
         let button = UIButton(type: .system)
@@ -228,7 +229,11 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             let table = TableOfCategoriesViewController()
-            table.delegate = self
+            table.selectItem = { [weak self] category in
+                self?.categoryCellLabel.text = category
+                self?.categoryCellLabel.textColor = UIColor(named: "text")
+                self?.tableView.reloadData()
+            }
             present(UINavigationController(rootViewController: table), animated: true)
         }
         tableView.deselectRow(at: indexPath, animated: true)
@@ -280,14 +285,6 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
         dollarButton.backgroundColor = .systemGray6
         euroButton.backgroundColor = .systemGray6
         zlotyButton.backgroundColor = .systemGray4
-    }
-}
-
-extension NewTransactionViewController: TableOfCategoriesViewControllerDelegate {
-    func selectItem(_ item: String) {
-        categoryCellLabel.text = item
-        categoryCellLabel.textColor = UIColor(named: "text")
-        tableView.reloadData()
     }
 }
 

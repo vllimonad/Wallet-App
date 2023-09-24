@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NotesTextField: UITextField {
+final class NotesTextField: UITextField {
 
     let padding = UIEdgeInsets(top: -110, left: 20, bottom: 0, right: 20)
     

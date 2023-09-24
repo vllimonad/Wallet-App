@@ -7,9 +7,9 @@
 
 import UIKit
 
-class TableOfCategoriesViewController: UITableViewController {
+final class TableOfCategoriesViewController: UITableViewController {
     
-    var delegate: TableOfCategoriesViewControllerDelegate?
+    var selectItem: ((String) -> Void)?
     var categories = ["Food", "Transportation", "Shopping", "Communication", "Entertainment", "Housing", "Financial expenses"]
     
     override func viewDidLoad() {
@@ -34,13 +34,8 @@ class TableOfCategoriesViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.selectItem(categories[indexPath.row])
-        tableView.deselectRow(at: indexPath, animated: true)
+        selectItem!(categories[indexPath.row])
         dismiss(animated: true)
     }
     
-}
-
-protocol TableOfCategoriesViewControllerDelegate {
-    func selectItem(_ item: String)
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TransactionCell: UITableViewCell {
+final class TransactionCell: UITableViewCell {
     
     var amountLabel: UILabel = {
         let label = UILabel()

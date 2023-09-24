@@ -7,7 +7,7 @@
 
 import UIKit
 
-class Transaction: Codable {
+final class Transaction: Codable {
     var amount: Double
     var currency: Currency
     var date: Date
