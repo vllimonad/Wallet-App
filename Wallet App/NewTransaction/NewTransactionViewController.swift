@@ -286,7 +286,7 @@ class NewTransactionViewController: UIViewController, UITableViewDataSource, UIT
 extension NewTransactionViewController: TableOfCategoriesViewControllerDelegate {
     func selectItem(_ item: String) {
         categoryCellLabel.text = item
-        categoryCellLabel.textColor = .black
+        categoryCellLabel.textColor = UIColor(named: "text")
         tableView.reloadData()
     }
 }

@@ -7,32 +7,22 @@
 
 import UIKit
 
-class Day: Codable {
-    var date: Date
-    var arr: [Transaction]
-    
-    init(date: Date, arr: [Transaction]) {
-        self.date = date
-        self.arr = arr
-    }
-}
-
 class TransactionsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    let tableView: UITableView = {
-        let table = UITableView()
-        table.register(TransactionCell.self, forCellReuseIdentifier: "cell")
-        table.rowHeight = 80
-        table.translatesAutoresizingMaskIntoConstraints = false
-        return table
-    }()
-    var transactionsList = [Day]()
+    var transactionsList = [[Transaction]]()
     var mainVewController: MainViewController?
     let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         formatter.timeStyle = .none
         return formatter
+    }()
+    let tableView: UITableView = {
+        let table = UITableView()
+        table.register(TransactionCell.self, forCellReuseIdentifier: "cell")
+        table.rowHeight = 80
+        table.translatesAutoresizingMaskIntoConstraints = false
+        return table
     }()
 
     override func viewDidLoad() {
@@ -56,16 +46,16 @@ class TransactionsTableViewController: UIViewController, UITableViewDelegate, UI
     // MARK: - Table view data source
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return transactionsList[section].arr.count
+        return transactionsList[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TransactionCell
         cell.backgroundColor = UIColor(named: "cell")
-        cell.amountLabel.text = "\(transactionsList[indexPath.section].arr[indexPath.row].amount) \(transactionsList[indexPath.section].arr[indexPath.row].currency)"
-        cell.categoryLabel.text = transactionsList[indexPath.section].arr[indexPath.row].category
-        cell.desciptionLabel.text = transactionsList[indexPath.section].arr[indexPath.row].description
-        cell.icon.image = UIImage(named: "\(transactionsList[indexPath.section].arr[indexPath.row].category.lowercased())")
+        cell.amountLabel.text = "\(transactionsList[indexPath.section][indexPath.row].amount) \(transactionsList[indexPath.section][indexPath.row].currency)"
+        cell.categoryLabel.text = transactionsList[indexPath.section][indexPath.row].category
+        cell.desciptionLabel.text = transactionsList[indexPath.section][indexPath.row].description
+        cell.icon.image = UIImage(named: "\(transactionsList[indexPath.section][indexPath.row].category.lowercased())")
         return cell
     }
     
@@ -74,7 +64,7 @@ class TransactionsTableViewController: UIViewController, UITableViewDelegate, UI
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return formatter.string(from: transactionsList[section].date)
+        return formatter.string(from: transactionsList[section][0].date)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -83,9 +73,9 @@ class TransactionsTableViewController: UIViewController, UITableViewDelegate, UI
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let swipe = UISwipeActionsConfiguration(actions: [UIContextualAction(style: .destructive, title: "Delete", handler: { [weak self] _,_,_ in
-            self?.transactionsList[indexPath.section].arr.remove(at: indexPath.row)
+            self?.transactionsList[indexPath.section].remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .right)
-            if self?.transactionsList[indexPath.section].arr.count == 0 {
+            if self?.transactionsList[indexPath.section].count == 0 {
                 self?.transactionsList.remove(at: indexPath.section)
                 tableView.deleteSections(IndexSet(arrayLiteral: indexPath.section), with: .top)
             }
@@ -106,9 +96,9 @@ class TransactionsTableViewController: UIViewController, UITableViewDelegate, UI
         let date = mainVewController?.monthLabel.text!.components(separatedBy: " ")
         var values = [String: Double]()
         for day in transactionsList {
-            let formattedDate = formatter.string(from: day.date)
+            let formattedDate = formatter.string(from: day[0].date)
             if formattedDate.hasPrefix(date![0]) && formattedDate.hasSuffix(date![1]){
-                for transaction in day.arr {
+                for transaction in day {
                     if let index = values.index(forKey: transaction.category){
                         values[transaction.category]! += (transaction.amount / transaction.exchangeRate * 100).rounded() / 100
                     } else {
@@ -137,7 +127,7 @@ class TransactionsTableViewController: UIViewController, UITableViewDelegate, UI
         let defaults = UserDefaults.standard
         if let data = defaults.object(forKey: "list") as? Data {
             do {
-                transactionsList = try JSONDecoder().decode([Day].self, from: data)
+                transactionsList = try JSONDecoder().decode([[Transaction]].self, from: data)
             } catch {
                 print("reading failed")
             }
@@ -149,13 +139,13 @@ class TransactionsTableViewController: UIViewController, UITableViewDelegate, UI
 extension TransactionsTableViewController: NewTransactionViewControllerDelegate {
     
     func addNewTransaction(_ transaction: Transaction) {
-        if let index = transactionsList.firstIndex(where: { formatter.string(from: $0.date) == formatter.string(from: transaction.date)}) {
-            transactionsList[index].arr.append(transaction)
+        if let index = transactionsList.firstIndex(where: { formatter.string(from: $0[0].date) == formatter.string(from: transaction.date)}) {
+            transactionsList[index].append(transaction)
         } else {
-            transactionsList.append(Day(date: transaction.date, arr: [transaction]))
+            transactionsList.append([transaction])
         }
         updateMainViewController()
-        transactionsList.sort(by: { $0.date > $1.date })
+        transactionsList.sort(by: { $0[0].date > $1[0].date })
         tableView.reloadData()
     }
 }
