@@ -71,6 +71,7 @@
 		2B00FAAA2ABCFB48001D7E1E /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				2B5EC0902AA34EC900305D14 /* ViewController.swift */,
 				2B5EC08C2AA34EC900305D14 /* AppDelegate.swift */,
 				2B5EC08E2AA34EC900305D14 /* SceneDelegate.swift */,
 			);
@@ -109,14 +110,13 @@
 			path = NewTransaction;
 			sourceTree = "<group>";
 		};
-		2B00FAAE2ABCFF0B001D7E1E /* StartView */ = {
+		2B00FAAE2ABCFF0B001D7E1E /* MainView */ = {
 			isa = PBXGroup;
 			children = (
-				2B5EC0902AA34EC900305D14 /* ViewController.swift */,
 				2B5EC0A22AA3587500305D14 /* MainViewController.swift */,
 				2B080BB22AC0A01100BC89E3 /* BarView.swift */,
 			);
-			name = StartView;
+			name = MainView;
 			sourceTree = "<group>";
 		};
 		2B5EC0802AA34EC900305D14 = {
@@ -141,7 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				2B00FAAA2ABCFB48001D7E1E /* Application */,
-				2B00FAAE2ABCFF0B001D7E1E /* StartView */,
+				2B00FAAE2ABCFF0B001D7E1E /* MainView */,
 				2B00FAAD2ABCFEA7001D7E1E /* NewTransaction */,
 				2B00FAAC2ABCFE5B001D7E1E /* TransactionsList */,
 				2B00FAAB2ABCFB6B001D7E1E /* Resources */,

@@ -95,12 +95,12 @@ final class MainViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTransaction))
         setupLayout()
-        updateStackAndTitle()
+        updateUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        updateStackAndTitle()
+        updateUI()
     }
     
     func setupLayout() {
@@ -151,7 +151,7 @@ final class MainViewController: UIViewController {
         }
         monthIndex += 1
         monthLabel.text = "\(Calendar.current.standaloneMonthSymbols[index-monthIndex]) \(Calendar.current.component(.year, from: Date.now.addingTimeInterval(TimeInterval(yearIndex))))"
-        updateStackAndTitle()
+        updateUI()
     }
     
     @objc func nextMonth() {
@@ -162,10 +162,10 @@ final class MainViewController: UIViewController {
         }
         monthIndex -= 1
         monthLabel.text = "\(Calendar.current.standaloneMonthSymbols[index-monthIndex]) \(Calendar.current.component(.year, from: Date.now.addingTimeInterval(TimeInterval(yearIndex))))"
-        updateStackAndTitle()
+        updateUI()
     }
 
-    func updateStackAndTitle() {
+    func updateUI() {
         amountLabel.text = "Total: €\(getTotalMontnSum())"
         for view in stackView.arrangedSubviews {
             view.removeFromSuperview()
@@ -206,16 +206,8 @@ final class MainViewController: UIViewController {
         return values
     }
     
-    func saveData() {
-        if let data = try? JSONEncoder().encode(transactionsList){
-            let defaults = UserDefaults.standard
-            defaults.set(data, forKey: "list")
-        }
-    }
-    
     func readData() {
-        let defaults = UserDefaults.standard
-        if let data = defaults.object(forKey: "list") as? Data {
+        if let data = UserDefaults.standard.object(forKey: "list") as? Data {
             do {
                 transactionsList = try JSONDecoder().decode([[Transaction]].self, from: data)
             } catch {
@@ -223,9 +215,16 @@ final class MainViewController: UIViewController {
             }
         }
     }
+    
+    func saveData() {
+        if let data = try? JSONEncoder().encode(transactionsList){
+            UserDefaults.standard.set(data, forKey: "list")
+        }
+    }
 } 
 
-extension MainViewController: NewTransactionViewControllerDelegate {
+extension MainViewController: NewTransactionViewControllerDelegate, TransactionsTableViewControllerDelegate {
+
     func addNewTransaction(_ transaction: Transaction) {
         if let index = transactionsList.firstIndex(where: { formatter.string(from: $0[0].date) == formatter.string(from: transaction.date)}) {
             transactionsList[index].insert(transaction, at: 0)
@@ -233,7 +232,22 @@ extension MainViewController: NewTransactionViewControllerDelegate {
             transactionsList.append([transaction])
         }
         transactionsList.sort(by: { $0[0].date > $1[0].date })
-        updateStackAndTitle()
+        updateUI()
         saveData()
     }
+    
+    func getTransactionsList() -> [[Transaction]] {
+        return transactionsList
+    }
+    
+    func setTransactionsList(_ list: [[Transaction]]) {
+        transactionsList = list
+        updateUI()
+        saveData()
+    }
+}
+
+protocol TransactionsTableViewControllerDelegate {
+    func getTransactionsList() -> [[Transaction]]
+    func setTransactionsList(_ list: [[Transaction]])
 }

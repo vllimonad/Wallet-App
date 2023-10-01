@@ -15,7 +15,6 @@ final class ViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "background")
-        tabBar.layer.borderWidth = 0
         setupAppearance()
         addViews()
     }
@@ -30,11 +29,8 @@ final class ViewController: UITabBarController {
     func addViews() {
         mainView.tabBarItem = UITabBarItem(title: "Statistics", image: UIImage(named: "statisticsIcon"), tag: 0)
         tableView.tabBarItem = UITabBarItem(title: "Records", image: UIImage(named: "history"), tag: 1)
-        //mainView.transactionsTableViewController = tableView
-        mainView.readData()
         tableView.transactionsTableViewControllerDelegate = mainView
-        //tableView.readData()
-        
+        mainView.readData()
         viewControllers = [UINavigationController(rootViewController: mainView), tableView]
     }
 }

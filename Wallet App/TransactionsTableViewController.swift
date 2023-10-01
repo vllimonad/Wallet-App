@@ -10,7 +10,7 @@ import UIKit
 final class TransactionsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var transactionsList = [[Transaction]]()
-    var transactionsTableViewControllerDelegate: MainViewController?
+    var transactionsTableViewControllerDelegate: TransactionsTableViewControllerDelegate?
     let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
@@ -35,8 +35,12 @@ final class TransactionsTableViewController: UIViewController, UITableViewDelega
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        transactionsList = transactionsTableViewControllerDelegate?.transactionsList ?? [[]]
+        transactionsList = transactionsTableViewControllerDelegate!.getTransactionsList()
         tableView.reloadData()
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        transactionsTableViewControllerDelegate!.setTransactionsList(transactionsList)
     }
     
     func setupLayout() {
@@ -80,15 +84,12 @@ final class TransactionsTableViewController: UIViewController, UITableViewDelega
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let swipe = UISwipeActionsConfiguration(actions: [UIContextualAction(style: .destructive, title: "Delete", handler: { [weak self] _,_,_ in
             self?.transactionsList[indexPath.section].remove(at: indexPath.row)
-            self?.transactionsTableViewControllerDelegate?.transactionsList[indexPath.section].remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .right)
             if self?.transactionsList[indexPath.section].count == 0 {
                 self?.transactionsList.remove(at: indexPath.section)
-                self?.transactionsTableViewControllerDelegate?.transactionsList.remove(at: indexPath.section)
                 tableView.deleteSections(IndexSet(arrayLiteral: indexPath.section), with: .top)
             }
         })])
-        transactionsTableViewControllerDelegate?.saveData()
         return swipe
     }
 }

@@ -18,7 +18,6 @@ final class NewTransactionViewController: UIViewController, UITableViewDataSourc
     var options = ["Category", "Date"]
     var currency = Currency.eur
     var delegateController: NewTransactionViewControllerDelegate?
-    //var saveTransaction: ((Transaction) -> Void)?
     
     var dollarButton: UIButton = {
         let button = UIButton(type: .system)
