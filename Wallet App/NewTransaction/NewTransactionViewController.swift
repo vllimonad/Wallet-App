@@ -138,7 +138,7 @@ final class NewTransactionViewController: UIViewController, UITableViewDataSourc
         backView.addSubview(notesTextField)
         backView.addSubview(saveButton)
         backView.addSubview(cancelButton)
-                
+        
         NSLayoutConstraint.activate([
             backView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
             backView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
@@ -192,7 +192,6 @@ final class NewTransactionViewController: UIViewController, UITableViewDataSourc
         title = "Add Record"
         navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = UIColor(named: "background")
-        
         configureTableView()
         setupLayout()
     }

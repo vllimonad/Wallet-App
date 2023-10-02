@@ -6,20 +6,19 @@
 //
 
 import UIKit
-import Charts
 
 final class MainViewController: UIViewController {
     
     var transactionsList = [[Transaction]]()
+    var monthIndex = 1
+    var yearIndex = 0
+
     let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         formatter.timeStyle = .none
         return formatter
     }()
-    
-    var monthIndex = 1
-    var yearIndex = 0
     
     let monthLabel: UILabel = {
         var label = UILabel()
@@ -185,17 +184,16 @@ final class MainViewController: UIViewController {
         for i in getExpensesByCategories() {
             sum += i.value
         }
-        return sum == 0 ? 0 : (sum * 100).rounded() / 100
+        return (sum * 100).rounded()/100
     }
     
     func getExpensesByCategories() -> [String: Double] {
         let date = monthLabel.text!.components(separatedBy: " ")
         var values = [String: Double]()
         for day in transactionsList {
-            let formattedDate = formatter.string(from: day[0].date)
-            if formattedDate.hasPrefix(date[0]) && formattedDate.hasSuffix(date[1]){
+            if formatter.string(from: day[0].date).hasPrefix(date[0]) && formatter.string(from: day[0].date).hasSuffix(date[1]){
                 for transaction in day {
-                    if let index = values.index(forKey: transaction.category){
+                    if values.index(forKey: transaction.category) != nil {
                         values[transaction.category]! += (transaction.amount / transaction.exchangeRate * 100).rounded() / 100
                     } else {
                         values[transaction.category] = (transaction.amount / transaction.exchangeRate * 100).rounded() / 100
@@ -207,19 +205,20 @@ final class MainViewController: UIViewController {
     }
     
     func readData() {
-        if let data = UserDefaults.standard.object(forKey: "list") as? Data {
-            do {
-                transactionsList = try JSONDecoder().decode([[Transaction]].self, from: data)
-            } catch {
-                print("reading failed")
-            }
+        if let data = try? Data(contentsOf: getURL()){
+            transactionsList = try! JSONDecoder().decode([[Transaction]].self, from: data)
         }
     }
     
     func saveData() {
         if let data = try? JSONEncoder().encode(transactionsList){
-            UserDefaults.standard.set(data, forKey: "list")
+            try? data.write(to: getURL())
         }
+    }
+    
+    func getURL() -> URL {
+        let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        return url!.appending(path: "lisOfTransactions.txt")
     }
 } 
 

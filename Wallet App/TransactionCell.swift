@@ -54,11 +54,6 @@ final class TransactionCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        setupLayout()
-    }
-    
     func setupLayout() {
         addSubview(icon)
         addSubview(categoryLabel)
@@ -72,10 +67,10 @@ final class TransactionCell: UITableViewCell {
             icon.centerYAnchor.constraint(equalTo: centerYAnchor),
             
             categoryLabel.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 10),
-            categoryLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -2),
+            categoryLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             
             desciptionLabel.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 10),
-            desciptionLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor),
+            desciptionLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 5),
             
             amountLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
             amountLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
