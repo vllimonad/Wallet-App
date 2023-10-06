@@ -9,6 +9,6 @@ Spending Tracker is an iOS application to track and organise spendings by catego
 1. JSON
 2. REST
 3. URLSession
-4. UserDefaults
+4. FileManager
 5. GCD
 
