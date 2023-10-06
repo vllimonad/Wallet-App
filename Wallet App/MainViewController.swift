@@ -10,6 +10,7 @@ import UIKit
 final class MainViewController: UIViewController {
     
     var transactionsList = [[Transaction]]()
+    var selectedDate = [String: String]()
     var monthIndex = 1
     var yearIndex = 0
 
@@ -22,8 +23,6 @@ final class MainViewController: UIViewController {
     
     let monthLabel: UILabel = {
         var label = UILabel()
-        let index = Calendar.current.component(.month, from: Date())
-        label.text = "\(Calendar.current.standaloneMonthSymbols[index-1]) \(Calendar.current.component(.year, from: Date()))"
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -94,7 +93,7 @@ final class MainViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTransaction))
         setupLayout()
-        updateUI()
+        setupDate()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -135,9 +134,15 @@ final class MainViewController: UIViewController {
         ])
     }
     
+    func setupDate() {
+        let index = Calendar.current.component(.month, from: Date())
+        selectedDate["Month"] = Calendar.current.standaloneMonthSymbols[index-1]
+        selectedDate["Year"] = "\(Calendar.current.component(.year, from: Date()))"
+        monthLabel.text = "\(selectedDate["Month"]) \(selectedDate["Year"])"
+    }
+    
     @objc func addTransaction() {
         let transactionView = NewTransactionViewController()
-        transactionView.modalPresentationStyle = .formSheet
         transactionView.delegateController = self
         present(UINavigationController(rootViewController: transactionView), animated: true)
     }
@@ -149,7 +154,8 @@ final class MainViewController: UIViewController {
             monthIndex -= 12
         }
         monthIndex += 1
-        monthLabel.text = "\(Calendar.current.standaloneMonthSymbols[index-monthIndex]) \(Calendar.current.component(.year, from: Date.now.addingTimeInterval(TimeInterval(yearIndex))))"
+        selectedDate["Month"] = Calendar.current.standaloneMonthSymbols[index-monthIndex]
+        selectedDate["Year"] = "\(Calendar.current.component(.year, from: Date.now.addingTimeInterval(TimeInterval(yearIndex))))"
         updateUI()
     }
     
@@ -160,12 +166,18 @@ final class MainViewController: UIViewController {
             monthIndex += 12
         }
         monthIndex -= 1
-        monthLabel.text = "\(Calendar.current.standaloneMonthSymbols[index-monthIndex]) \(Calendar.current.component(.year, from: Date.now.addingTimeInterval(TimeInterval(yearIndex))))"
+        selectedDate["Month"] = Calendar.current.standaloneMonthSymbols[index-monthIndex]
+        selectedDate["Year"] = "\(Calendar.current.component(.year, from: Date.now.addingTimeInterval(TimeInterval(yearIndex))))"
         updateUI()
     }
 
     func updateUI() {
         amountLabel.text = "Total: €\(getTotalMontnSum())"
+        monthLabel.text = selectedDate["Month"]! + selectedDate["Year"]!
+        updateBars()
+    }
+    
+    func updateBars() {
         for view in stackView.arrangedSubviews {
             view.removeFromSuperview()
         }
@@ -188,10 +200,9 @@ final class MainViewController: UIViewController {
     }
     
     func getExpensesByCategories() -> [String: Double] {
-        let date = monthLabel.text!.components(separatedBy: " ")
         var values = [String: Double]()
         for day in transactionsList {
-            if formatter.string(from: day[0].date).hasPrefix(date[0]) && formatter.string(from: day[0].date).hasSuffix(date[1]){
+            if formatter.string(from: day[0].date).hasPrefix(selectedDate["Month"]!) && formatter.string(from: day[0].date).hasSuffix(selectedDate["Year"]!){
                 for transaction in day {
                     if values.index(forKey: transaction.category) != nil {
                         values[transaction.category]! += (transaction.amount / transaction.exchangeRate * 100).rounded() / 100
