@@ -29,7 +29,7 @@ final class TransactionsTableViewController: UIViewController, UITableViewDelega
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = UIColor(named: "background")
+        tableView.backgroundColor = UIColor(named: "cell")
         setupLayout()
     }
     
