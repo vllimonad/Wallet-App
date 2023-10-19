@@ -6,7 +6,7 @@ Spending Tracker is an iOS application to track and organise spendings by catego
 
 `Light Appearance`
 
-<img src="https://github.com/vllimonad/Wallet-App/assets/118442277/62efd397-4f12-4bbf-9a26-9b10e7d42836" width="300" >
+<img src="https://github.com/vllimonad/Wallet-App/assets/118442277/ecbc8476-2f53-4475-a17a-f9766e161e51" width="300" >
 <img src="https://github.com/vllimonad/Wallet-App/assets/118442277/09981ff3-1ff9-42eb-b2fb-159f94d9cc57" width="300" >
 <img src="https://github.com/vllimonad/Wallet-App/assets/118442277/2fb80544-2839-4bcc-8e69-8cea0ddcf89d" width="300" > <br>
 
