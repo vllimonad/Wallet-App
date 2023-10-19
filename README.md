@@ -6,18 +6,18 @@ Spending Tracker is an iOS application to track and organise spendings by catego
 
 `Light Appearance`
 
-<img src="https://github.com/vllimonad/Wallet-App/assets/118442277/ecbc8476-2f53-4475-a17a-f9766e161e51" width="250" >
-<img src="https://github.com/vllimonad/Wallet-App/assets/118442277/09981ff3-1ff9-42eb-b2fb-159f94d9cc57" width="250" >
-<img src="https://github.com/vllimonad/Wallet-App/assets/118442277/2fb80544-2839-4bcc-8e69-8cea0ddcf89d" width="250" > <br>
+<img src="https://github.com/vllimonad/Wallet-App/assets/118442277/ecbc8476-2f53-4475-a17a-f9766e161e51" width="260" >
+<img src="https://github.com/vllimonad/Wallet-App/assets/118442277/09981ff3-1ff9-42eb-b2fb-159f94d9cc57" width="260" >
+<img src="https://github.com/vllimonad/Wallet-App/assets/118442277/2fb80544-2839-4bcc-8e69-8cea0ddcf89d" width="260" > <br>
 
 <br>
 <br>
 
 `Dark Appearance`
 
-<img src="https://github.com/vllimonad/Wallet-App/assets/118442277/39361ac5-f2bf-4fe6-9a8e-e12f81f40fe1" width="300" >
-<img src="https://github.com/vllimonad/Wallet-App/assets/118442277/7079e6b4-a89a-4c82-a3a3-fba3d1c5621f" width="300" >
-<img src="https://github.com/vllimonad/Wallet-App/assets/118442277/64449882-d612-41a5-9bf8-01174f505bdd" width="300" >
+<img src="https://github.com/vllimonad/Wallet-App/assets/118442277/39361ac5-f2bf-4fe6-9a8e-e12f81f40fe1" width="260" >
+<img src="https://github.com/vllimonad/Wallet-App/assets/118442277/7079e6b4-a89a-4c82-a3a3-fba3d1c5621f" width="260" >
+<img src="https://github.com/vllimonad/Wallet-App/assets/118442277/64449882-d612-41a5-9bf8-01174f505bdd" width="260" >
 
 
 ### Frameworks
