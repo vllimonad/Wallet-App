@@ -77,9 +77,26 @@ final class NewTransactionViewController: UIViewController, UITableViewDataSourc
         return picker
     }()
     
-    var notesTextField: NotesTextField = {
-        let textField = NotesTextField(placeholder: "Notes")
-        textField.backgroundColor = .systemGray6
+    var notesView:UIView = {
+        let view = UIView()
+        let label: UILabel = {
+            let label = UILabel()
+            label.text = "Notes"
+            label.textColor = .systemGray
+            label.frame = CGRect(x: 20, y: 15, width: 70, height: 15)
+            return label
+        }()
+        view.addSubview(label)
+        view.backgroundColor = .systemGray6
+        view.layer.cornerRadius = 20
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    var notesTextView: UITextView = {
+        let textField = UITextView()
+        textField.font = UIFont.systemFont(ofSize: 17)
+        textField.textColor = UIColor(named: "text")
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -108,7 +125,7 @@ final class NewTransactionViewController: UIViewController, UITableViewDataSourc
     
     //MARK: second version of ui
     
-    let backView: UIView = {
+    let contentView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 24
         view.layer.shadowColor = UIColor.systemGray.cgColor
@@ -129,61 +146,68 @@ final class NewTransactionViewController: UIViewController, UITableViewDataSourc
     }()
     
     func setupLayout() {
-        view.addSubview(backView)
-        backView.addSubview(amountTextField)
-        backView.addSubview(dollarButton)
-        backView.addSubview(euroButton)
-        backView.addSubview(zlotyButton)
-        backView.addSubview(tableView)
-        backView.addSubview(notesTextField)
-        backView.addSubview(saveButton)
-        backView.addSubview(cancelButton)
+        view.addSubview(contentView)
+        contentView.addSubview(amountTextField)
+        contentView.addSubview(dollarButton)
+        contentView.addSubview(euroButton)
+        contentView.addSubview(zlotyButton)
+        contentView.addSubview(tableView)
+        contentView.addSubview(notesView)
+        contentView.addSubview(saveButton)
+        contentView.addSubview(cancelButton)
+        notesView.addSubview(notesTextView)
         
         NSLayoutConstraint.activate([
-            backView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-            backView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-            backView.topAnchor.constraint(equalTo: view.topAnchor, constant: 120),
-            backView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
+            contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            contentView.topAnchor.constraint(equalTo: view.topAnchor, constant: 120),
+            contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
             
-            amountTextField.topAnchor.constraint(equalTo: backView.topAnchor, constant: 20),
-            amountTextField.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 10),
-            amountTextField.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -10),
+            amountTextField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            amountTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            amountTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             amountTextField.heightAnchor.constraint(equalToConstant: 70),
             
             dollarButton.topAnchor.constraint(equalTo: amountTextField.bottomAnchor, constant: 20),
-            dollarButton.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 20),
-            dollarButton.widthAnchor.constraint(equalTo: backView.widthAnchor, multiplier: 0.24),
+            dollarButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            dollarButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.24),
             dollarButton.heightAnchor.constraint(equalToConstant: 40),
             
             euroButton.centerYAnchor.constraint(equalTo: dollarButton.centerYAnchor),
-            euroButton.centerXAnchor.constraint(equalTo: backView.centerXAnchor),
-            euroButton.widthAnchor.constraint(equalTo: backView.widthAnchor, multiplier: 0.24),
+            euroButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            euroButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.24),
             euroButton.heightAnchor.constraint(equalToConstant: 40),
             
             zlotyButton.centerYAnchor.constraint(equalTo: dollarButton.centerYAnchor),
-            zlotyButton.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -20),
-            zlotyButton.widthAnchor.constraint(equalTo: backView.widthAnchor, multiplier: 0.24),
+            zlotyButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            zlotyButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.24),
             zlotyButton.heightAnchor.constraint(equalToConstant: 40),
             
             tableView.topAnchor.constraint(equalTo: dollarButton.bottomAnchor, constant: 20),
-            tableView.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 10),
-            tableView.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -10),
+            tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             tableView.heightAnchor.constraint(equalToConstant: 140),
             
-            notesTextField.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 20),
-            notesTextField.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 10),
-            notesTextField.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -10),
-            notesTextField.bottomAnchor.constraint(equalTo: cancelButton.topAnchor, constant: -50),
+            notesView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 20),
+            notesView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            notesView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            notesView.bottomAnchor.constraint(equalTo: cancelButton.topAnchor, constant: -50),
             
-            cancelButton.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 20),
-            cancelButton.bottomAnchor.constraint(equalTo: backView.bottomAnchor, constant: -20),
-            cancelButton.widthAnchor.constraint(equalTo: backView.widthAnchor, multiplier: 0.42),
+            notesTextView.topAnchor.constraint(equalTo: notesView.topAnchor, constant: 30),
+            notesTextView.leadingAnchor.constraint(equalTo: notesView.leadingAnchor, constant: 15),
+            notesTextView.trailingAnchor.constraint(equalTo: notesView.trailingAnchor, constant: -15),
+            notesTextView.bottomAnchor.constraint(equalTo: notesView.bottomAnchor, constant: -10),
+            
+            cancelButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            cancelButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
+            cancelButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.42),
             cancelButton.heightAnchor.constraint(equalToConstant: 40),
             
-            saveButton.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -20),
-            saveButton.bottomAnchor.constraint(equalTo: backView.bottomAnchor, constant: -20),
-            saveButton.widthAnchor.constraint(equalTo: backView.widthAnchor, multiplier: 0.42),
+            saveButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            saveButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
+            saveButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.42),
             saveButton.heightAnchor.constraint(equalToConstant: 40),
+            
         ])
     }
 
@@ -244,7 +268,7 @@ final class NewTransactionViewController: UIViewController, UITableViewDataSourc
     @objc func saveTransaction() {
         guard let amount = amountTextField.text else { return }
         guard let category = categoryCellLabel.text, category != "Required" else { return }
-        let description = notesTextField.text == nil ? "" : notesTextField.text!
+        let description = notesTextView.text == nil ? "" : notesTextView.text!
         let transaction = Transaction(amount: Double(amount)!, currency: currency, date: datePicker.date, category: category, description: description, exchangeRate: 1.0)
         getExchangeRate(for: transaction)
         dismiss(animated: true)
