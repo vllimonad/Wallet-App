@@ -229,7 +229,7 @@ final class MainViewController: UIViewController {
     
     func getURL() -> URL {
         let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-        print(url?.path())
+        print(url!.path())
         return url!.appending(path: "lisOfTransactions.txt")
     }
 } 

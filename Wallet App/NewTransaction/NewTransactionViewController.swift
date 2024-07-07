@@ -97,6 +97,7 @@ final class NewTransactionViewController: UIViewController, UITableViewDataSourc
         let textField = UITextView()
         textField.font = UIFont.systemFont(ofSize: 17)
         textField.textColor = UIColor(named: "text")
+        textField.backgroundColor = .systemGray6
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
