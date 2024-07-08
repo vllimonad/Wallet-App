@@ -55,16 +55,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2B00FAAA2ABCFB48001D7E1E /* Application */ = {
-			isa = PBXGroup;
-			children = (
-				2B5EC0902AA34EC900305D14 /* ViewController.swift */,
-				2B5EC08C2AA34EC900305D14 /* AppDelegate.swift */,
-				2B5EC08E2AA34EC900305D14 /* SceneDelegate.swift */,
-			);
-			name = Application;
-			sourceTree = "<group>";
-		};
 		2B00FAAB2ABCFB6B001D7E1E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -73,16 +63,6 @@
 				2B5EC09A2AA34ECA00305D14 /* Info.plist */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		2B00FAAC2ABCFE5B001D7E1E /* TransactionsList */ = {
-			isa = PBXGroup;
-			children = (
-				2B5EC0A62AA359E700305D14 /* TransactionsTableViewController.swift */,
-				2B5EC0AC2AA37A4F00305D14 /* TransactionCell.swift */,
-				2B5EC0A82AA3608B00305D14 /* Transaction.swift */,
-			);
-			name = TransactionsList;
 			sourceTree = "<group>";
 		};
 		2B00FAAD2ABCFEA7001D7E1E /* NewTransaction */ = {
@@ -95,15 +75,6 @@
 				2BF1760F2AAE0C0900C6AFD3 /* Rate.swift */,
 			);
 			path = NewTransaction;
-			sourceTree = "<group>";
-		};
-		2B00FAAE2ABCFF0B001D7E1E /* MainView */ = {
-			isa = PBXGroup;
-			children = (
-				2B5EC0A22AA3587500305D14 /* MainViewController.swift */,
-				2B080BB22AC0A01100BC89E3 /* BarView.swift */,
-			);
-			name = MainView;
 			sourceTree = "<group>";
 		};
 		2B5EC0802AA34EC900305D14 = {
@@ -125,13 +96,42 @@
 		2B5EC08B2AA34EC900305D14 /* Wallet App */ = {
 			isa = PBXGroup;
 			children = (
-				2B00FAAA2ABCFB48001D7E1E /* Application */,
-				2B00FAAE2ABCFF0B001D7E1E /* MainView */,
+				2BCCEF472C3B646A00E24A57 /* Application */,
+				2BCCEF462C3B645100E24A57 /* TransactionsList */,
+				2BCCEF412C3B63D200E24A57 /* MainView */,
 				2B00FAAD2ABCFEA7001D7E1E /* NewTransaction */,
-				2B00FAAC2ABCFE5B001D7E1E /* TransactionsList */,
 				2B00FAAB2ABCFB6B001D7E1E /* Resources */,
 			);
 			path = "Wallet App";
+			sourceTree = "<group>";
+		};
+		2BCCEF412C3B63D200E24A57 /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				2B5EC0A22AA3587500305D14 /* MainViewController.swift */,
+				2B080BB22AC0A01100BC89E3 /* BarView.swift */,
+			);
+			path = MainView;
+			sourceTree = "<group>";
+		};
+		2BCCEF462C3B645100E24A57 /* TransactionsList */ = {
+			isa = PBXGroup;
+			children = (
+				2B5EC0A62AA359E700305D14 /* TransactionsTableViewController.swift */,
+				2B5EC0AC2AA37A4F00305D14 /* TransactionCell.swift */,
+				2B5EC0A82AA3608B00305D14 /* Transaction.swift */,
+			);
+			path = TransactionsList;
+			sourceTree = "<group>";
+		};
+		2BCCEF472C3B646A00E24A57 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				2B5EC0902AA34EC900305D14 /* ViewController.swift */,
+				2B5EC08C2AA34EC900305D14 /* AppDelegate.swift */,
+				2B5EC08E2AA34EC900305D14 /* SceneDelegate.swift */,
+			);
+			path = Application;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
