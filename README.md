@@ -1,5 +1,5 @@
-# Spending Tracker
-Spending Tracker is an iOS application to track and organise spendings by categories and dates.
+# Wallet App
+Designed and developed an iOS application using UIKit framework that helps user  to build a picture of their financial assets by monitoring and controlling their expenses.
 
 <br>
 <br>
