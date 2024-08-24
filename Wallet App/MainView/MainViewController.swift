@@ -13,7 +13,7 @@ final class MainViewController: UIViewController {
     var selectedDate = [String: String]()
     var monthIndex = 1
     var yearIndex = 0
-
+    
     let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
@@ -32,7 +32,7 @@ final class MainViewController: UIViewController {
         var button = UIButton()
         let config = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular)
         button.setImage(UIImage(systemName: "chevron.backward", withConfiguration: config), for: .normal)
-        button.addTarget(self, action: #selector(previousMonth), for: .touchUpInside)
+        button.addTarget(self, action: #selector(showPreviousMonth), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -41,7 +41,7 @@ final class MainViewController: UIViewController {
         var button = UIButton()
         let config = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular)
         button.setImage(UIImage(systemName: "chevron.forward", withConfiguration: config), for: .normal)
-        button.addTarget(self, action: #selector(nextMonth), for: .touchUpInside)
+        button.addTarget(self, action: #selector(showNextMonth), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -85,7 +85,7 @@ final class MainViewController: UIViewController {
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "background")
@@ -100,6 +100,10 @@ final class MainViewController: UIViewController {
         super.viewWillAppear(animated)
         updateUI()
     }
+    
+}
+
+extension MainViewController {
     
     func setupLayout() {
         view.addSubview(monthStackView)
@@ -141,57 +145,7 @@ final class MainViewController: UIViewController {
         monthLabel.text = "\(selectedDate["Month"]) \(selectedDate["Year"])"
     }
     
-    @objc func addTransaction() {
-        let transactionView = NewTransactionViewController()
-        transactionView.delegateController = self
-        present(UINavigationController(rootViewController: transactionView), animated: true)
-    }
-    
-    @objc func previousMonth() {
-        let index = Calendar.current.component(.month, from: Date())
-        if index - monthIndex - 1 < 0 {
-            yearIndex -= 31_577_600
-            monthIndex -= 12
-        }
-        monthIndex += 1
-        selectedDate["Month"] = Calendar.current.standaloneMonthSymbols[index-monthIndex]
-        selectedDate["Year"] = "\(Calendar.current.component(.year, from: Date.now.addingTimeInterval(TimeInterval(yearIndex))))"
-        updateUI()
-    }
-    
-    @objc func nextMonth() {
-        let index = Calendar.current.component(.month, from: Date())
-        if index - monthIndex + 1 > 11 {
-            yearIndex += 31_577_600
-            monthIndex += 12
-        }
-        monthIndex -= 1
-        selectedDate["Month"] = Calendar.current.standaloneMonthSymbols[index-monthIndex]
-        selectedDate["Year"] = "\(Calendar.current.component(.year, from: Date.now.addingTimeInterval(TimeInterval(yearIndex))))"
-        updateUI()
-    }
-
-    func updateUI() {
-        amountLabel.text = "Total: €\(getTotalMontnSum())"
-        monthLabel.text = selectedDate["Month"]! + selectedDate["Year"]!
-        updateBars()
-    }
-    
-    func updateBars() {
-        for view in stackView.arrangedSubviews {
-            view.removeFromSuperview()
-        }
-        let values = getExpensesByCategories().sorted(by: { $0.value > $1.value } )
-        for value in values {
-            let bar = BarView()
-            bar.amountLabel.text = "\(value.value)"
-            bar.categoryLabel.text = value.key
-            bar.progressView.setProgress(Float(value.value/values.first!.value), animated: false)
-            stackView.addArrangedSubview(bar)
-        }
-    }
-    
-    func getTotalMontnSum() -> Double {
+    func getTotalSum() -> Double {
         var sum: Double = 0
         for i in getExpensesByCategories() {
             sum += i.value
@@ -215,27 +169,59 @@ final class MainViewController: UIViewController {
         return values
     }
     
-    func readData() {
-        if let data = try? Data(contentsOf: getURL()){
-            transactionsList = try! JSONDecoder().decode([[Transaction]].self, from: data)
+    func updateUI() {
+        amountLabel.text = "Total: €\(getTotalSum())"
+        monthLabel.text = selectedDate["Month"]! + selectedDate["Year"]!
+        updateBars()
+    }
+    
+    func updateBars() {
+        for view in stackView.arrangedSubviews {
+            view.removeFromSuperview()
+        }
+        let values = getExpensesByCategories().sorted(by: { $0.value > $1.value } )
+        for value in values {
+            let bar = BarView()
+            bar.amountLabel.text = "\(value.value)"
+            bar.categoryLabel.text = value.key
+            bar.progressView.setProgress(Float(value.value/values.first!.value), animated: false)
+            stackView.addArrangedSubview(bar)
         }
     }
     
-    func saveData() {
-        if let data = try? JSONEncoder().encode(transactionsList){
-            try? data.write(to: getURL())
-        }
+    @objc func addTransaction() {
+        let transactionView = NewTransactionViewController()
+        transactionView.delegateController = self
+        present(UINavigationController(rootViewController: transactionView), animated: true)
     }
     
-    func getURL() -> URL {
-        let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-        print(url!.path())
-        return url!.appending(path: "lisOfTransactions.txt")
+    @objc func showPreviousMonth() {
+        let index = Calendar.current.component(.month, from: Date())
+        if index - monthIndex - 1 < 0 {
+            yearIndex -= 31_577_600
+            monthIndex -= 12
+        }
+        monthIndex += 1
+        selectedDate["Month"] = Calendar.current.standaloneMonthSymbols[index-monthIndex]
+        selectedDate["Year"] = "\(Calendar.current.component(.year, from: Date.now.addingTimeInterval(TimeInterval(yearIndex))))"
+        updateUI()
     }
-} 
+    
+    @objc func showNextMonth() {
+        let index = Calendar.current.component(.month, from: Date())
+        if index - monthIndex + 1 > 11 {
+            yearIndex += 31_577_600
+            monthIndex += 12
+        }
+        monthIndex -= 1
+        selectedDate["Month"] = Calendar.current.standaloneMonthSymbols[index-monthIndex]
+        selectedDate["Year"] = "\(Calendar.current.component(.year, from: Date.now.addingTimeInterval(TimeInterval(yearIndex))))"
+        updateUI()
+    }
+}
 
-extension MainViewController: NewTransactionViewControllerDelegate, TransactionsTableViewControllerDelegate {
-
+extension MainViewController: NewTransactionViewControllerDelegate {
+    
     func addNewTransaction(_ transaction: Transaction) {
         if let index = transactionsList.firstIndex(where: { formatter.string(from: $0[0].date) == formatter.string(from: transaction.date)}) {
             transactionsList[index].insert(transaction, at: 0)
@@ -244,8 +230,11 @@ extension MainViewController: NewTransactionViewControllerDelegate, Transactions
         }
         transactionsList.sort(by: { $0[0].date > $1[0].date })
         updateUI()
-        saveData()
+        DataManager.shared.saveData(transactionsList)
     }
+}
+
+extension MainViewController: TransactionsTableViewControllerDelegate {
     
     func getTransactionsList() -> [[Transaction]] {
         return transactionsList
@@ -254,11 +243,6 @@ extension MainViewController: NewTransactionViewControllerDelegate, Transactions
     func setTransactionsList(_ list: [[Transaction]]) {
         transactionsList = list
         updateUI()
-        saveData()
+        DataManager.shared.saveData(transactionsList)
     }
-}
-
-protocol TransactionsTableViewControllerDelegate {
-    func getTransactionsList() -> [[Transaction]]
-    func setTransactionsList(_ list: [[Transaction]])
 }

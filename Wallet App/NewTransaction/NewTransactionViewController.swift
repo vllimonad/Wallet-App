@@ -13,7 +13,7 @@ enum Currency: Codable{
     case eur
 }
 
-final class NewTransactionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+final class NewTransactionViewController: UIViewController {
     
     var options = ["Category", "Date"]
     var currency = Currency.eur
@@ -146,6 +146,18 @@ final class NewTransactionViewController: UIViewController, UITableViewDataSourc
         return label
     }()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        title = "Add Record"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        view.backgroundColor = UIColor(named: "background")
+        configureTableView()
+        setupLayout()
+    }
+}
+
+extension NewTransactionViewController {
+    
     func setupLayout() {
         view.addSubview(contentView)
         contentView.addSubview(amountTextField)
@@ -211,15 +223,6 @@ final class NewTransactionViewController: UIViewController, UITableViewDataSourc
             
         ])
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        title = "Add Record"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        view.backgroundColor = UIColor(named: "background")
-        configureTableView()
-        setupLayout()
-    }
     
     func configureTableView() {
         tableView.delegate = self
@@ -227,6 +230,64 @@ final class NewTransactionViewController: UIViewController, UITableViewDataSourc
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "option")
         tableView.backgroundColor = .clear
     }
+    
+    func getRates(for transaction: Transaction) {
+        NetworkManager.shared.fetchRate { response in
+            switch response {
+            case .success(let rate):
+                self.setRates(transaction, rate)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+   
+    func setRates(_ transaction: Transaction, _ rate: Rate) {
+        switch transaction.currency {
+        case .usd: transaction.exchangeRate = rate.eur["usd"]!
+        case .pln: transaction.exchangeRate = rate.eur["pln"]!
+        default: break
+        }
+        DispatchQueue.main.async { [weak self] in
+            self!.delegateController?.addNewTransaction(transaction)
+        }
+    }
+    
+    @objc func cancelTransaction() {
+        dismiss(animated: true)
+    }
+    
+    @objc func saveTransaction() {
+        guard let amount = amountTextField.text else { return }
+        guard let category = categoryCellLabel.text, category != "Required" else { return }
+        let description = notesTextView.text == nil ? "" : notesTextView.text!
+        let transaction = Transaction(amount: Double(amount)!, currency: currency, date: datePicker.date, category: category, description: description, exchangeRate: 1.0)
+        getRates(for: transaction)
+        dismiss(animated: true)
+    }
+    
+    @objc func dollarButtonTapped() {
+        currency = .usd
+        dollarButton.backgroundColor = .systemGray4
+        euroButton.backgroundColor = .systemGray6
+        zlotyButton.backgroundColor = .systemGray6
+    }
+    @objc func euroButtonTapped() {
+        currency = .eur
+        dollarButton.backgroundColor = .systemGray6
+        euroButton.backgroundColor = .systemGray4
+        zlotyButton.backgroundColor = .systemGray6
+    }
+    @objc func zlotyButtonTapped() {
+        currency = .pln
+        dollarButton.backgroundColor = .systemGray6
+        euroButton.backgroundColor = .systemGray6
+        zlotyButton.backgroundColor = .systemGray4
+    }
+}
+
+
+extension NewTransactionViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 2
@@ -260,54 +321,6 @@ final class NewTransactionViewController: UIViewController, UITableViewDataSourc
             present(UINavigationController(rootViewController: table), animated: true)
         }
         tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    @objc func cancelTransaction() {
-        dismiss(animated: true)
-    }
-    
-    @objc func saveTransaction() {
-        guard let amount = amountTextField.text else { return }
-        guard let category = categoryCellLabel.text, category != "Required" else { return }
-        let description = notesTextView.text == nil ? "" : notesTextView.text!
-        let transaction = Transaction(amount: Double(amount)!, currency: currency, date: datePicker.date, category: category, description: description, exchangeRate: 1.0)
-        getExchangeRate(for: transaction)
-        dismiss(animated: true)
-    }
-    
-    func getExchangeRate(for transaction: Transaction) {
-        let request = URLRequest(url: URL(string: "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur.json")!)
-        let task = URLSession.shared.dataTask(with: request) { data,_,error in
-        guard let data = data, let rate = try? JSONDecoder().decode(Rate.self, from: data) else { return }
-            switch transaction.currency {
-            case .usd: transaction.exchangeRate = rate.eur["usd"]!
-            case .pln: transaction.exchangeRate = rate.eur["pln"]!
-            default: break
-            }
-            DispatchQueue.main.async { [weak self] in
-                self!.delegateController?.addNewTransaction(transaction)
-            }
-        }
-        task.resume()
-    }
-    
-    @objc func dollarButtonTapped() {
-        currency = .usd
-        dollarButton.backgroundColor = .systemGray4
-        euroButton.backgroundColor = .systemGray6
-        zlotyButton.backgroundColor = .systemGray6
-    }
-    @objc func euroButtonTapped() {
-        currency = .eur
-        dollarButton.backgroundColor = .systemGray6
-        euroButton.backgroundColor = .systemGray4
-        zlotyButton.backgroundColor = .systemGray6
-    }
-    @objc func zlotyButtonTapped() {
-        currency = .pln
-        dollarButton.backgroundColor = .systemGray6
-        euroButton.backgroundColor = .systemGray6
-        zlotyButton.backgroundColor = .systemGray4
     }
 }
 

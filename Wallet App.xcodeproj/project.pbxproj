@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2B080BB32AC0A01100BC89E3 /* BarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B080BB22AC0A01100BC89E3 /* BarView.swift */; };
+		2B08DC822C78F4EF003F49D0 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B08DC812C78F4EF003F49D0 /* DataManager.swift */; };
+		2B08DC842C78FD03003F49D0 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B08DC832C78FD03003F49D0 /* NetworkManager.swift */; };
 		2B5EC08D2AA34EC900305D14 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC08C2AA34EC900305D14 /* AppDelegate.swift */; };
 		2B5EC08F2AA34EC900305D14 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC08E2AA34EC900305D14 /* SceneDelegate.swift */; };
 		2B5EC0912AA34EC900305D14 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC0902AA34EC900305D14 /* ViewController.swift */; };
@@ -26,6 +28,8 @@
 
 /* Begin PBXFileReference section */
 		2B080BB22AC0A01100BC89E3 /* BarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarView.swift; sourceTree = "<group>"; };
+		2B08DC812C78F4EF003F49D0 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		2B08DC832C78FD03003F49D0 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		2B5EC0892AA34EC900305D14 /* Wallet App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wallet App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B5EC08C2AA34EC900305D14 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B5EC08E2AA34EC900305D14 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -77,6 +81,15 @@
 			path = NewTransaction;
 			sourceTree = "<group>";
 		};
+		2B08DC852C78FD14003F49D0 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				2B08DC832C78FD03003F49D0 /* NetworkManager.swift */,
+				2B08DC812C78F4EF003F49D0 /* DataManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		2B5EC0802AA34EC900305D14 = {
 			isa = PBXGroup;
 			children = (
@@ -96,6 +109,7 @@
 		2B5EC08B2AA34EC900305D14 /* Wallet App */ = {
 			isa = PBXGroup;
 			children = (
+				2B08DC852C78FD14003F49D0 /* Managers */,
 				2BCCEF472C3B646A00E24A57 /* Application */,
 				2BCCEF462C3B645100E24A57 /* TransactionsList */,
 				2BCCEF412C3B63D200E24A57 /* MainView */,
@@ -207,6 +221,7 @@
 				2B5EC0912AA34EC900305D14 /* ViewController.swift in Sources */,
 				2B5EC0A72AA359E700305D14 /* TransactionsTableViewController.swift in Sources */,
 				2B5EC0A92AA3608B00305D14 /* Transaction.swift in Sources */,
+				2B08DC822C78F4EF003F49D0 /* DataManager.swift in Sources */,
 				2B5EC08D2AA34EC900305D14 /* AppDelegate.swift in Sources */,
 				2BC96F2B2AAB761D001D7042 /* CategoryViewCell.swift in Sources */,
 				2B080BB32AC0A01100BC89E3 /* BarView.swift in Sources */,
@@ -215,6 +230,7 @@
 				2B85415B2AA545DE00ADECEB /* NotesTextField.swift in Sources */,
 				2B5EC0AD2AA37A4F00305D14 /* TransactionCell.swift in Sources */,
 				2BF176102AAE0C0900C6AFD3 /* Rate.swift in Sources */,
+				2B08DC842C78FD03003F49D0 /* NetworkManager.swift in Sources */,
 				2B5EC0A32AA3587500305D14 /* MainViewController.swift in Sources */,
 				2BC96F2D2AAB7652001D7042 /* TableOfCategoriesViewController.swift in Sources */,
 			);

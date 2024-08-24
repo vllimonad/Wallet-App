@@ -15,11 +15,11 @@ final class ViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "cell")
-        setupAppearance()
+        setTabBarAppearance()
         addContlollers()
     }
     
-    func setupAppearance() {
+    func setTabBarAppearance() {
         let appearance = UITabBarAppearance()
         appearance.configureWithTransparentBackground()
         tabBar.standardAppearance = appearance
@@ -30,7 +30,7 @@ final class ViewController: UITabBarController {
         mainView.tabBarItem = UITabBarItem(title: "Statistics", image: UIImage(named: "statisticsIcon"), tag: 0)
         tableView.tabBarItem = UITabBarItem(title: "Records", image: UIImage(named: "history"), tag: 1)
         tableView.transactionsTableViewControllerDelegate = mainView
-        mainView.readData()
+        mainView.transactionsList = DataManager.shared.readData()
         viewControllers = [UINavigationController(rootViewController: mainView), tableView]
     }
 }

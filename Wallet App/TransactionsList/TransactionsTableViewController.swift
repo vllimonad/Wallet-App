@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TransactionsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+final class TransactionsTableViewController: UIViewController {
     
     var transactionsList = [[Transaction]]()
     var transactionsTableViewControllerDelegate: TransactionsTableViewControllerDelegate?
@@ -24,7 +24,7 @@ final class TransactionsTableViewController: UIViewController, UITableViewDelega
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
@@ -52,9 +52,10 @@ final class TransactionsTableViewController: UIViewController, UITableViewDelega
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
+}
 
-    // MARK: - Table view data source
-
+extension TransactionsTableViewController: UITableViewDataSource, UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return transactionsList[section].count
     }
@@ -92,4 +93,10 @@ final class TransactionsTableViewController: UIViewController, UITableViewDelega
         })])
         return swipe
     }
+}
+
+
+protocol TransactionsTableViewControllerDelegate {
+    func getTransactionsList() -> [[Transaction]]
+    func setTransactionsList(_ list: [[Transaction]])
 }

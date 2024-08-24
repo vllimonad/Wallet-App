@@ -19,7 +19,7 @@ final class CategoryViewCell: UITableViewCell {
     }()
     
     var categoryLabel: UILabel = {
-        let label = UILabel()
+    let label = UILabel()
         label.numberOfLines = 1
         label.textAlignment = .natural
         label.layer.borderColor = UIColor.black.cgColor
