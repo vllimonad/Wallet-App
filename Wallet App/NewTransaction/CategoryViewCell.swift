@@ -19,7 +19,7 @@ final class CategoryViewCell: UITableViewCell {
     }()
     
     var categoryLabel: UILabel = {
-    let label = UILabel()
+        let label = UILabel()
         label.numberOfLines = 1
         label.textAlignment = .natural
         label.layer.borderColor = UIColor.black.cgColor
@@ -29,17 +29,23 @@ final class CategoryViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupSubviews()
         setupLayout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+extension CategoryViewCell {
     
-    func setupLayout() {
+    func setupSubviews() {
         addSubview(icon)
         addSubview(categoryLabel)
-        
+    }
+    
+    func setupLayout() {
         NSLayoutConstraint.activate([
             icon.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             icon.widthAnchor.constraint(equalToConstant: 50),
@@ -50,5 +56,4 @@ final class CategoryViewCell: UITableViewCell {
             categoryLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
-    
 }

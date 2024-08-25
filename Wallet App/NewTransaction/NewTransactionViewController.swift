@@ -148,17 +148,22 @@ final class NewTransactionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Add Record"
-        navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = UIColor(named: "background")
-        configureTableView()
+        setupNavigationBarTitle()
+        setupSubviews()
         setupLayout()
+        configureTableView()
     }
 }
 
 extension NewTransactionViewController {
     
-    func setupLayout() {
+    func setupNavigationBarTitle() {
+        title = "Add Record"
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    func setupSubviews() {
         view.addSubview(contentView)
         contentView.addSubview(amountTextField)
         contentView.addSubview(dollarButton)
@@ -169,7 +174,9 @@ extension NewTransactionViewController {
         contentView.addSubview(saveButton)
         contentView.addSubview(cancelButton)
         notesView.addSubview(notesTextView)
-        
+    }
+    
+    func setupLayout() {
         NSLayoutConstraint.activate([
             contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
             contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
@@ -220,7 +227,6 @@ extension NewTransactionViewController {
             saveButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
             saveButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.42),
             saveButton.heightAnchor.constraint(equalToConstant: 40),
-            
         ])
     }
     

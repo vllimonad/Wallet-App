@@ -14,11 +14,8 @@ final class TableOfCategoriesViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Categories"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        tableView.register(CategoryViewCell.self, forCellReuseIdentifier: "category")
-        tableView.rowHeight = 70
-        tableView.backgroundColor = UIColor(named: "cell")
+        setupNavigationBarTitle()
+        configureTableView()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -37,5 +34,18 @@ final class TableOfCategoriesViewController: UITableViewController {
         selectItem!(categories[indexPath.row])
         dismiss(animated: true)
     }
+}
+
+extension TableOfCategoriesViewController {
     
+    func setupNavigationBarTitle() {
+        title = "Categories"
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    func configureTableView() {
+        tableView.register(CategoryViewCell.self, forCellReuseIdentifier: "category")
+        tableView.rowHeight = 70
+        tableView.backgroundColor = UIColor(named: "cell")
+    }
 }

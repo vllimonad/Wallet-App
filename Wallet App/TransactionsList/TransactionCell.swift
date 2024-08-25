@@ -47,6 +47,7 @@ final class TransactionCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupSubviews()
         setupLayout()
     }
     
@@ -54,12 +55,14 @@ final class TransactionCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupLayout() {
+    func setupSubviews() {
         addSubview(icon)
         addSubview(categoryLabel)
         addSubview(desciptionLabel)
         addSubview(amountLabel)
-        
+    }
+    
+    func setupLayout() {
         NSLayoutConstraint.activate([
             icon.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             icon.widthAnchor.constraint(equalToConstant: 50),
@@ -74,7 +77,6 @@ final class TransactionCell: UITableViewCell {
             
             amountLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
             amountLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-
         ])
     }
 }

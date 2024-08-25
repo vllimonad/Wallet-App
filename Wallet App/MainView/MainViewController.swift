@@ -89,9 +89,8 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "background")
-        title = "Statistics"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTransaction))
+        setupNavigationBar()
+        setupSubviews()
         setupLayout()
         setupDate()
     }
@@ -105,17 +104,25 @@ final class MainViewController: UIViewController {
 
 extension MainViewController {
     
-    func setupLayout() {
+    func setupNavigationBar() {
+        title = "Statistics"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTransaction))
+    }
+    
+    func setupSubviews() {
         view.addSubview(monthStackView)
         monthStackView.addArrangedSubview(backwardButton)
         monthStackView.addArrangedSubview(monthLabel)
         monthStackView.addArrangedSubview(forwardButton)
+        
         view.addSubview(backView)
         backView.addSubview(amountLabel)
         backView.addSubview(stackView)
-        
+    }
+    
+    func setupLayout() {
         NSLayoutConstraint.activate([
-            
             backwardButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25),
             forwardButton.widthAnchor.constraint(equalTo: backwardButton.widthAnchor),
 

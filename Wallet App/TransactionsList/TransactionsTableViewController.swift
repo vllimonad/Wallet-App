@@ -27,10 +27,8 @@ final class TransactionsTableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.backgroundColor = UIColor(named: "cell")
         setupLayout()
+        configureTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,6 +40,9 @@ final class TransactionsTableViewController: UIViewController {
         super.viewWillDisappear(animated)
         transactionsTableViewControllerDelegate!.setTransactionsList(transactionsList)
     }
+}
+
+extension TransactionsTableViewController {
     
     func setupLayout() {
         view.addSubview(tableView)
@@ -51,6 +52,12 @@ final class TransactionsTableViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+    }
+    
+    func configureTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.backgroundColor = UIColor(named: "cell")
     }
 }
 

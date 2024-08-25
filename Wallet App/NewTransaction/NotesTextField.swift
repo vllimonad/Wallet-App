@@ -20,6 +20,15 @@ final class NotesTextField: UITextField {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setupTextField(_ placeholder: String) {
+        textColor = UIColor(named: "text")
+        layer.cornerRadius = 20
+        attributedPlaceholder = NSAttributedString(string: placeholder)
+    }
+}
+
+extension NotesTextField {
+    
     override func textRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.inset(by: padding)
     }
@@ -30,11 +39,5 @@ final class NotesTextField: UITextField {
     
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.inset(by: padding)
-    }
-    
-    func setupTextField(_ placeholder: String) {
-        textColor = UIColor(named: "text")
-        layer.cornerRadius = 20
-        attributedPlaceholder = NSAttributedString(string: placeholder)
     }
 }

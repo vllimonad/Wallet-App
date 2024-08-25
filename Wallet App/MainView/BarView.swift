@@ -32,6 +32,7 @@ class BarView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupSubviews()
         setupLayout()
     }
     
@@ -39,11 +40,13 @@ class BarView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupLayout() {
+    func setupSubviews() {
         addSubview(categoryLabel)
         addSubview(amountLabel)
         addSubview(progressView)
-        
+    }
+    
+    func setupLayout() {
         NSLayoutConstraint.activate([
             categoryLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             categoryLabel.topAnchor.constraint(equalTo: topAnchor),
