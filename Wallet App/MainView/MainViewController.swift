@@ -99,7 +99,6 @@ final class MainViewController: UIViewController {
         super.viewWillAppear(animated)
         updateUI()
     }
-    
 }
 
 extension MainViewController {
@@ -107,7 +106,7 @@ extension MainViewController {
     func setupNavigationBar() {
         title = "Statistics"
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTransaction))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
     }
     
     func setupSubviews() {
@@ -196,9 +195,10 @@ extension MainViewController {
         }
     }
     
-    @objc func addTransaction() {
+    @objc func addButtonTapped() {
         let transactionView = NewTransactionViewController()
-        transactionView.delegateController = self
+        transactionView.delegate = self
+        transactionView.modalPresentationStyle = .overCurrentContext
         present(UINavigationController(rootViewController: transactionView), animated: true)
     }
     

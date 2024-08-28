@@ -19,6 +19,7 @@
 		2B5EC0A72AA359E700305D14 /* TransactionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC0A62AA359E700305D14 /* TransactionsTableViewController.swift */; };
 		2B5EC0A92AA3608B00305D14 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC0A82AA3608B00305D14 /* Transaction.swift */; };
 		2B5EC0AD2AA37A4F00305D14 /* TransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC0AC2AA37A4F00305D14 /* TransactionCell.swift */; };
+		2B6AABB22C7F744A006B968A /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6AABB12C7F744A006B968A /* CustomButton.swift */; };
 		2B8541592AA507EF00ADECEB /* NewTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8541582AA507EF00ADECEB /* NewTransactionViewController.swift */; };
 		2B85415B2AA545DE00ADECEB /* NotesTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B85415A2AA545DE00ADECEB /* NotesTextField.swift */; };
 		2BC96F2B2AAB761D001D7042 /* CategoryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */; };
@@ -41,6 +42,7 @@
 		2B5EC0A62AA359E700305D14 /* TransactionsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsTableViewController.swift; sourceTree = "<group>"; };
 		2B5EC0A82AA3608B00305D14 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		2B5EC0AC2AA37A4F00305D14 /* TransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCell.swift; sourceTree = "<group>"; };
+		2B6AABB12C7F744A006B968A /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		2B8541582AA507EF00ADECEB /* NewTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTransactionViewController.swift; sourceTree = "<group>"; };
 		2B85415A2AA545DE00ADECEB /* NotesTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTextField.swift; sourceTree = "<group>"; };
 		2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewCell.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 				2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */,
 				2B85415A2AA545DE00ADECEB /* NotesTextField.swift */,
 				2BF1760F2AAE0C0900C6AFD3 /* Rate.swift */,
+				2B6AABB12C7F744A006B968A /* CustomButton.swift */,
 			);
 			path = NewTransaction;
 			sourceTree = "<group>";
@@ -224,6 +227,7 @@
 				2B08DC822C78F4EF003F49D0 /* DataManager.swift in Sources */,
 				2B5EC08D2AA34EC900305D14 /* AppDelegate.swift in Sources */,
 				2BC96F2B2AAB761D001D7042 /* CategoryViewCell.swift in Sources */,
+				2B6AABB22C7F744A006B968A /* CustomButton.swift in Sources */,
 				2B080BB32AC0A01100BC89E3 /* BarView.swift in Sources */,
 				2B8541592AA507EF00ADECEB /* NewTransactionViewController.swift in Sources */,
 				2B5EC08F2AA34EC900305D14 /* SceneDelegate.swift in Sources */,

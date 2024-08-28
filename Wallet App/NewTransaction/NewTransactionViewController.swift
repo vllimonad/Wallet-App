@@ -7,48 +7,24 @@
 
 import UIKit
 
-enum Currency: Codable{
-    case pln
-    case usd
-    case eur
+enum Currency: String, Codable {
+    case pln = "PLN"
+    case usd = "USD"
+    case eur = "EUR"
 }
 
 final class NewTransactionViewController: UIViewController {
     
-    var options = ["Category", "Date"]
-    var currency = Currency.eur
-    var delegateController: NewTransactionViewControllerDelegate?
+    var delegate: NewTransactionViewControllerDelegate?
     
-    var dollarButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("USD", for: .normal)
-        button.setTitleColor(UIColor(named: "text"), for: .normal)
-        button.backgroundColor = .systemGray6
-        button.layer.cornerRadius = 20
-        button.addTarget(self, action: #selector(dollarButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    var euroButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("EUR", for: .normal)
-        button.setTitleColor(UIColor(named: "text"), for: .normal)
-        button.backgroundColor = .systemGray4
-        button.layer.cornerRadius = 20
-        button.addTarget(self, action: #selector(euroButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    var zlotyButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("PLN", for: .normal)
-        button.setTitleColor(UIColor(named: "text"), for: .normal)
-        button.backgroundColor = .systemGray6
-        button.layer.cornerRadius = 20
-        button.addTarget(self, action: #selector(zlotyButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    var options = ["Category", "Date"]
+    var selectedCurrency = Currency.pln
+    
+    var usdButton = CustomButton(type: .system)
+    var eurButton = CustomButton(type: .system)
+    var plnButton = CustomButton(type: .system)
+    var saveButton = CustomButton(type: .system)
+    var cancelButton = CustomButton(type: .system)
     
     var amountTextField: UITextField = {
         let textField = UITextField()
@@ -102,28 +78,6 @@ final class NewTransactionViewController: UIViewController {
         return textField
     }()
     
-    var saveButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.backgroundColor = .systemGray5
-        button.setTitle("Save", for: .normal)
-        button.setTitleColor(UIColor(named: "text"), for: .normal)
-        button.layer.cornerRadius = 17
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(saveTransaction), for: .touchUpInside)
-        return button
-    }()
-    
-    var cancelButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.backgroundColor = .systemGray5
-        button.setTitle("Cancel", for: .normal)
-        button.setTitleColor(UIColor(named: "text"), for: .normal)
-        button.layer.cornerRadius = 17
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(cancelTransaction), for: .touchUpInside)
-        return button
-    }()
-    
     //MARK: second version of ui
     
     let contentView: UIView = {
@@ -153,6 +107,7 @@ final class NewTransactionViewController: UIViewController {
         setupSubviews()
         setupLayout()
         configureTableView()
+        configureButtons()
     }
 }
 
@@ -166,9 +121,9 @@ extension NewTransactionViewController {
     func setupSubviews() {
         view.addSubview(contentView)
         contentView.addSubview(amountTextField)
-        contentView.addSubview(dollarButton)
-        contentView.addSubview(euroButton)
-        contentView.addSubview(zlotyButton)
+        contentView.addSubview(usdButton)
+        contentView.addSubview(eurButton)
+        contentView.addSubview(plnButton)
         contentView.addSubview(tableView)
         contentView.addSubview(notesView)
         contentView.addSubview(saveButton)
@@ -188,22 +143,22 @@ extension NewTransactionViewController {
             amountTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             amountTextField.heightAnchor.constraint(equalToConstant: 70),
             
-            dollarButton.topAnchor.constraint(equalTo: amountTextField.bottomAnchor, constant: 20),
-            dollarButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            dollarButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.24),
-            dollarButton.heightAnchor.constraint(equalToConstant: 40),
+            usdButton.topAnchor.constraint(equalTo: amountTextField.bottomAnchor, constant: 20),
+            usdButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            usdButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.24),
+            usdButton.heightAnchor.constraint(equalToConstant: 40),
             
-            euroButton.centerYAnchor.constraint(equalTo: dollarButton.centerYAnchor),
-            euroButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            euroButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.24),
-            euroButton.heightAnchor.constraint(equalToConstant: 40),
+            eurButton.centerYAnchor.constraint(equalTo: usdButton.centerYAnchor),
+            eurButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            eurButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.24),
+            eurButton.heightAnchor.constraint(equalToConstant: 40),
             
-            zlotyButton.centerYAnchor.constraint(equalTo: dollarButton.centerYAnchor),
-            zlotyButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            zlotyButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.24),
-            zlotyButton.heightAnchor.constraint(equalToConstant: 40),
+            plnButton.centerYAnchor.constraint(equalTo: usdButton.centerYAnchor),
+            plnButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            plnButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.24),
+            plnButton.heightAnchor.constraint(equalToConstant: 40),
             
-            tableView.topAnchor.constraint(equalTo: dollarButton.bottomAnchor, constant: 20),
+            tableView.topAnchor.constraint(equalTo: usdButton.bottomAnchor, constant: 20),
             tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             tableView.heightAnchor.constraint(equalToConstant: 140),
@@ -237,25 +192,29 @@ extension NewTransactionViewController {
         tableView.backgroundColor = .clear
     }
     
+    func configureButtons() {
+        usdButton.configure("USD", .systemGray6, 20)
+        eurButton.configure("EUR", .systemGray6, 20)
+        plnButton.configure("PLN", .systemGray4, 20)
+        saveButton.configure("Save", .systemGray5, 17)
+        cancelButton.configure("Cancel", .systemGray5, 17)
+        
+        usdButton.addTarget(self, action: #selector(usdButtonTapped), for: .touchUpInside)
+        eurButton.addTarget(self, action: #selector(eurButtonTapped), for: .touchUpInside)
+        plnButton.addTarget(self, action: #selector(plnButtonTapped), for: .touchUpInside)
+        saveButton.addTarget(self, action: #selector(saveTransaction), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(cancelTransaction), for: .touchUpInside)
+    }
+    
     func getRates(for transaction: Transaction) {
-        NetworkManager.shared.fetchRate { response in
-            switch response {
-            case .success(let rate):
-                self.setRates(transaction, rate)
+        NetworkManager.shared.fetchRate { result in
+            switch result {
+            case .success(let nbpResponse):
+                let rate = nbpResponse.rates.first { $0.code == transaction.currency.rawValue }!
+                transaction.exchangeRate = rate.mid
             case .failure(let error):
                 print(error)
             }
-        }
-    }
-   
-    func setRates(_ transaction: Transaction, _ rate: Rate) {
-        switch transaction.currency {
-        case .usd: transaction.exchangeRate = rate.eur["usd"]!
-        case .pln: transaction.exchangeRate = rate.eur["pln"]!
-        default: break
-        }
-        DispatchQueue.main.async { [weak self] in
-            self!.delegateController?.addNewTransaction(transaction)
         }
     }
     
@@ -266,29 +225,32 @@ extension NewTransactionViewController {
     @objc func saveTransaction() {
         guard let amount = amountTextField.text else { return }
         guard let category = categoryCellLabel.text, category != "Required" else { return }
-        let description = notesTextView.text == nil ? "" : notesTextView.text!
-        let transaction = Transaction(amount: Double(amount)!, currency: currency, date: datePicker.date, category: category, description: description, exchangeRate: 1.0)
+        let description = notesTextView.text ?? ""
+        let transaction = Transaction(amount: Double(amount)!, currency: selectedCurrency, date: datePicker.date, category: category, description: description, exchangeRate: 1.0)
         getRates(for: transaction)
+        DispatchQueue.main.async { [weak self] in
+            self!.delegate?.addNewTransaction(transaction)
+        }
         dismiss(animated: true)
     }
     
-    @objc func dollarButtonTapped() {
-        currency = .usd
-        dollarButton.backgroundColor = .systemGray4
-        euroButton.backgroundColor = .systemGray6
-        zlotyButton.backgroundColor = .systemGray6
+    @objc func usdButtonTapped() {
+        selectedCurrency = .usd
+        usdButton.backgroundColor = .systemGray4
+        eurButton.backgroundColor = .systemGray6
+        plnButton.backgroundColor = .systemGray6
     }
-    @objc func euroButtonTapped() {
-        currency = .eur
-        dollarButton.backgroundColor = .systemGray6
-        euroButton.backgroundColor = .systemGray4
-        zlotyButton.backgroundColor = .systemGray6
+    @objc func eurButtonTapped() {
+        selectedCurrency = .eur
+        usdButton.backgroundColor = .systemGray6
+        eurButton.backgroundColor = .systemGray4
+        plnButton.backgroundColor = .systemGray6
     }
-    @objc func zlotyButtonTapped() {
-        currency = .pln
-        dollarButton.backgroundColor = .systemGray6
-        euroButton.backgroundColor = .systemGray6
-        zlotyButton.backgroundColor = .systemGray4
+    @objc func plnButtonTapped() {
+        selectedCurrency = .pln
+        usdButton.backgroundColor = .systemGray6
+        eurButton.backgroundColor = .systemGray6
+        plnButton.backgroundColor = .systemGray4
     }
 }
 

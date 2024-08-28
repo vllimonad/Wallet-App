@@ -15,22 +15,23 @@ final class ViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "cell")
-        setTabBarAppearance()
-        addContlollers()
+        setupTabBarAppearance()
+        setupTabBarItems()
     }
     
-    func setTabBarAppearance() {
+    func setupTabBarAppearance() {
         let appearance = UITabBarAppearance()
         appearance.configureWithTransparentBackground()
         tabBar.standardAppearance = appearance
         tabBar.scrollEdgeAppearance = appearance
     }
     
-    func addContlollers() {
+    func setupTabBarItems() {
         mainView.tabBarItem = UITabBarItem(title: "Statistics", image: UIImage(named: "statisticsIcon"), tag: 0)
         tableView.tabBarItem = UITabBarItem(title: "Records", image: UIImage(named: "history"), tag: 1)
         tableView.transactionsTableViewControllerDelegate = mainView
         mainView.transactionsList = DataManager.shared.readData()
+        print(mainView.transactionsList.count)
         viewControllers = [UINavigationController(rootViewController: mainView), tableView]
     }
 }

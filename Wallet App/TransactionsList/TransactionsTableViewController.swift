@@ -11,12 +11,14 @@ final class TransactionsTableViewController: UIViewController {
     
     var transactionsList = [[Transaction]]()
     var transactionsTableViewControllerDelegate: TransactionsTableViewControllerDelegate?
+    
     let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         formatter.timeStyle = .none
         return formatter
     }()
+    
     let tableView: UITableView = {
         let table = UITableView()
         table.register(TransactionCell.self, forCellReuseIdentifier: "cell")
