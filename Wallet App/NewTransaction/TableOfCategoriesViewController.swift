@@ -40,7 +40,7 @@ extension TableOfCategoriesViewController {
     
     func setupNavigationBarTitle() {
         title = "Categories"
-        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.prefersLargeTitles = false
     }
     
     func configureTableView() {

@@ -15,7 +15,7 @@ class NetworkManager {
     private init() {}
     
     func fetchRates(completion: @escaping (Result<NBPResponse, Error>) -> Void) {
-        var request = URLRequest(url: URL(string: ratesUrlString)!)
+        let request = URLRequest(url: URL(string: ratesUrlString)!)
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 completion(.failure(error))

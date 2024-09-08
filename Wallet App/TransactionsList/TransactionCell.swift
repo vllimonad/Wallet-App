@@ -38,11 +38,20 @@ final class TransactionCell: UITableViewCell {
     
     var icon: UIImageView = {
         let icon = UIImageView()
-        icon.layer.cornerRadius = 25
+        icon.layer.cornerRadius = 22.5
         icon.contentMode = .center
         icon.backgroundColor = UIColor(named: "background")
         icon.translatesAutoresizingMaskIntoConstraints = false
         return icon
+    }()
+    
+    var stack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.alignment = .leading
+        stack.spacing = 4
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
     }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -56,24 +65,22 @@ final class TransactionCell: UITableViewCell {
     }
     
     func setupSubviews() {
+        stack.addArrangedSubview(categoryLabel)
+        stack.addArrangedSubview(desciptionLabel)
+        addSubview(stack)
         addSubview(icon)
-        addSubview(categoryLabel)
-        addSubview(desciptionLabel)
         addSubview(amountLabel)
     }
     
     func setupLayout() {
         NSLayoutConstraint.activate([
             icon.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            icon.widthAnchor.constraint(equalToConstant: 50),
-            icon.heightAnchor.constraint(equalToConstant: 50),
+            icon.widthAnchor.constraint(equalToConstant: 45),
+            icon.heightAnchor.constraint(equalToConstant: 45),
             icon.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-            categoryLabel.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 10),
-            categoryLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            
-            desciptionLabel.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 10),
-            desciptionLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 5),
+            stack.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 10),
+            stack.centerYAnchor.constraint(equalTo: centerYAnchor),
             
             amountLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
             amountLabel.centerYAnchor.constraint(equalTo: centerYAnchor),

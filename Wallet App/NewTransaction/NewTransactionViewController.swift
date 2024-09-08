@@ -16,8 +16,6 @@ enum Currency: String, Codable {
 final class NewTransactionViewController: UIViewController {
     
     var delegate: NewTransactionViewControllerDelegate?
-    
-    var options = ["Category", "Date"]
     var selectedCurrency = Currency.pln
     
     var usdButton = CustomButton(type: .system)
@@ -162,7 +160,7 @@ extension NewTransactionViewController {
             tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             tableView.heightAnchor.constraint(equalToConstant: 140),
-            
+        
             notesView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 20),
             notesView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             notesView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
@@ -263,13 +261,15 @@ extension NewTransactionViewController: UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "option", for: indexPath)
-        cell.textLabel?.text = options[indexPath.row]
         cell.backgroundColor = .systemGray6
         if indexPath.row == 1 {
+            cell.textLabel?.text = "Date"
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: CGFloat.greatestFiniteMagnitude)
             cell.contentView.addSubview(datePicker)
             datePicker.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -20).isActive = true
             datePicker.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
         } else {
+            cell.textLabel?.text = "Category"
             cell.accessoryType = .disclosureIndicator
             cell.contentView.addSubview(categoryCellLabel)
             categoryCellLabel.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -40).isActive = true

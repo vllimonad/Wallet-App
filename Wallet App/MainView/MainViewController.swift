@@ -148,7 +148,6 @@ extension MainViewController {
         let index = Calendar.current.component(.month, from: Date())
         selectedDate["Month"] = Calendar.current.standaloneMonthSymbols[index-1]
         selectedDate["Year"] = "\(Calendar.current.component(.year, from: Date()))"
-        monthLabel.text = "\(selectedDate["Month"]) \(selectedDate["Year"])"
     }
     
     func getTotalSum() -> Double {
@@ -162,7 +161,8 @@ extension MainViewController {
     func getExpensesByCategories() -> [String: Double] {
         var values = [String: Double]()
         for day in transactionsList {
-            if formatter.string(from: day[0].date).hasPrefix(selectedDate["Month"]!) && formatter.string(from: day[0].date).hasSuffix(selectedDate["Year"]!){
+            if formatter.string(from: day[0].date).contains(selectedDate["Month"]!)
+                && formatter.string(from: day[0].date).contains(selectedDate["Year"]!){
                 for transaction in day {
                     if values.index(forKey: transaction.category) != nil {
                         values[transaction.category]! += (transaction.amount / transaction.exchangeRate * 100).rounded() / 100
@@ -177,7 +177,7 @@ extension MainViewController {
     
     func updateUI() {
         amountLabel.text = "Total: €\(getTotalSum())"
-        monthLabel.text = selectedDate["Month"]! + selectedDate["Year"]!
+        monthLabel.text = selectedDate["Month"]! + " " + selectedDate["Year"]!
         updateBars()
     }
     
@@ -230,7 +230,9 @@ extension MainViewController {
 extension MainViewController: NewTransactionViewControllerDelegate {
     
     func addNewTransaction(_ transaction: Transaction) {
-        if let index = transactionsList.firstIndex(where: { formatter.string(from: $0[0].date) == formatter.string(from: transaction.date)}) {
+        if let index = transactionsList.firstIndex(where: {
+            formatter.string(from: $0[0].date) == formatter.string(from: transaction.date) })
+        {
             transactionsList[index].insert(transaction, at: 0)
         } else {
             transactionsList.append([transaction])

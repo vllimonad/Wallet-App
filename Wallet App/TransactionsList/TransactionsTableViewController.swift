@@ -29,6 +29,7 @@ final class TransactionsTableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavigationBarTitle()
         setupLayout()
         configureTableView()
     }
@@ -45,6 +46,11 @@ final class TransactionsTableViewController: UIViewController {
 }
 
 extension TransactionsTableViewController {
+    
+    func setupNavigationBarTitle() {
+        title = "Records history"
+        navigationController?.navigationBar.prefersLargeTitles = false
+    }
     
     func setupLayout() {
         view.addSubview(tableView)
@@ -72,11 +78,15 @@ extension TransactionsTableViewController: UITableViewDataSource, UITableViewDel
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TransactionCell
         cell.backgroundColor = UIColor(named: "cell")
-        cell.amountLabel.text = "\(transactionsList[indexPath.section][indexPath.row].amount) \(transactionsList[indexPath.section][indexPath.row].currency)"
+        cell.amountLabel.text = "\(transactionsList[indexPath.section][indexPath.row].amount) \(transactionsList[indexPath.section][indexPath.row].currency.rawValue)"
         cell.categoryLabel.text = transactionsList[indexPath.section][indexPath.row].category
         cell.desciptionLabel.text = transactionsList[indexPath.section][indexPath.row].description
         cell.icon.image = UIImage(named: "\(transactionsList[indexPath.section][indexPath.row].category.lowercased())")
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

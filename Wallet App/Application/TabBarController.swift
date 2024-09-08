@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ViewController: UITabBarController {
+final class TabBarController: UITabBarController {
     
     let mainView = MainViewController()
     let tableView = TransactionsTableViewController()
@@ -31,7 +31,10 @@ final class ViewController: UITabBarController {
         tableView.tabBarItem = UITabBarItem(title: "Records", image: UIImage(named: "history"), tag: 1)
         tableView.transactionsTableViewControllerDelegate = mainView
         mainView.transactionsList = DataManager.shared.readData()
-        viewControllers = [UINavigationController(rootViewController: mainView), tableView]
+        viewControllers = [
+            UINavigationController(rootViewController: mainView),
+            UINavigationController(rootViewController: tableView)
+        ]
     }
 }
 
