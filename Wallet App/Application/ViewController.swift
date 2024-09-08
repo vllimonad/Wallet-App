@@ -31,7 +31,6 @@ final class ViewController: UITabBarController {
         tableView.tabBarItem = UITabBarItem(title: "Records", image: UIImage(named: "history"), tag: 1)
         tableView.transactionsTableViewControllerDelegate = mainView
         mainView.transactionsList = DataManager.shared.readData()
-        print(mainView.transactionsList.count)
         viewControllers = [UINavigationController(rootViewController: mainView), tableView]
     }
 }

@@ -10,7 +10,7 @@ import Foundation
 class DataManager {
     
     static var shared = DataManager()
-    var filename = "lisOfTransactions.txt"
+    private let filename = "lisOfTransactions.txt"
     
     private init() {}
     

@@ -207,10 +207,10 @@ extension NewTransactionViewController {
     }
     
     func getRates(for transaction: Transaction) {
-        NetworkManager.shared.fetchRate { result in
+        NetworkManager.shared.fetchRates { result in
             switch result {
-            case .success(let nbpResponse):
-                let rate = nbpResponse.rates.first { $0.code == transaction.currency.rawValue }!
+            case .success(let response):
+                let rate = response.rates.first { $0.code == transaction.currency.rawValue }!
                 transaction.exchangeRate = rate.mid
             case .failure(let error):
                 print(error)
@@ -227,10 +227,10 @@ extension NewTransactionViewController {
         guard let category = categoryCellLabel.text, category != "Required" else { return }
         let description = notesTextView.text ?? ""
         let transaction = Transaction(amount: Double(amount)!, currency: selectedCurrency, date: datePicker.date, category: category, description: description, exchangeRate: 1.0)
-        getRates(for: transaction)
-        DispatchQueue.main.async { [weak self] in
-            self!.delegate?.addNewTransaction(transaction)
+        if transaction.currency != .pln {
+            getRates(for: transaction)
         }
+        delegate?.addNewTransaction(transaction)
         dismiss(animated: true)
     }
     
