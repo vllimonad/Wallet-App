@@ -20,14 +20,9 @@ Designed and developed an iOS application using UIKit framework that helps user 
 <img src="https://github.com/vllimonad/Wallet-App/assets/118442277/ea10a25f-3495-48a5-ac98-79a78c3eac5b" width="265" >
 
 
-### Frameworks
-1. UIKit
-2. Foundation
-
-### Technologies
-1. JSON
-2. REST
-3. URLSession
-4. FileManager
-5. GCD
-
+### Stack
+Programming language: Swift
+Frameworks and technologies: Foundation, UIKit, FileManager, URLSession, GCD
+Design pattern: MVC
+Version control: Git
+Tools: Xcode
