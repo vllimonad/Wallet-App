@@ -10,7 +10,7 @@ import UIKit
 final class TabBarController: UITabBarController {
     
     let mainView = MainViewController()
-    let tableView = TransactionsTableViewController()
+    let transactionsView = TransactionsTableViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,12 +28,12 @@ final class TabBarController: UITabBarController {
     
     func setupTabBarItems() {
         mainView.tabBarItem = UITabBarItem(title: "Statistics", image: UIImage(named: "statisticsIcon"), tag: 0)
-        tableView.tabBarItem = UITabBarItem(title: "Records", image: UIImage(named: "history"), tag: 1)
-        tableView.transactionsTableViewControllerDelegate = mainView
+        transactionsView.tabBarItem = UITabBarItem(title: "Records", image: UIImage(named: "history"), tag: 1)
+        transactionsView.delegate = mainView
         mainView.transactionsList = DataManager.shared.readData()
         viewControllers = [
             UINavigationController(rootViewController: mainView),
-            UINavigationController(rootViewController: tableView)
+            UINavigationController(rootViewController: transactionsView)
         ]
     }
 }

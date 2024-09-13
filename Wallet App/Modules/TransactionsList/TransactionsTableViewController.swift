@@ -10,7 +10,7 @@ import UIKit
 final class TransactionsTableViewController: UIViewController {
     
     var transactionsList = [[Transaction]]()
-    var transactionsTableViewControllerDelegate: TransactionsTableViewControllerDelegate?
+    var delegate: TransactionsTableViewControllerDelegate?
     
     let formatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -36,12 +36,12 @@ final class TransactionsTableViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        transactionsList = transactionsTableViewControllerDelegate!.getTransactionsList()
+        transactionsList = delegate!.getTransactionsList()
         tableView.reloadData()
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        transactionsTableViewControllerDelegate!.setTransactionsList(transactionsList)
+        delegate!.setTransactionsList(transactionsList)
     }
 }
 
