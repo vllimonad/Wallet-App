@@ -48,7 +48,7 @@ final class TransactionsTableViewController: UIViewController {
 extension TransactionsTableViewController {
     
     func setupNavigationBarTitle() {
-        title = "Records history"
+        title = "Records"
         navigationController?.navigationBar.prefersLargeTitles = false
     }
     

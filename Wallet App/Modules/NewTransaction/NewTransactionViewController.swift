@@ -209,9 +209,15 @@ extension NewTransactionViewController {
             switch result {
             case .success(let response):
                 let rate = response.rates.first { $0.code == transaction.currency.rawValue }!
-                transaction.exchangeRate = rate.mid
+                DispatchQueue.main.async {
+                    transaction.exchangeRate = rate.mid
+                    self.delegate?.addNewTransaction(transaction)
+                    self.dismiss(animated: true)
+                }
             case .failure(let error):
-                print(error)
+                DispatchQueue.main.async {
+                    self.handleError(error)
+                }
             }
         }
     }
@@ -228,8 +234,17 @@ extension NewTransactionViewController {
         if transaction.currency != .pln {
             getRates(for: transaction)
         }
-        delegate?.addNewTransaction(transaction)
-        dismiss(animated: true)
+    }
+    
+    func handleError(_ error: Error) {
+        let error = error as! URLError
+        showAlert(with: error.localizedDescription)
+    }
+    
+    func showAlert(with description: String) {
+        let ac = UIAlertController(title: "Try again", message: description, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Done", style: .default))
+        present(ac, animated: true)
     }
     
     @objc func usdButtonTapped() {

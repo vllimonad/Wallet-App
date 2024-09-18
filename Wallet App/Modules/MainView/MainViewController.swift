@@ -165,9 +165,9 @@ extension MainViewController {
                 && formatter.string(from: day[0].date).contains(selectedDate["Year"]!){
                 for transaction in day {
                     if values.index(forKey: transaction.category) != nil {
-                        values[transaction.category]! += (transaction.amount / transaction.exchangeRate * 100).rounded() / 100
+                        values[transaction.category]! += (transaction.amount * transaction.exchangeRate).rounded()
                     } else {
-                        values[transaction.category] = (transaction.amount / transaction.exchangeRate * 100).rounded() / 100
+                        values[transaction.category] = (transaction.amount * transaction.exchangeRate).rounded()
                     }
                 }
             }
@@ -176,7 +176,7 @@ extension MainViewController {
     }
     
     func updateUI() {
-        amountLabel.text = "Total: €\(getTotalSum())"
+        amountLabel.text = "Total: \(getTotalSum())zł"
         monthLabel.text = selectedDate["Month"]! + " " + selectedDate["Year"]!
         updateBars()
     }
