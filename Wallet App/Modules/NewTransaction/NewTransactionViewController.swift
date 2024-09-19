@@ -17,6 +17,7 @@ final class NewTransactionViewController: UIViewController {
     
     var delegate: NewTransactionViewControllerDelegate?
     var selectedCurrency = Currency.pln
+    var transaction: Transaction!
     
     var usdButton = CustomButton(type: .system)
     var eurButton = CustomButton(type: .system)
@@ -204,14 +205,16 @@ extension NewTransactionViewController {
         cancelButton.addTarget(self, action: #selector(cancelTransaction), for: .touchUpInside)
     }
     
-    func getRates(for transaction: Transaction) {
+    func setRate() {
         NetworkManager.shared.fetchRates { result in
             switch result {
             case .success(let response):
-                let rate = response.rates.first { $0.code == transaction.currency.rawValue }!
+                if self.transaction.currency != .pln {
+                    let rate = response.rates.first { $0.code == self.transaction.currency.rawValue }!
+                    self.transaction.exchangeRate = rate.mid
+                }
                 DispatchQueue.main.async {
-                    transaction.exchangeRate = rate.mid
-                    self.delegate?.addNewTransaction(transaction)
+                    self.delegate?.addTransaction(self.transaction)
                     self.dismiss(animated: true)
                 }
             case .failure(let error):
@@ -219,20 +222,6 @@ extension NewTransactionViewController {
                     self.handleError(error)
                 }
             }
-        }
-    }
-    
-    @objc func cancelTransaction() {
-        dismiss(animated: true)
-    }
-    
-    @objc func saveTransaction() {
-        guard let amount = amountTextField.text else { return }
-        guard let category = categoryCellLabel.text, category != "Required" else { return }
-        let description = notesTextView.text ?? ""
-        let transaction = Transaction(amount: Double(amount)!, currency: selectedCurrency, date: datePicker.date, category: category, description: description, exchangeRate: 1.0)
-        if transaction.currency != .pln {
-            getRates(for: transaction)
         }
     }
     
@@ -245,6 +234,18 @@ extension NewTransactionViewController {
         let ac = UIAlertController(title: "Try again", message: description, preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Done", style: .default))
         present(ac, animated: true)
+    }
+    
+    @objc func cancelTransaction() {
+        dismiss(animated: true)
+    }
+    
+    @objc func saveTransaction() {
+        guard let amount = amountTextField.text else { return }
+        guard let category = categoryCellLabel.text, category != "Required" else { return }
+        let description = notesTextView.text ?? ""
+        transaction = Transaction(amount: Double(amount)!, currency: selectedCurrency, date: datePicker.date, category: category, description: description, exchangeRate: 1.0)
+        setRate()
     }
     
     @objc func usdButtonTapped() {
@@ -308,5 +309,5 @@ extension NewTransactionViewController: UITableViewDataSource, UITableViewDelega
 }
 
 protocol NewTransactionViewControllerDelegate {
-    func addNewTransaction(_ transaction: Transaction)
+    func addTransaction(_ transaction: Transaction)
 }

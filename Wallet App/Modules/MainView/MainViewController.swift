@@ -228,8 +228,7 @@ extension MainViewController {
 }
 
 extension MainViewController: NewTransactionViewControllerDelegate {
-    
-    func addNewTransaction(_ transaction: Transaction) {
+    func addTransaction(_ transaction: Transaction) {
         if let index = transactionsList.firstIndex(where: {
             formatter.string(from: $0[0].date) == formatter.string(from: transaction.date) })
         {
