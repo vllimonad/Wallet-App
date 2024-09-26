@@ -1,5 +1,5 @@
 # Wallet App
-Designed and developed an iOS application using UIKit framework that helps user  to build a picture of their financial assets by monitoring and controlling their expenses.
+Designed and developed an iOS application that helps user  to build a picture of financial assets by monitoring and controlling expenses.
 
 <br>
 <br>
