@@ -16,8 +16,9 @@ enum Currency: String, Codable {
 final class NewTransactionViewController: UIViewController {
     
     var delegate: NewTransactionViewControllerDelegate?
+    var networkManager: NetworkManagerProtocol?
     var selectedCurrency = Currency.pln
-    var transaction: Transaction!
+    var transaction: Transaction?
     
     var usdButton = CustomButton(type: .system)
     var eurButton = CustomButton(type: .system)
@@ -206,27 +207,27 @@ extension NewTransactionViewController {
     }
     
     func setRate() {
-        NetworkManager.shared.fetchRates { result in
+        networkManager?.fetchRates { [weak self] result in
             switch result {
             case .success(let response):
-                if self.transaction.currency != .pln {
-                    let rate = response.rates.first { $0.code == self.transaction.currency.rawValue }!
-                    self.transaction.exchangeRate = rate.mid
+                guard self?.transaction?.currency == .pln else {
+                    let rate = response.rates.first { $0.code == self?.transaction?.currency.rawValue }!
+                    self?.transaction?.exchangeRate = rate.mid
                 }
                 DispatchQueue.main.async {
-                    self.delegate?.addTransaction(self.transaction)
-                    self.dismiss(animated: true)
+                    self?.delegate?.addTransaction(self?.transaction?)
+                    self?.dismiss(animated: true)
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                    self.handleError(error)
+                    self?.handleError(error)
                 }
             }
         }
     }
     
     func handleError(_ error: Error) {
-        let error = error as! URLError
+        guard let error = error as? URLError else { return }
         showAlert(with: error.localizedDescription)
     }
     
@@ -241,10 +242,16 @@ extension NewTransactionViewController {
     }
     
     @objc func saveTransaction() {
-        guard let amount = amountTextField.text else { return }
+        guard let amountText = amountTextField.text else { return }
+        guard let amount = Double(amountText) else { return }
         guard let category = categoryCellLabel.text, category != "Required" else { return }
         let description = notesTextView.text ?? ""
-        transaction = Transaction(amount: Double(amount)!, currency: selectedCurrency, date: datePicker.date, category: category, description: description, exchangeRate: 1.0)
+        transaction = Transaction(amount: amount, 
+                                  currency: selectedCurrency,
+                                  date: datePicker.date,
+                                  category: category,
+                                  description: description,
+                                  exchangeRate: 1.0)
         setRate()
     }
     

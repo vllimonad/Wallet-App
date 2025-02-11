@@ -7,13 +7,17 @@
 
 import Foundation
 
-class NetworkManager {
+protocol NetworkManagerProtocol {
+    func fetchRates(completion: @escaping (Result<NBPResponse, Error>) -> Void)
+}
+
+final class NetworkManager {
     
-    static var shared = NetworkManager()
     private let ratesUrlString = "https://api.nbp.pl/api/exchangerates/tables/A"
     
-    private init() {}
-    
+}
+
+extension NetworkManager: NetworkManagerProtocol {
     func fetchRates(completion: @escaping (Result<NBPResponse, Error>) -> Void) {
         let request = URLRequest(url: URL(string: ratesUrlString)!)
         URLSession.shared.dataTask(with: request) { data, response, error in
