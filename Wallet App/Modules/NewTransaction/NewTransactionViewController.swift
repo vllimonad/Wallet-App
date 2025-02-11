@@ -18,7 +18,11 @@ final class NewTransactionViewController: UIViewController {
     var delegate: NewTransactionViewControllerDelegate?
     var networkManager: NetworkManagerProtocol?
     var selectedCurrency = Currency.pln
-    var transaction: Transaction?
+    var exchangeRates: [Rate]? {
+        didSet {
+            saveTransaction()
+        }
+    }
     
     var usdButton = CustomButton(type: .system)
     var eurButton = CustomButton(type: .system)
@@ -99,6 +103,15 @@ final class NewTransactionViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        networkManager = NetworkManager()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -202,21 +215,16 @@ extension NewTransactionViewController {
         usdButton.addTarget(self, action: #selector(usdButtonTapped), for: .touchUpInside)
         eurButton.addTarget(self, action: #selector(eurButtonTapped), for: .touchUpInside)
         plnButton.addTarget(self, action: #selector(plnButtonTapped), for: .touchUpInside)
-        saveButton.addTarget(self, action: #selector(saveTransaction), for: .touchUpInside)
+        saveButton.addTarget(self, action: #selector(getExchangeRates), for: .touchUpInside)
         cancelButton.addTarget(self, action: #selector(cancelTransaction), for: .touchUpInside)
     }
     
-    func setRate() {
+    @objc func getExchangeRates() {
         networkManager?.fetchRates { [weak self] result in
             switch result {
             case .success(let response):
-                guard self?.transaction?.currency == .pln else {
-                    let rate = response.rates.first { $0.code == self?.transaction?.currency.rawValue }!
-                    self?.transaction?.exchangeRate = rate.mid
-                }
                 DispatchQueue.main.async {
-                    self?.delegate?.addTransaction(self?.transaction?)
-                    self?.dismiss(animated: true)
+                    self?.exchangeRates = response.rates
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -242,17 +250,19 @@ extension NewTransactionViewController {
     }
     
     @objc func saveTransaction() {
-        guard let amountText = amountTextField.text else { return }
-        guard let amount = Double(amountText) else { return }
+        guard let amountText = amountTextField.text, let amount = Double(amountText) else { return }
         guard let category = categoryCellLabel.text, category != "Required" else { return }
         let description = notesTextView.text ?? ""
-        transaction = Transaction(amount: amount, 
-                                  currency: selectedCurrency,
-                                  date: datePicker.date,
-                                  category: category,
-                                  description: description,
-                                  exchangeRate: 1.0)
-        setRate()
+        let rate = exchangeRates?.first { $0.code == selectedCurrency.rawValue }
+        let rateValue = rate?.mid ?? 1.0
+        delegate?.addTransaction(
+            Transaction(amount: amount,
+                        currency: selectedCurrency,
+                        date: datePicker.date,
+                        category: category,
+                        description: description,
+                        exchangeRate: rateValue))
+        dismiss(animated: true)
     }
     
     @objc func usdButtonTapped() {
