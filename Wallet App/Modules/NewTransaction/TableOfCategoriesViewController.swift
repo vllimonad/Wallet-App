@@ -8,9 +8,10 @@
 import UIKit
 
 final class TableOfCategoriesViewController: UITableViewController {
-    
-    var selectItem: ((String) -> Void)?
-    var categories = ["Food", "Transportation", "Shopping", "Communication", "Entertainment", "Housing", "Financial expenses"]
+    var selectItem: ((String) -> ())?
+    private let cellIdentifier = "category"
+    private let backgroundColorName = "cell"
+    private let categories = ["Food", "Transportation", "Shopping", "Communication", "Entertainment", "Housing", "Financial expenses"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,8 +24,8 @@ final class TableOfCategoriesViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "category", for: indexPath) as! CategoryViewCell
-        cell.backgroundColor = UIColor(named: "cell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! CategoryViewCell
+        cell.backgroundColor = UIColor(named: backgroundColorName)
         cell.categoryLabel.text = categories[indexPath.row]
         cell.icon.image = UIImage(named: categories[indexPath.row].lowercased())
         return cell
@@ -37,15 +38,14 @@ final class TableOfCategoriesViewController: UITableViewController {
 }
 
 extension TableOfCategoriesViewController {
-    
     func setupNavigationBarTitle() {
         title = "Categories"
         navigationController?.navigationBar.prefersLargeTitles = false
     }
     
     func configureTableView() {
-        tableView.register(CategoryViewCell.self, forCellReuseIdentifier: "category")
+        tableView.register(CategoryViewCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.rowHeight = 70
-        tableView.backgroundColor = UIColor(named: "cell")
+        tableView.backgroundColor = UIColor(named: backgroundColorName)
     }
 }
