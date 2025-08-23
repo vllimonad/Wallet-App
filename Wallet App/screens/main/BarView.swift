@@ -7,24 +7,26 @@
 
 import UIKit
 
-class BarView: UIView {
+final class BarView: UIView {
     
-    let categoryLabel: UILabel = {
-        var label = UILabel()
+     let categoryLabel: UILabel = {
+        let label = UILabel()
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    var amountLabel: UILabel = {
-        var label = UILabel()
+     let amountLabel: UILabel = {
+        let label = UILabel()
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    var progressView: UIProgressView = {
-        var progress = UIProgressView()
+     let progressView: UIProgressView = {
+        let progress = UIProgressView()
+        progress.layer.cornerRadius = 8
+        progress.clipsToBounds = true
         progress.progressViewStyle = .default
         progress.translatesAutoresizingMaskIntoConstraints = false
         return progress
@@ -32,21 +34,19 @@ class BarView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupSubviews()
-        setupLayout()
+        
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupSubviews() {
+    private func configureUI() {
         addSubview(categoryLabel)
         addSubview(amountLabel)
         addSubview(progressView)
-    }
-    
-    func setupLayout() {
+        
         NSLayoutConstraint.activate([
             categoryLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             categoryLabel.topAnchor.constraint(equalTo: topAnchor),
@@ -57,9 +57,11 @@ class BarView: UIView {
             amountLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5),
 
             progressView.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 5),
-            progressView.heightAnchor.constraint(equalToConstant: 15),
+            progressView.heightAnchor.constraint(equalToConstant: 16),
             progressView.widthAnchor.constraint(equalTo: widthAnchor)
         ])
     }
+    
+    
 }
 
