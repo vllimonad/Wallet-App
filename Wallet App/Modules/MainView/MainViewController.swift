@@ -196,7 +196,7 @@ extension MainViewController {
     }
     
     @objc func addButtonTapped() {
-        let transactionView = NewTransactionViewController()
+        let transactionView = AddRecordViewController()
         transactionView.delegate = self
         transactionView.modalPresentationStyle = .overCurrentContext
         present(UINavigationController(rootViewController: transactionView), animated: true)
@@ -238,7 +238,7 @@ extension MainViewController: NewTransactionViewControllerDelegate {
         }
         transactionsList.sort(by: { $0[0].date > $1[0].date })
         updateUI()
-        DataManager.shared.saveData(transactionsList)
+        //DataManager.shared.saveData(transactionsList)
     }
 }
 
@@ -251,6 +251,6 @@ extension MainViewController: TransactionsTableViewControllerDelegate {
     func setTransactionsList(_ list: [[Transaction]]) {
         transactionsList = list
         updateUI()
-        DataManager.shared.saveData(transactionsList)
+        //DataManager.shared.saveData(transactionsList)
     }
 }

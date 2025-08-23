@@ -9,31 +9,62 @@ import UIKit
 
 final class TabBarController: UITabBarController {
     
-    let mainView = MainViewController()
-    let transactionsView = TransactionsTableViewController()
+    private let mainViewController: MainViewController
+    
+    private let addRecordViewController: AddRecordViewController
+    
+    private let historyViewController: HistoryTableViewController
+    
+    init() {
+        self.mainViewController = MainViewController()
+        self.addRecordViewController = AddRecordViewController()
+        self.historyViewController = HistoryTableViewController()
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "cell")
+        
         setupTabBarAppearance()
         setupTabBarItems()
     }
     
     func setupTabBarAppearance() {
+        view.backgroundColor = UIColor(named: "cell")
+        
         let appearance = UITabBarAppearance()
         appearance.configureWithTransparentBackground()
+        
         tabBar.standardAppearance = appearance
         tabBar.scrollEdgeAppearance = appearance
     }
     
     func setupTabBarItems() {
-        mainView.tabBarItem = UITabBarItem(title: "Statistics", image: UIImage(named: "statisticsIcon"), tag: 0)
-        transactionsView.tabBarItem = UITabBarItem(title: "Records", image: UIImage(named: "history"), tag: 1)
-        transactionsView.delegate = mainView
-        mainView.transactionsList = DataManager.shared.readData()
+        mainViewController.tabBarItem = UITabBarItem(title: "Statistics",
+                                                     image: UIImage(systemName: "chart.pie"),
+                                                     selectedImage: UIImage(systemName: "chart.pie.fill"))
+        
+        let addRecordIcon = UIImage(systemName: "plus.circle")?.applyingSymbolConfiguration(.init(pointSize: 25))
+        addRecordViewController.tabBarItem = UITabBarItem(title: nil,
+                                                          image: addRecordIcon,
+                                                          selectedImage: addRecordIcon)
+        
+        historyViewController.tabBarItem = UITabBarItem(title: "Records",
+                                                        image: UIImage(systemName: "list.clipboard"),
+                                                        selectedImage: UIImage(systemName: "list.clipboard.fill"))
+        
+        historyViewController.delegate = mainViewController
+        mainViewController.transactionsList = DataManager.shared.readData()
+        
         viewControllers = [
-            UINavigationController(rootViewController: mainView),
-            UINavigationController(rootViewController: transactionsView)
+            UINavigationController(rootViewController: mainViewController),
+            UINavigationController(rootViewController: addRecordViewController),
+            UINavigationController(rootViewController: historyViewController)
         ]
     }
 }

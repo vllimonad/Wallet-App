@@ -13,7 +13,7 @@ enum Currency: String, Codable {
     case eur = "EUR"
 }
 
-final class NewTransactionViewController: UIViewController {
+final class AddRecordViewController: UIViewController {
     
     var delegate: NewTransactionViewControllerDelegate?
     var networkManager: NetworkManagerProtocol?
@@ -124,7 +124,7 @@ final class NewTransactionViewController: UIViewController {
     }
 }
 
-extension NewTransactionViewController {
+extension AddRecordViewController {
     
     func setupNavigationBarTitle() {
         title = "Add Record"
@@ -286,7 +286,7 @@ extension NewTransactionViewController {
 }
 
 
-extension NewTransactionViewController: UITableViewDataSource, UITableViewDelegate {
+extension AddRecordViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 2
