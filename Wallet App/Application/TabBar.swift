@@ -37,6 +37,7 @@ final class TabBar: UITabBar {
         mainButton.translatesAutoresizingMaskIntoConstraints = false
         
         addRecordButton.configuration = getTabButtonConfiguration(nil, "plus.circle")
+        addRecordButton.configuration?.preferredSymbolConfigurationForImage = .init(pointSize: 30)
         addRecordButton.tag = TabBarTag.addRecord.rawValue
         addRecordButton.addTarget(self, action: #selector(didTapAddRecordButton), for: .touchUpInside)
         addRecordButton.translatesAutoresizingMaskIntoConstraints = false
@@ -48,12 +49,13 @@ final class TabBar: UITabBar {
         let containerView = UIStackView(arrangedSubviews: [mainButton, addRecordButton, historyButton])
         containerView.axis = .horizontal
         containerView.distribution = .fillEqually
+        containerView.alignment = .top
         containerView.translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(containerView)
         
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: topAnchor),
+            containerView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             containerView.bottomAnchor.constraint(equalTo: bottomAnchor),
             containerView.leadingAnchor.constraint(equalTo: leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: trailingAnchor)
@@ -62,7 +64,13 @@ final class TabBar: UITabBar {
     
     private func getTabButtonConfiguration(_ title: String?, _ systemImageName: String) -> UIButton.Configuration {
         var buttonConfiguration = UIButton.Configuration.plain()
-        buttonConfiguration.title = title
+        
+        if let title {
+            buttonConfiguration.attributedTitle = AttributedString(title, attributes: AttributeContainer([
+                .font: UIFont.systemFont(ofSize: 13, weight: .medium)
+            ]))
+        }
+        
         buttonConfiguration.image = UIImage(systemName: systemImageName)
         buttonConfiguration.imagePlacement = .top
         buttonConfiguration.imagePadding = 6
