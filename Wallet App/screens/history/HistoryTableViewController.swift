@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TransactionsTableViewController: UIViewController {
+final class HistoryTableViewController: UIViewController {
     
     var transactionsList = [[Transaction]]()
     var delegate: TransactionsTableViewControllerDelegate?
@@ -45,10 +45,10 @@ final class TransactionsTableViewController: UIViewController {
     }
 }
 
-extension TransactionsTableViewController {
+extension HistoryTableViewController {
     
     func setupNavigationBarTitle() {
-        title = "Records"
+        navigationItem.title = "Records"
         navigationController?.navigationBar.prefersLargeTitles = false
     }
     
@@ -69,7 +69,7 @@ extension TransactionsTableViewController {
     }
 }
 
-extension TransactionsTableViewController: UITableViewDataSource, UITableViewDelegate {
+extension HistoryTableViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return transactionsList[section].count

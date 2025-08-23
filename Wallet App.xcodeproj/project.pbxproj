@@ -10,18 +10,20 @@
 		2B080BB32AC0A01100BC89E3 /* BarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B080BB22AC0A01100BC89E3 /* BarView.swift */; };
 		2B08DC822C78F4EF003F49D0 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B08DC812C78F4EF003F49D0 /* DataManager.swift */; };
 		2B08DC842C78FD03003F49D0 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B08DC832C78FD03003F49D0 /* NetworkManager.swift */; };
+		2B0EE2322E59FBD20032441C /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0EE2312E59FBD20032441C /* TabBar.swift */; };
+		2B0EE2342E59FBFA0032441C /* TabBarTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0EE2332E59FBFA0032441C /* TabBarTag.swift */; };
 		2B5EC08D2AA34EC900305D14 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC08C2AA34EC900305D14 /* AppDelegate.swift */; };
 		2B5EC08F2AA34EC900305D14 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC08E2AA34EC900305D14 /* SceneDelegate.swift */; };
 		2B5EC0912AA34EC900305D14 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC0902AA34EC900305D14 /* TabBarController.swift */; };
 		2B5EC0962AA34ECA00305D14 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B5EC0952AA34ECA00305D14 /* Assets.xcassets */; };
 		2B5EC0992AA34ECA00305D14 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B5EC0972AA34ECA00305D14 /* LaunchScreen.storyboard */; };
 		2B5EC0A32AA3587500305D14 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC0A22AA3587500305D14 /* MainViewController.swift */; };
-		2B5EC0A72AA359E700305D14 /* TransactionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC0A62AA359E700305D14 /* TransactionsTableViewController.swift */; };
+		2B5EC0A72AA359E700305D14 /* HistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC0A62AA359E700305D14 /* HistoryTableViewController.swift */; };
 		2B5EC0A92AA3608B00305D14 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC0A82AA3608B00305D14 /* Transaction.swift */; };
 		2B5EC0AD2AA37A4F00305D14 /* TransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC0AC2AA37A4F00305D14 /* TransactionCell.swift */; };
 		2B6A16C12C8DD21000464C03 /* NBPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6A16C02C8DD21000464C03 /* NBPResponse.swift */; };
 		2B6AABB22C7F744A006B968A /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6AABB12C7F744A006B968A /* CustomButton.swift */; };
-		2B8541592AA507EF00ADECEB /* NewTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8541582AA507EF00ADECEB /* NewTransactionViewController.swift */; };
+		2B8541592AA507EF00ADECEB /* AddRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8541582AA507EF00ADECEB /* AddRecordViewController.swift */; };
 		2B85415B2AA545DE00ADECEB /* NotesTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B85415A2AA545DE00ADECEB /* NotesTextField.swift */; };
 		2BC96F2B2AAB761D001D7042 /* CategoryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */; };
 		2BC96F2D2AAB7652001D7042 /* TableOfCategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC96F2C2AAB7652001D7042 /* TableOfCategoriesViewController.swift */; };
@@ -31,6 +33,8 @@
 		2B080BB22AC0A01100BC89E3 /* BarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarView.swift; sourceTree = "<group>"; };
 		2B08DC812C78F4EF003F49D0 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		2B08DC832C78FD03003F49D0 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		2B0EE2312E59FBD20032441C /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
+		2B0EE2332E59FBFA0032441C /* TabBarTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarTag.swift; sourceTree = "<group>"; };
 		2B5EC0892AA34EC900305D14 /* Wallet App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wallet App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B5EC08C2AA34EC900305D14 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B5EC08E2AA34EC900305D14 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -39,12 +43,12 @@
 		2B5EC0982AA34ECA00305D14 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2B5EC09A2AA34ECA00305D14 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B5EC0A22AA3587500305D14 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		2B5EC0A62AA359E700305D14 /* TransactionsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsTableViewController.swift; sourceTree = "<group>"; };
+		2B5EC0A62AA359E700305D14 /* HistoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewController.swift; sourceTree = "<group>"; };
 		2B5EC0A82AA3608B00305D14 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		2B5EC0AC2AA37A4F00305D14 /* TransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCell.swift; sourceTree = "<group>"; };
 		2B6A16C02C8DD21000464C03 /* NBPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NBPResponse.swift; sourceTree = "<group>"; };
 		2B6AABB12C7F744A006B968A /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
-		2B8541582AA507EF00ADECEB /* NewTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTransactionViewController.swift; sourceTree = "<group>"; };
+		2B8541582AA507EF00ADECEB /* AddRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecordViewController.swift; sourceTree = "<group>"; };
 		2B85415A2AA545DE00ADECEB /* NotesTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTextField.swift; sourceTree = "<group>"; };
 		2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewCell.swift; sourceTree = "<group>"; };
 		2BC96F2C2AAB7652001D7042 /* TableOfCategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableOfCategoriesViewController.swift; sourceTree = "<group>"; };
@@ -61,45 +65,55 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2B00FAAB2ABCFB6B001D7E1E /* Resources */ = {
+		2B00FAAB2ABCFB6B001D7E1E /* resources */ = {
 			isa = PBXGroup;
 			children = (
 				2B5EC0952AA34ECA00305D14 /* Assets.xcassets */,
 				2B5EC0972AA34ECA00305D14 /* LaunchScreen.storyboard */,
 				2B5EC09A2AA34ECA00305D14 /* Info.plist */,
 			);
-			path = Resources;
+			path = resources;
 			sourceTree = "<group>";
 		};
-		2B00FAAD2ABCFEA7001D7E1E /* NewTransaction */ = {
+		2B00FAAD2ABCFEA7001D7E1E /* addRecord */ = {
 			isa = PBXGroup;
 			children = (
-				2B8541582AA507EF00ADECEB /* NewTransactionViewController.swift */,
+				2B8541582AA507EF00ADECEB /* AddRecordViewController.swift */,
 				2BC96F2C2AAB7652001D7042 /* TableOfCategoriesViewController.swift */,
 				2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */,
 				2B85415A2AA545DE00ADECEB /* NotesTextField.swift */,
 				2B6AABB12C7F744A006B968A /* CustomButton.swift */,
 			);
-			path = NewTransaction;
+			path = addRecord;
 			sourceTree = "<group>";
 		};
-		2B03B9762C947CED00DF48C1 /* Modules */ = {
+		2B03B9762C947CED00DF48C1 /* screens */ = {
 			isa = PBXGroup;
 			children = (
-				2BCCEF412C3B63D200E24A57 /* MainView */,
-				2B00FAAD2ABCFEA7001D7E1E /* NewTransaction */,
-				2BCCEF462C3B645100E24A57 /* TransactionsList */,
+				2BCCEF412C3B63D200E24A57 /* main */,
+				2B00FAAD2ABCFEA7001D7E1E /* addRecord */,
+				2BCCEF462C3B645100E24A57 /* history */,
 			);
-			path = Modules;
+			path = screens;
 			sourceTree = "<group>";
 		};
-		2B08DC852C78FD14003F49D0 /* Managers */ = {
+		2B08DC852C78FD14003F49D0 /* services */ = {
 			isa = PBXGroup;
 			children = (
 				2B08DC832C78FD03003F49D0 /* NetworkManager.swift */,
 				2B08DC812C78F4EF003F49D0 /* DataManager.swift */,
 			);
-			path = Managers;
+			path = services;
+			sourceTree = "<group>";
+		};
+		2B0EE2352E5A03B20032441C /* tabBar */ = {
+			isa = PBXGroup;
+			children = (
+				2B0EE2332E59FBFA0032441C /* TabBarTag.swift */,
+				2B0EE2312E59FBD20032441C /* TabBar.swift */,
+				2B5EC0902AA34EC900305D14 /* TabBarController.swift */,
+			);
+			path = tabBar;
 			sourceTree = "<group>";
 		};
 		2B5EC0802AA34EC900305D14 = {
@@ -121,50 +135,50 @@
 		2B5EC08B2AA34EC900305D14 /* Wallet App */ = {
 			isa = PBXGroup;
 			children = (
-				2BCCEF472C3B646A00E24A57 /* Application */,
-				2B03B9762C947CED00DF48C1 /* Modules */,
-				2B08DC852C78FD14003F49D0 /* Managers */,
-				2B6A16C22C8E154700464C03 /* Models */,
-				2B00FAAB2ABCFB6B001D7E1E /* Resources */,
+				2B0EE2352E5A03B20032441C /* tabBar */,
+				2BCCEF472C3B646A00E24A57 /* main */,
+				2B03B9762C947CED00DF48C1 /* screens */,
+				2B08DC852C78FD14003F49D0 /* services */,
+				2B6A16C22C8E154700464C03 /* models */,
+				2B00FAAB2ABCFB6B001D7E1E /* resources */,
 			);
 			path = "Wallet App";
 			sourceTree = "<group>";
 		};
-		2B6A16C22C8E154700464C03 /* Models */ = {
+		2B6A16C22C8E154700464C03 /* models */ = {
 			isa = PBXGroup;
 			children = (
 				2B5EC0A82AA3608B00305D14 /* Transaction.swift */,
 				2B6A16C02C8DD21000464C03 /* NBPResponse.swift */,
 			);
-			path = Models;
+			path = models;
 			sourceTree = "<group>";
 		};
-		2BCCEF412C3B63D200E24A57 /* MainView */ = {
+		2BCCEF412C3B63D200E24A57 /* main */ = {
 			isa = PBXGroup;
 			children = (
 				2B5EC0A22AA3587500305D14 /* MainViewController.swift */,
 				2B080BB22AC0A01100BC89E3 /* BarView.swift */,
 			);
-			path = MainView;
+			path = main;
 			sourceTree = "<group>";
 		};
-		2BCCEF462C3B645100E24A57 /* TransactionsList */ = {
+		2BCCEF462C3B645100E24A57 /* history */ = {
 			isa = PBXGroup;
 			children = (
-				2B5EC0A62AA359E700305D14 /* TransactionsTableViewController.swift */,
+				2B5EC0A62AA359E700305D14 /* HistoryTableViewController.swift */,
 				2B5EC0AC2AA37A4F00305D14 /* TransactionCell.swift */,
 			);
-			path = TransactionsList;
+			path = history;
 			sourceTree = "<group>";
 		};
-		2BCCEF472C3B646A00E24A57 /* Application */ = {
+		2BCCEF472C3B646A00E24A57 /* main */ = {
 			isa = PBXGroup;
 			children = (
-				2B5EC0902AA34EC900305D14 /* TabBarController.swift */,
 				2B5EC08C2AA34EC900305D14 /* AppDelegate.swift */,
 				2B5EC08E2AA34EC900305D14 /* SceneDelegate.swift */,
 			);
-			path = Application;
+			path = main;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -238,15 +252,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B5EC0912AA34EC900305D14 /* TabBarController.swift in Sources */,
-				2B5EC0A72AA359E700305D14 /* TransactionsTableViewController.swift in Sources */,
+				2B5EC0A72AA359E700305D14 /* HistoryTableViewController.swift in Sources */,
 				2B5EC0A92AA3608B00305D14 /* Transaction.swift in Sources */,
 				2B08DC822C78F4EF003F49D0 /* DataManager.swift in Sources */,
 				2B5EC08D2AA34EC900305D14 /* AppDelegate.swift in Sources */,
 				2BC96F2B2AAB761D001D7042 /* CategoryViewCell.swift in Sources */,
 				2B6AABB22C7F744A006B968A /* CustomButton.swift in Sources */,
+				2B0EE2322E59FBD20032441C /* TabBar.swift in Sources */,
 				2B080BB32AC0A01100BC89E3 /* BarView.swift in Sources */,
 				2B6A16C12C8DD21000464C03 /* NBPResponse.swift in Sources */,
-				2B8541592AA507EF00ADECEB /* NewTransactionViewController.swift in Sources */,
+				2B0EE2342E59FBFA0032441C /* TabBarTag.swift in Sources */,
+				2B8541592AA507EF00ADECEB /* AddRecordViewController.swift in Sources */,
 				2B5EC08F2AA34EC900305D14 /* SceneDelegate.swift in Sources */,
 				2B85415B2AA545DE00ADECEB /* NotesTextField.swift in Sources */,
 				2B5EC0AD2AA37A4F00305D14 /* TransactionCell.swift in Sources */,

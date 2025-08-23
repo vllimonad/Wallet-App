@@ -9,27 +9,27 @@ import UIKit
 
 final class MainViewController: UIViewController {
     
-    var transactionsList = [[Transaction]]()
-    var selectedDate = [String: String]()
-    var monthIndex = 1
-    var yearIndex = 0
+     var transactionsList = [[Transaction]]()
+    private var selectedDate = [String: String]()
+    private var monthIndex = 1
+    private var yearIndex = 0
     
-    let formatter: DateFormatter = {
+    private let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         formatter.timeStyle = .none
         return formatter
     }()
     
-    let monthLabel: UILabel = {
-        var label = UILabel()
+    private let monthLabel: UILabel = {
+        let label = UILabel()
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let backwardButton: UIButton = {
-        var button = UIButton()
+    private let backwardButton: UIButton = {
+        let button = UIButton()
         let config = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular)
         button.setImage(UIImage(systemName: "chevron.backward", withConfiguration: config), for: .normal)
         button.addTarget(self, action: #selector(showPreviousMonth), for: .touchUpInside)
@@ -37,8 +37,8 @@ final class MainViewController: UIViewController {
         return button
     }()
     
-    let forwardButton: UIButton = {
-        var button = UIButton()
+    private let forwardButton: UIButton = {
+        let button = UIButton()
         let config = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular)
         button.setImage(UIImage(systemName: "chevron.forward", withConfiguration: config), for: .normal)
         button.addTarget(self, action: #selector(showNextMonth), for: .touchUpInside)
@@ -46,7 +46,7 @@ final class MainViewController: UIViewController {
         return button
     }()
     
-    let monthStackView: UIStackView = {
+    private let monthStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.layer.shadowColor = UIColor.systemGray.cgColor
@@ -59,7 +59,7 @@ final class MainViewController: UIViewController {
         return stack
     }()
     
-    let backView: UIView = {
+    private let backView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 24
         view.layer.shadowColor = UIColor.systemGray.cgColor
@@ -71,14 +71,14 @@ final class MainViewController: UIViewController {
         return view
     }()
     
-    var amountLabel: UILabel = {
+    private let amountLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 22)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    var stackView: UIStackView = {
+    private let stackView: UIStackView = {
         let stack = UIStackView()
         stack.spacing = 70
         stack.axis = .vertical
@@ -88,39 +88,36 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "background")
-        setupNavigationBar()
-        setupSubviews()
-        setupLayout()
+        
+        configureUI()
+        configureNavigationBar()
         setupDate()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         updateUI()
     }
-}
-
-extension MainViewController {
     
-    func setupNavigationBar() {
-        title = "Statistics"
+    private func configureNavigationBar() {
+        navigationItem.title = "Statistics"
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
     }
     
-    func setupSubviews() {
+    private func configureUI() {
+        view.backgroundColor = UIColor(named: "background")
+        
         view.addSubview(monthStackView)
+        view.addSubview(backView)
+
         monthStackView.addArrangedSubview(backwardButton)
         monthStackView.addArrangedSubview(monthLabel)
         monthStackView.addArrangedSubview(forwardButton)
-        
-        view.addSubview(backView)
+                
         backView.addSubview(amountLabel)
         backView.addSubview(stackView)
-    }
-    
-    func setupLayout() {
+        
         NSLayoutConstraint.activate([
             backwardButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25),
             forwardButton.widthAnchor.constraint(equalTo: backwardButton.widthAnchor),
@@ -144,13 +141,13 @@ extension MainViewController {
         ])
     }
     
-    func setupDate() {
+    private func setupDate() {
         let index = Calendar.current.component(.month, from: Date())
         selectedDate["Month"] = Calendar.current.standaloneMonthSymbols[index-1]
         selectedDate["Year"] = "\(Calendar.current.component(.year, from: Date()))"
     }
     
-    func getTotalSum() -> Double {
+    private func getTotalSum() -> Double {
         var sum: Double = 0
         for i in getExpensesByCategories() {
             sum += i.value
@@ -158,7 +155,7 @@ extension MainViewController {
         return (sum * 100).rounded()/100
     }
     
-    func getExpensesByCategories() -> [String: Double] {
+    private func getExpensesByCategories() -> [String: Double] {
         var values = [String: Double]()
         for day in transactionsList {
             if formatter.string(from: day[0].date).contains(selectedDate["Month"]!)
@@ -175,13 +172,13 @@ extension MainViewController {
         return values
     }
     
-    func updateUI() {
+    private func updateUI() {
         amountLabel.text = "Total: \(getTotalSum())zł"
         monthLabel.text = selectedDate["Month"]! + " " + selectedDate["Year"]!
         updateBars()
     }
     
-    func updateBars() {
+    private func updateBars() {
         for view in stackView.arrangedSubviews {
             view.removeFromSuperview()
         }
@@ -195,14 +192,15 @@ extension MainViewController {
         }
     }
     
-    @objc func addButtonTapped() {
-        let transactionView = NewTransactionViewController()
-        transactionView.delegate = self
-        transactionView.modalPresentationStyle = .overCurrentContext
-        present(UINavigationController(rootViewController: transactionView), animated: true)
-    }
+//    @objc func addButtonTapped() {
+//        let transactionView = AddRecordViewController()
+//        transactionView.delegate = self
+//        transactionView.modalPresentationStyle = .overCurrentContext
+//        present(UINavigationController(rootViewController: transactionView), animated: true)
+//    }
     
-    @objc func showPreviousMonth() {
+    @objc
+    private func showPreviousMonth() {
         let index = Calendar.current.component(.month, from: Date())
         if index - monthIndex - 1 < 0 {
             yearIndex -= 31_577_600
@@ -214,7 +212,8 @@ extension MainViewController {
         updateUI()
     }
     
-    @objc func showNextMonth() {
+    @objc
+    private func showNextMonth() {
         let index = Calendar.current.component(.month, from: Date())
         if index - monthIndex + 1 > 11 {
             yearIndex += 31_577_600
@@ -238,7 +237,7 @@ extension MainViewController: NewTransactionViewControllerDelegate {
         }
         transactionsList.sort(by: { $0[0].date > $1[0].date })
         updateUI()
-        DataManager.shared.saveData(transactionsList)
+        //DataManager.shared.saveData(transactionsList)
     }
 }
 
@@ -251,6 +250,6 @@ extension MainViewController: TransactionsTableViewControllerDelegate {
     func setTransactionsList(_ list: [[Transaction]]) {
         transactionsList = list
         updateUI()
-        DataManager.shared.saveData(transactionsList)
+        //DataManager.shared.saveData(transactionsList)
     }
 }
