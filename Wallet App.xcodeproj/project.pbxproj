@@ -65,17 +65,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2B00FAAB2ABCFB6B001D7E1E /* Resources */ = {
+		2B00FAAB2ABCFB6B001D7E1E /* resources */ = {
 			isa = PBXGroup;
 			children = (
 				2B5EC0952AA34ECA00305D14 /* Assets.xcassets */,
 				2B5EC0972AA34ECA00305D14 /* LaunchScreen.storyboard */,
 				2B5EC09A2AA34ECA00305D14 /* Info.plist */,
 			);
-			path = Resources;
+			path = resources;
 			sourceTree = "<group>";
 		};
-		2B00FAAD2ABCFEA7001D7E1E /* NewTransaction */ = {
+		2B00FAAD2ABCFEA7001D7E1E /* addRecord */ = {
 			isa = PBXGroup;
 			children = (
 				2B8541582AA507EF00ADECEB /* AddRecordViewController.swift */,
@@ -84,26 +84,36 @@
 				2B85415A2AA545DE00ADECEB /* NotesTextField.swift */,
 				2B6AABB12C7F744A006B968A /* CustomButton.swift */,
 			);
-			path = NewTransaction;
+			path = addRecord;
 			sourceTree = "<group>";
 		};
-		2B03B9762C947CED00DF48C1 /* Modules */ = {
+		2B03B9762C947CED00DF48C1 /* screens */ = {
 			isa = PBXGroup;
 			children = (
-				2BCCEF412C3B63D200E24A57 /* MainView */,
-				2B00FAAD2ABCFEA7001D7E1E /* NewTransaction */,
-				2BCCEF462C3B645100E24A57 /* TransactionsList */,
+				2BCCEF412C3B63D200E24A57 /* main */,
+				2B00FAAD2ABCFEA7001D7E1E /* addRecord */,
+				2BCCEF462C3B645100E24A57 /* history */,
 			);
-			path = Modules;
+			path = screens;
 			sourceTree = "<group>";
 		};
-		2B08DC852C78FD14003F49D0 /* Managers */ = {
+		2B08DC852C78FD14003F49D0 /* services */ = {
 			isa = PBXGroup;
 			children = (
 				2B08DC832C78FD03003F49D0 /* NetworkManager.swift */,
 				2B08DC812C78F4EF003F49D0 /* DataManager.swift */,
 			);
-			path = Managers;
+			path = services;
+			sourceTree = "<group>";
+		};
+		2B0EE2352E5A03B20032441C /* tabBar */ = {
+			isa = PBXGroup;
+			children = (
+				2B0EE2332E59FBFA0032441C /* TabBarTag.swift */,
+				2B0EE2312E59FBD20032441C /* TabBar.swift */,
+				2B5EC0902AA34EC900305D14 /* TabBarController.swift */,
+			);
+			path = tabBar;
 			sourceTree = "<group>";
 		};
 		2B5EC0802AA34EC900305D14 = {
@@ -125,52 +135,50 @@
 		2B5EC08B2AA34EC900305D14 /* Wallet App */ = {
 			isa = PBXGroup;
 			children = (
-				2BCCEF472C3B646A00E24A57 /* Application */,
-				2B03B9762C947CED00DF48C1 /* Modules */,
-				2B08DC852C78FD14003F49D0 /* Managers */,
-				2B6A16C22C8E154700464C03 /* Models */,
-				2B00FAAB2ABCFB6B001D7E1E /* Resources */,
+				2B0EE2352E5A03B20032441C /* tabBar */,
+				2BCCEF472C3B646A00E24A57 /* main */,
+				2B03B9762C947CED00DF48C1 /* screens */,
+				2B08DC852C78FD14003F49D0 /* services */,
+				2B6A16C22C8E154700464C03 /* models */,
+				2B00FAAB2ABCFB6B001D7E1E /* resources */,
 			);
 			path = "Wallet App";
 			sourceTree = "<group>";
 		};
-		2B6A16C22C8E154700464C03 /* Models */ = {
+		2B6A16C22C8E154700464C03 /* models */ = {
 			isa = PBXGroup;
 			children = (
 				2B5EC0A82AA3608B00305D14 /* Transaction.swift */,
 				2B6A16C02C8DD21000464C03 /* NBPResponse.swift */,
 			);
-			path = Models;
+			path = models;
 			sourceTree = "<group>";
 		};
-		2BCCEF412C3B63D200E24A57 /* MainView */ = {
+		2BCCEF412C3B63D200E24A57 /* main */ = {
 			isa = PBXGroup;
 			children = (
 				2B5EC0A22AA3587500305D14 /* MainViewController.swift */,
 				2B080BB22AC0A01100BC89E3 /* BarView.swift */,
 			);
-			path = MainView;
+			path = main;
 			sourceTree = "<group>";
 		};
-		2BCCEF462C3B645100E24A57 /* TransactionsList */ = {
+		2BCCEF462C3B645100E24A57 /* history */ = {
 			isa = PBXGroup;
 			children = (
 				2B5EC0A62AA359E700305D14 /* HistoryTableViewController.swift */,
 				2B5EC0AC2AA37A4F00305D14 /* TransactionCell.swift */,
 			);
-			path = TransactionsList;
+			path = history;
 			sourceTree = "<group>";
 		};
-		2BCCEF472C3B646A00E24A57 /* Application */ = {
+		2BCCEF472C3B646A00E24A57 /* main */ = {
 			isa = PBXGroup;
 			children = (
-				2B5EC0902AA34EC900305D14 /* TabBarController.swift */,
-				2B0EE2332E59FBFA0032441C /* TabBarTag.swift */,
 				2B5EC08C2AA34EC900305D14 /* AppDelegate.swift */,
 				2B5EC08E2AA34EC900305D14 /* SceneDelegate.swift */,
-				2B0EE2312E59FBD20032441C /* TabBar.swift */,
 			);
-			path = Application;
+			path = main;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
