@@ -14,17 +14,17 @@ class DataManager {
     
     private init() {}
     
-    func readData() -> [[Transaction]] {
-        if let data = try? Data(contentsOf: getURL()){
-            return try! JSONDecoder().decode([[Transaction]].self, from: data)
-        }
+    func readData() -> [[TransactionModel]] {
+//        if let data = try? Data(contentsOf: getURL()){
+//            return try! JSONDecoder().decode([[Transaction]].self, from: data)
+//        }
         return []
     }
     
-    func saveData(_ transactions: [[Transaction]]) {
-        if let data = try? JSONEncoder().encode(transactions){
-            try? data.write(to: getURL())
-        }
+    func saveData(_ transactions: [[TransactionModel]]) {
+//        if let data = try? JSONEncoder().encode(transactions){
+//            try? data.write(to: getURL())
+//        }
     }
     
     func getURL() -> URL {
