@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TabBarController: UITabBarController {
+final class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     private let mainViewController: MainViewController
     
@@ -30,11 +30,24 @@ final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupTabBar()
         setupTabBarAppearance()
         setupTabBarItems()
+        updateTabBar()
     }
     
-    func setupTabBarAppearance() {
+    private func setupTabBar() {
+        let tabBar = TabBar()
+        setValue(tabBar, forKey: "tabBar")
+        delegate = self
+        
+        tabBar.didTapAddRecord = { [weak self] in
+            let addRecordViewController = UINavigationController(rootViewController: AddRecordViewController())
+            self?.present(addRecordViewController, animated: true)
+        }
+    }
+    
+    private func setupTabBarAppearance() {
         view.backgroundColor = UIColor(named: "cell")
         
         let appearance = UITabBarAppearance()
@@ -44,28 +57,21 @@ final class TabBarController: UITabBarController {
         tabBar.scrollEdgeAppearance = appearance
     }
     
-    func setupTabBarItems() {
-        mainViewController.tabBarItem = UITabBarItem(title: "Statistics",
-                                                     image: UIImage(systemName: "chart.pie"),
-                                                     selectedImage: UIImage(systemName: "chart.pie.fill"))
-        
-        let addRecordIcon = UIImage(systemName: "plus.circle")?.applyingSymbolConfiguration(.init(pointSize: 25))
-        addRecordViewController.tabBarItem = UITabBarItem(title: nil,
-                                                          image: addRecordIcon,
-                                                          selectedImage: addRecordIcon)
-        
-        historyViewController.tabBarItem = UITabBarItem(title: "Records",
-                                                        image: UIImage(systemName: "list.clipboard"),
-                                                        selectedImage: UIImage(systemName: "list.clipboard.fill"))
-        
+    private func setupTabBarItems() {
         historyViewController.delegate = mainViewController
         mainViewController.transactionsList = DataManager.shared.readData()
-        
+
         viewControllers = [
             UINavigationController(rootViewController: mainViewController),
-            UINavigationController(rootViewController: addRecordViewController),
             UINavigationController(rootViewController: historyViewController)
         ]
     }
+    
+    private func updateTabBar() {
+        (tabBar as? TabBar)?.updateButtonsState(selectedIndex)
+    }
+    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        updateTabBar()
+    }
 }
-

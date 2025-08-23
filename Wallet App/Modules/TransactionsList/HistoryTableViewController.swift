@@ -48,7 +48,7 @@ final class HistoryTableViewController: UIViewController {
 extension HistoryTableViewController {
     
     func setupNavigationBarTitle() {
-        title = "Records"
+        navigationItem.title = "Records"
         navigationController?.navigationBar.prefersLargeTitles = false
     }
     

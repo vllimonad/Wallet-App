@@ -104,7 +104,7 @@ final class MainViewController: UIViewController {
 extension MainViewController {
     
     func setupNavigationBar() {
-        title = "Statistics"
+        navigationItem.title = "Statistics"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
     }
