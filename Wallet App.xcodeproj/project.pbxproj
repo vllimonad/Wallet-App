@@ -88,9 +88,8 @@
 		2B00FAAD2ABCFEA7001D7E1E /* addRecord */ = {
 			isa = PBXGroup;
 			children = (
+				2B0EE2592E5B66110032441C /* category */,
 				2B8541582AA507EF00ADECEB /* AddRecordViewController.swift */,
-				2BC96F2C2AAB7652001D7042 /* CategoryTableViewController.swift */,
-				2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */,
 				2B85415A2AA545DE00ADECEB /* NotesTextField.swift */,
 				2B6AABB12C7F744A006B968A /* CurrencyButton.swift */,
 				2B0EE2572E5B3A880032441C /* AddRecordViewModel.swift */,
@@ -126,6 +125,15 @@
 				2B5EC0902AA34EC900305D14 /* TabBarController.swift */,
 			);
 			path = tabBar;
+			sourceTree = "<group>";
+		};
+		2B0EE2592E5B66110032441C /* category */ = {
+			isa = PBXGroup;
+			children = (
+				2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */,
+				2BC96F2C2AAB7652001D7042 /* CategoryTableViewController.swift */,
+			);
+			path = category;
 			sourceTree = "<group>";
 		};
 		2B5EC0802AA34EC900305D14 = {

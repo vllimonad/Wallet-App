@@ -13,6 +13,8 @@ final class AddRecordViewModel {
     
     public var selectedCurrency: TransactionCurrency
     
+    public var selectedCategory: TransactionCategory?
+    
     public var selectedDate: Date
     
     public var note: String?

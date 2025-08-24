@@ -11,83 +11,34 @@ final class AddRecordViewController: UIViewController, UITextFieldDelegate {
     
 //    var delegate: NewTransactionViewControllerDelegate?
 //    var networkManager: NetworkManagerProtocol?
-    var selectedCurrency = TransactionCurrency.pln
     var exchangeRates: [Rate]? {
         didSet {
             //saveTransaction()
         }
     }
     
-    private let amountTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "1234.56"
-        textField.textAlignment = .center
-        textField.font = UIFont.systemFont(ofSize: 30)
-        textField.keyboardType = .decimalPad
-        textField.backgroundColor = .systemGray6
-        textField.layer.cornerRadius = 20
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
-    }()
+    private let amountTextField: UITextField
     
     private let currencyButtonsContainer: UIStackView
     
-    private let datePicker: UIDatePicker = {
-        let picker = UIDatePicker()
-        picker.datePickerMode = .date
-        picker.translatesAutoresizingMaskIntoConstraints = false
-        return picker
-    }()
+    private let datePicker: UIDatePicker
     
-    private let notesView:UIView = {
-        let view = UIView()
-        let label: UILabel = {
-            let label = UILabel()
-            label.text = "Notes"
-            label.textColor = .systemGray
-            label.frame = CGRect(x: 20, y: 15, width: 70, height: 15)
-            return label
-        }()
-        view.addSubview(label)
-        view.backgroundColor = .systemGray6
-        view.layer.cornerRadius = 20
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private let notesTextView: UITextView = {
-        let textField = UITextView()
-        textField.font = UIFont.systemFont(ofSize: 17)
-        textField.textColor = UIColor(named: "text")
-        textField.backgroundColor = .systemGray6
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
-    }()
+    private let notesTextView: UITextView
         
-    private let containerView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 24
-        view.layer.shadowColor = UIColor.systemGray.cgColor
-        view.layer.shadowOpacity = 0.2
-        view.layer.shadowOffset = .zero
-        view.layer.shadowRadius = 10
-        view.backgroundColor = UIColor(named: "view")
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    private let containerView: UIView
     
-    private let categoryValueLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Required"
-        label.textColor = .systemRed
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let categoryValueLabel: UILabel
     
     private let viewModel: AddRecordViewModel
     
     init() {
+        self.containerView = UIView()
+        self.amountTextField = UITextField()
+        self.categoryValueLabel = UILabel()
         self.currencyButtonsContainer = UIStackView()
+        self.datePicker = UIDatePicker()
+        self.notesTextView = UITextView()
+        
         self.viewModel = AddRecordViewModel()
         
         super.init(nibName: nil, bundle: nil)
@@ -107,11 +58,33 @@ final class AddRecordViewController: UIViewController, UITextFieldDelegate {
     private func configureUI() {
         view.backgroundColor = UIColor(named: "background")
         
+        containerView.layer.cornerRadius = 24
+        containerView.layer.shadowColor = UIColor.systemGray.cgColor
+        containerView.layer.shadowOpacity = 0.2
+        containerView.layer.shadowOffset = .zero
+        containerView.layer.shadowRadius = 10
+        containerView.backgroundColor = UIColor(named: "view")
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        amountTextField.placeholder = "1234.56"
+        amountTextField.textAlignment = .center
+        amountTextField.font = UIFont.systemFont(ofSize: 30)
+        amountTextField.keyboardType = .decimalPad
+        amountTextField.backgroundColor = .systemGray6
+        amountTextField.layer.cornerRadius = 20
+        amountTextField.translatesAutoresizingMaskIntoConstraints = false
+        
         amountTextField.delegate = self
 
         configureCurrencyButtons()
         
+        datePicker.datePickerMode = .date
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        datePicker.addTarget(self, action: #selector(didSelectDate), for: .valueChanged)
+        
         let transactionDetailsView = getTransactionDetailsView()
+        
+        let notesView = getNotesView()
         
         view.addSubview(containerView)
         
@@ -145,12 +118,7 @@ final class AddRecordViewController: UIViewController, UITextFieldDelegate {
             notesView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
             notesView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
             notesView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
-            notesView.heightAnchor.constraint(equalToConstant: 100),
-            
-            notesTextView.topAnchor.constraint(equalTo: notesView.topAnchor, constant: 30),
-            notesTextView.bottomAnchor.constraint(equalTo: notesView.bottomAnchor, constant: -30),
-            notesTextView.leadingAnchor.constraint(equalTo: notesView.leadingAnchor, constant: 15),
-            notesTextView.trailingAnchor.constraint(equalTo: notesView.trailingAnchor, constant: -15),
+            notesView.heightAnchor.constraint(equalToConstant: 170),
         ])
     }
     
@@ -176,7 +144,7 @@ final class AddRecordViewController: UIViewController, UITextFieldDelegate {
             currencyButton.tag = currency.rawValue
             currencyButton.addTarget(self, action: #selector(currencyButtonTapped(_:)), for: .touchUpInside)
             
-            if currency == .pln {
+            if currency == viewModel.selectedCurrency {
                 currencyButton.setActive()
             }
             
@@ -191,6 +159,9 @@ final class AddRecordViewController: UIViewController, UITextFieldDelegate {
         
         let chevronImageView = UIImageView(image: UIImage(systemName: "chevron.right"))
         chevronImageView.tintColor = .systemGray
+        
+        categoryValueLabel.text = "Required"
+        categoryValueLabel.textColor = .systemRed
         
         let categoryContainerView = UIStackView(arrangedSubviews: [categoryLabel, categoryValueLabel, chevronImageView])
         categoryContainerView.axis = .horizontal
@@ -238,6 +209,41 @@ final class AddRecordViewController: UIViewController, UITextFieldDelegate {
         return detailsContainerView
     }
     
+    private func getNotesView() -> UIView {
+        let notesView = UIView()
+        notesView.backgroundColor = .systemGray6
+        notesView.layer.cornerRadius = 20
+        notesView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let notesTitleLabel = UILabel()
+        notesTitleLabel.text = "Note"
+        notesTitleLabel.textColor = .black
+        notesTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        notesTextView.font = UIFont.systemFont(ofSize: 17)
+        notesTextView.textColor = UIColor(named: "text")
+        notesTextView.backgroundColor = .systemGray5
+        notesTextView.layer.cornerRadius = 20
+        notesTextView.textContainerInset = .init(top: 10, left: 10, bottom: 10, right: 10)
+        notesTextView.translatesAutoresizingMaskIntoConstraints = false
+        
+        notesView.addSubview(notesTextView)
+        notesView.addSubview(notesTitleLabel)
+        
+        NSLayoutConstraint.activate([
+            notesTitleLabel.topAnchor.constraint(equalTo: notesView.topAnchor, constant: 8),
+            notesTitleLabel.leadingAnchor.constraint(equalTo: notesView.leadingAnchor, constant: 15),
+            notesTitleLabel.trailingAnchor.constraint(lessThanOrEqualTo: notesView.trailingAnchor),
+            
+            notesTextView.topAnchor.constraint(equalTo: notesTitleLabel.bottomAnchor, constant: 5),
+            notesTextView.bottomAnchor.constraint(equalTo: notesView.bottomAnchor),
+            notesTextView.leadingAnchor.constraint(equalTo: notesView.leadingAnchor),
+            notesTextView.trailingAnchor.constraint(equalTo: notesView.trailingAnchor),
+        ])
+        
+        return notesView
+    }
+    
     func textField(_ textField: UITextField,
                    shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
@@ -276,9 +282,22 @@ final class AddRecordViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc
+    private func currencyButtonTapped(_ sender: UIButton) {
+        currencyButtonsContainer.arrangedSubviews.forEach { button in
+            (button as? CurrencyButton)?.setInactive()
+        }
+        
+        (currencyButtonsContainer.arrangedSubviews[sender.tag] as? CurrencyButton)?.setActive()
+        
+        viewModel.selectedCurrency = TransactionCurrency(rawValue: sender.tag) ?? .pln
+    }
+    
+    @objc
     private func didTapCategoryButton() {
         let categoryTableViewController = CategoryTableViewController()
         categoryTableViewController.didSelectCategory = { [weak self] category in
+            self?.viewModel.selectedCategory = category
+            
             self?.categoryValueLabel.text = category.rawValue
             self?.categoryValueLabel.textColor = .systemBlue
         }
@@ -287,14 +306,8 @@ final class AddRecordViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc
-    private func currencyButtonTapped(_ sender: UIButton) {
-        currencyButtonsContainer.arrangedSubviews.forEach { button in
-            (button as? CurrencyButton)?.setInactive()
-        }
-        
-        (currencyButtonsContainer.arrangedSubviews[sender.tag] as? CurrencyButton)?.setActive()
-        
-        selectedCurrency = TransactionCurrency(rawValue: sender.tag) ?? .pln
+    private func didSelectDate() {
+        viewModel.selectedDate = datePicker.date
     }
         
     @objc
