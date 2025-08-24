@@ -9,4 +9,16 @@ import Foundation
 
 final class AddRecordViewModel {
     
+    public var amount: Double?
+    
+    public var selectedCurrency: TransactionCurrency
+    
+    public var selectedDate: Date
+    
+    public var note: String?
+    
+    init() {
+        self.selectedCurrency = .pln
+        self.selectedDate = Date()
+    }
 }

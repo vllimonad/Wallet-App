@@ -31,7 +31,7 @@
 		2B8541592AA507EF00ADECEB /* AddRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8541582AA507EF00ADECEB /* AddRecordViewController.swift */; };
 		2B85415B2AA545DE00ADECEB /* NotesTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B85415A2AA545DE00ADECEB /* NotesTextField.swift */; };
 		2BC96F2B2AAB761D001D7042 /* CategoryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */; };
-		2BC96F2D2AAB7652001D7042 /* TableOfCategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC96F2C2AAB7652001D7042 /* TableOfCategoriesViewController.swift */; };
+		2BC96F2D2AAB7652001D7042 /* CategoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC96F2C2AAB7652001D7042 /* CategoryTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,7 +61,7 @@
 		2B8541582AA507EF00ADECEB /* AddRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecordViewController.swift; sourceTree = "<group>"; };
 		2B85415A2AA545DE00ADECEB /* NotesTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTextField.swift; sourceTree = "<group>"; };
 		2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewCell.swift; sourceTree = "<group>"; };
-		2BC96F2C2AAB7652001D7042 /* TableOfCategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableOfCategoriesViewController.swift; sourceTree = "<group>"; };
+		2BC96F2C2AAB7652001D7042 /* CategoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,7 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				2B8541582AA507EF00ADECEB /* AddRecordViewController.swift */,
-				2BC96F2C2AAB7652001D7042 /* TableOfCategoriesViewController.swift */,
+				2BC96F2C2AAB7652001D7042 /* CategoryTableViewController.swift */,
 				2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */,
 				2B85415A2AA545DE00ADECEB /* NotesTextField.swift */,
 				2B6AABB12C7F744A006B968A /* CurrencyButton.swift */,
@@ -288,7 +288,7 @@
 				2B5EC0AD2AA37A4F00305D14 /* TransactionCell.swift in Sources */,
 				2B08DC842C78FD03003F49D0 /* NetworkManager.swift in Sources */,
 				2B5EC0A32AA3587500305D14 /* MainViewController.swift in Sources */,
-				2BC96F2D2AAB7652001D7042 /* TableOfCategoriesViewController.swift in Sources */,
+				2BC96F2D2AAB7652001D7042 /* CategoryTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

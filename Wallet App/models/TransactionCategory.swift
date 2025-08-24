@@ -8,5 +8,11 @@
 import Foundation
 
 enum TransactionCategory: String, Codable, CaseIterable {
-    case food, transportation, shopping, communication, entertainment, housing, financialExpenses
+    case food = "Food"
+    case transportation = "Transportation"
+    case shopping = "Shopping"
+    case communication = "Communication"
+    case entertainment = "Entertainment"
+    case housing = "Housing"
+    case financialExpenses = "Financial Expenses"
 }

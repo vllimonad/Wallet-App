@@ -18,7 +18,7 @@ final class AddRecordViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    var amountTextField: UITextField = {
+    private let amountTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "1234.56"
         textField.textAlignment = .center
@@ -30,23 +30,16 @@ final class AddRecordViewController: UIViewController, UITextFieldDelegate {
         return textField
     }()
     
-    var tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.rowHeight = 70
-        tableView.layer.cornerRadius = 20
-        tableView.isScrollEnabled = false
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
-    }()
+    private let currencyButtonsContainer: UIStackView
     
-    var datePicker: UIDatePicker = {
+    private let datePicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.datePickerMode = .date
         picker.translatesAutoresizingMaskIntoConstraints = false
         return picker
     }()
     
-    var notesView:UIView = {
+    private let notesView:UIView = {
         let view = UIView()
         let label: UILabel = {
             let label = UILabel()
@@ -62,7 +55,7 @@ final class AddRecordViewController: UIViewController, UITextFieldDelegate {
         return view
     }()
     
-    var notesTextView: UITextView = {
+    private let notesTextView: UITextView = {
         let textField = UITextView()
         textField.font = UIFont.systemFont(ofSize: 17)
         textField.textColor = UIColor(named: "text")
@@ -70,10 +63,8 @@ final class AddRecordViewController: UIViewController, UITextFieldDelegate {
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
-    
-    //MARK: second version of ui
-    
-    let containerView: UIView = {
+        
+    private let containerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 24
         view.layer.shadowColor = UIColor.systemGray.cgColor
@@ -85,15 +76,13 @@ final class AddRecordViewController: UIViewController, UITextFieldDelegate {
         return view
     }()
     
-    let categoryCellLabel: UILabel = {
+    private let categoryValueLabel: UILabel = {
         let label = UILabel()
         label.text = "Required"
         label.textColor = .systemRed
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    private let currencyButtonsContainer: UIStackView
     
     private let viewModel: AddRecordViewModel
     
@@ -111,27 +100,24 @@ final class AddRecordViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor(named: "background")
-        
         configureUI()
         configureNavigationBar()
     }
     
     private func configureUI() {
+        view.backgroundColor = UIColor(named: "background")
+        
         amountTextField.delegate = self
 
         configureCurrencyButtons()
         
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "option")
-        tableView.backgroundColor = .clear
+        let transactionDetailsView = getTransactionDetailsView()
         
         view.addSubview(containerView)
         
         containerView.addSubview(amountTextField)
         containerView.addSubview(currencyButtonsContainer)
-        containerView.addSubview(tableView)
+        containerView.addSubview(transactionDetailsView)
         containerView.addSubview(notesView)
         
         notesView.addSubview(notesTextView)
@@ -151,12 +137,11 @@ final class AddRecordViewController: UIViewController, UITextFieldDelegate {
             currencyButtonsContainer.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
             currencyButtonsContainer.heightAnchor.constraint(equalToConstant: 40),
             
-            tableView.topAnchor.constraint(equalTo: currencyButtonsContainer.bottomAnchor, constant: 20),
-            tableView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
-            tableView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
-            tableView.heightAnchor.constraint(equalToConstant: 140),
+            transactionDetailsView.topAnchor.constraint(equalTo: currencyButtonsContainer.bottomAnchor, constant: 20),
+            transactionDetailsView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
+            transactionDetailsView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
         
-            notesView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 20),
+            notesView.topAnchor.constraint(equalTo: transactionDetailsView.bottomAnchor, constant: 20),
             notesView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
             notesView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
             notesView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
@@ -199,6 +184,60 @@ final class AddRecordViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    private func getTransactionDetailsView() -> UIView {
+        let categoryLabel = UILabel()
+        categoryLabel.text = "Category"
+        categoryLabel.textColor = UIColor(named: "text")
+        
+        let chevronImageView = UIImageView(image: UIImage(systemName: "chevron.right"))
+        chevronImageView.tintColor = .systemGray
+        
+        let categoryContainerView = UIStackView(arrangedSubviews: [categoryLabel, categoryValueLabel, chevronImageView])
+        categoryContainerView.axis = .horizontal
+        categoryContainerView.distribution = .fill
+        categoryContainerView.alignment = .center
+        categoryContainerView.setCustomSpacing(8, after: categoryValueLabel)
+        categoryContainerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapCategoryButton)))
+        
+        let dateLabel = UILabel()
+        dateLabel.text = "Date"
+        dateLabel.textColor = UIColor(named: "text")
+        
+        let dateContainerView = UIStackView(arrangedSubviews: [dateLabel, datePicker])
+        dateContainerView.axis = .horizontal
+        dateContainerView.distribution = .fill
+        dateContainerView.alignment = .center
+        
+        let separatorView = UIView()
+        separatorView.backgroundColor = .systemGray4
+        
+        let detailsStackView = UIStackView(arrangedSubviews: [categoryContainerView, separatorView, dateContainerView])
+        detailsStackView.axis = .vertical
+        detailsStackView.distribution = .fill
+        detailsStackView.spacing = 15
+        detailsStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let detailsContainerView = UIView()
+        detailsContainerView.backgroundColor = .systemGray6
+        detailsContainerView.layer.cornerRadius = 20
+        detailsContainerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        detailsContainerView.addSubview(detailsStackView)
+        
+        NSLayoutConstraint.activate([
+            detailsStackView.topAnchor.constraint(equalTo: detailsContainerView.topAnchor, constant: 15),
+            detailsStackView.bottomAnchor.constraint(equalTo: detailsContainerView.bottomAnchor, constant: -15),
+            detailsStackView.leadingAnchor.constraint(equalTo: detailsContainerView.leadingAnchor, constant: 15),
+            detailsStackView.trailingAnchor.constraint(equalTo: detailsContainerView.trailingAnchor, constant: -15),
+            
+            categoryContainerView.heightAnchor.constraint(equalTo: dateContainerView.heightAnchor),
+            
+            separatorView.heightAnchor.constraint(equalToConstant: 1)
+        ])
+        
+        return detailsContainerView
+    }
+    
     func textField(_ textField: UITextField,
                    shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
@@ -237,6 +276,17 @@ final class AddRecordViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc
+    private func didTapCategoryButton() {
+        let categoryTableViewController = CategoryTableViewController()
+        categoryTableViewController.didSelectCategory = { [weak self] category in
+            self?.categoryValueLabel.text = category.rawValue
+            self?.categoryValueLabel.textColor = .systemBlue
+        }
+        
+        navigationController?.pushViewController(categoryTableViewController, animated: true)
+    }
+    
+    @objc
     private func currencyButtonTapped(_ sender: UIButton) {
         currencyButtonsContainer.arrangedSubviews.forEach { button in
             (button as? CurrencyButton)?.setInactive()
@@ -267,46 +317,6 @@ final class AddRecordViewController: UIViewController, UITextFieldDelegate {
 //                        description: description,
 //                        exchangeRate: rateValue))
         dismiss(animated: true)
-    }
-}
-
-
-extension AddRecordViewController: UITableViewDataSource, UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "option", for: indexPath)
-        cell.backgroundColor = .systemGray6
-        if indexPath.row == 1 {
-            cell.textLabel?.text = "Date"
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: CGFloat.greatestFiniteMagnitude)
-            cell.contentView.addSubview(datePicker)
-            datePicker.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -20).isActive = true
-            datePicker.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
-        } else {
-            cell.textLabel?.text = "Category"
-            cell.accessoryType = .disclosureIndicator
-            cell.contentView.addSubview(categoryCellLabel)
-            categoryCellLabel.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -40).isActive = true
-            categoryCellLabel.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
-        }
-        return cell
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 0 {
-            let table = TableOfCategoriesViewController()
-            table.selectItem = { [weak self] category in
-                self?.categoryCellLabel.text = category
-                self?.categoryCellLabel.textColor = UIColor(named: "text")
-                self?.tableView.reloadData()
-            }
-            present(UINavigationController(rootViewController: table), animated: true)
-        }
-        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
