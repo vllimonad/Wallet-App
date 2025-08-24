@@ -164,6 +164,10 @@ final class MainViewController: UIViewController {
         ]
         let totalExpenses = 2000.0
         
+        for arrangedSubview in categoriesStackView.arrangedSubviews {
+            arrangedSubview.removeFromSuperview()
+        }
+        
         expensesByCategories.forEach { (category, expenses) in
             let bar = BarView()
             bar.amountLabel.text = expenses.description

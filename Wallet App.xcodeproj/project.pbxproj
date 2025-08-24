@@ -15,6 +15,8 @@
 		2B0EE2372E5A0D310032441C /* TranscationStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0EE2362E5A0D310032441C /* TranscationStorage.swift */; };
 		2B0EE2522E5B2A730032441C /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0EE2512E5B2A730032441C /* MainViewModel.swift */; };
 		2B0EE2542E5B30D50032441C /* TransactionCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0EE2532E5B30D50032441C /* TransactionCategory.swift */; };
+		2B0EE2562E5B3A190032441C /* TransactionCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0EE2552E5B3A190032441C /* TransactionCurrency.swift */; };
+		2B0EE2582E5B3A880032441C /* AddRecordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0EE2572E5B3A880032441C /* AddRecordViewModel.swift */; };
 		2B5EC08D2AA34EC900305D14 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC08C2AA34EC900305D14 /* AppDelegate.swift */; };
 		2B5EC08F2AA34EC900305D14 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC08E2AA34EC900305D14 /* SceneDelegate.swift */; };
 		2B5EC0912AA34EC900305D14 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC0902AA34EC900305D14 /* TabBarController.swift */; };
@@ -25,7 +27,7 @@
 		2B5EC0A92AA3608B00305D14 /* TransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC0A82AA3608B00305D14 /* TransactionModel.swift */; };
 		2B5EC0AD2AA37A4F00305D14 /* TransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC0AC2AA37A4F00305D14 /* TransactionCell.swift */; };
 		2B6A16C12C8DD21000464C03 /* NBPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6A16C02C8DD21000464C03 /* NBPResponse.swift */; };
-		2B6AABB22C7F744A006B968A /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6AABB12C7F744A006B968A /* CustomButton.swift */; };
+		2B6AABB22C7F744A006B968A /* CurrencyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6AABB12C7F744A006B968A /* CurrencyButton.swift */; };
 		2B8541592AA507EF00ADECEB /* AddRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8541582AA507EF00ADECEB /* AddRecordViewController.swift */; };
 		2B85415B2AA545DE00ADECEB /* NotesTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B85415A2AA545DE00ADECEB /* NotesTextField.swift */; };
 		2BC96F2B2AAB761D001D7042 /* CategoryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */; };
@@ -41,6 +43,8 @@
 		2B0EE2362E5A0D310032441C /* TranscationStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscationStorage.swift; sourceTree = "<group>"; };
 		2B0EE2512E5B2A730032441C /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		2B0EE2532E5B30D50032441C /* TransactionCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCategory.swift; sourceTree = "<group>"; };
+		2B0EE2552E5B3A190032441C /* TransactionCurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCurrency.swift; sourceTree = "<group>"; };
+		2B0EE2572E5B3A880032441C /* AddRecordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecordViewModel.swift; sourceTree = "<group>"; };
 		2B5EC0892AA34EC900305D14 /* Wallet App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wallet App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B5EC08C2AA34EC900305D14 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B5EC08E2AA34EC900305D14 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -53,7 +57,7 @@
 		2B5EC0A82AA3608B00305D14 /* TransactionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionModel.swift; sourceTree = "<group>"; };
 		2B5EC0AC2AA37A4F00305D14 /* TransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCell.swift; sourceTree = "<group>"; };
 		2B6A16C02C8DD21000464C03 /* NBPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NBPResponse.swift; sourceTree = "<group>"; };
-		2B6AABB12C7F744A006B968A /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		2B6AABB12C7F744A006B968A /* CurrencyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyButton.swift; sourceTree = "<group>"; };
 		2B8541582AA507EF00ADECEB /* AddRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecordViewController.swift; sourceTree = "<group>"; };
 		2B85415A2AA545DE00ADECEB /* NotesTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTextField.swift; sourceTree = "<group>"; };
 		2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewCell.swift; sourceTree = "<group>"; };
@@ -88,7 +92,8 @@
 				2BC96F2C2AAB7652001D7042 /* TableOfCategoriesViewController.swift */,
 				2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */,
 				2B85415A2AA545DE00ADECEB /* NotesTextField.swift */,
-				2B6AABB12C7F744A006B968A /* CustomButton.swift */,
+				2B6AABB12C7F744A006B968A /* CurrencyButton.swift */,
+				2B0EE2572E5B3A880032441C /* AddRecordViewModel.swift */,
 			);
 			path = addRecord;
 			sourceTree = "<group>";
@@ -158,6 +163,7 @@
 				2B5EC0A82AA3608B00305D14 /* TransactionModel.swift */,
 				2B6A16C02C8DD21000464C03 /* NBPResponse.swift */,
 				2B0EE2532E5B30D50032441C /* TransactionCategory.swift */,
+				2B0EE2552E5B3A190032441C /* TransactionCurrency.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -267,10 +273,12 @@
 				2B08DC822C78F4EF003F49D0 /* DataManager.swift in Sources */,
 				2B5EC08D2AA34EC900305D14 /* AppDelegate.swift in Sources */,
 				2BC96F2B2AAB761D001D7042 /* CategoryViewCell.swift in Sources */,
-				2B6AABB22C7F744A006B968A /* CustomButton.swift in Sources */,
+				2B6AABB22C7F744A006B968A /* CurrencyButton.swift in Sources */,
 				2B0EE2322E59FBD20032441C /* TabBar.swift in Sources */,
 				2B080BB32AC0A01100BC89E3 /* BarView.swift in Sources */,
 				2B6A16C12C8DD21000464C03 /* NBPResponse.swift in Sources */,
+				2B0EE2582E5B3A880032441C /* AddRecordViewModel.swift in Sources */,
+				2B0EE2562E5B3A190032441C /* TransactionCurrency.swift in Sources */,
 				2B0EE2342E59FBFA0032441C /* TabBarTag.swift in Sources */,
 				2B8541592AA507EF00ADECEB /* AddRecordViewController.swift in Sources */,
 				2B5EC08F2AA34EC900305D14 /* SceneDelegate.swift in Sources */,

@@ -13,7 +13,7 @@ class TransactionModel {
     
     var amount: Double
     
-    var currency: Currency
+    var currency: TransactionCurrency
     
     var date: Date
     
@@ -24,7 +24,7 @@ class TransactionModel {
     var exchangeRate: Double
     
     init(amount: Double,
-         currency: Currency,
+         currency: TransactionCurrency,
          date: Date,
          category: TransactionCategory,
          note: String,
@@ -43,7 +43,7 @@ struct Transaction {
     
     var amount: Double
     
-    var currency: Currency
+    var currency: TransactionCurrency
     
     var date: Date
     

@@ -7,34 +7,23 @@
 
 import UIKit
 
-enum Currency: String, Codable {
-    case pln = "PLN"
-    case usd = "USD"
-    case eur = "EUR"
-}
-
-final class AddRecordViewController: UIViewController {
+final class AddRecordViewController: UIViewController, UITextFieldDelegate {
     
-    var delegate: NewTransactionViewControllerDelegate?
-    var networkManager: NetworkManagerProtocol?
-    var selectedCurrency = Currency.pln
+//    var delegate: NewTransactionViewControllerDelegate?
+//    var networkManager: NetworkManagerProtocol?
+    var selectedCurrency = TransactionCurrency.pln
     var exchangeRates: [Rate]? {
         didSet {
-            saveTransaction()
+            //saveTransaction()
         }
     }
-    
-    var usdButton = CustomButton(type: .system)
-    var eurButton = CustomButton(type: .system)
-    var plnButton = CustomButton(type: .system)
-    var saveButton = CustomButton(type: .system)
-    var cancelButton = CustomButton(type: .system)
     
     var amountTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "1234.56"
         textField.textAlignment = .center
-        textField.font = UIFont.systemFont(ofSize: 35)
+        textField.font = UIFont.systemFont(ofSize: 30)
+        textField.keyboardType = .decimalPad
         textField.backgroundColor = .systemGray6
         textField.layer.cornerRadius = 20
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -84,7 +73,7 @@ final class AddRecordViewController: UIViewController {
     
     //MARK: second version of ui
     
-    let contentView: UIView = {
+    let containerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 24
         view.layer.shadowColor = UIColor.systemGray.cgColor
@@ -104,9 +93,15 @@ final class AddRecordViewController: UIViewController {
         return label
     }()
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        networkManager = NetworkManager()
+    private let currencyButtonsContainer: UIStackView
+    
+    private let viewModel: AddRecordViewModel
+    
+    init() {
+        self.currencyButtonsContainer = UIStackView()
+        self.viewModel = AddRecordViewModel()
+        
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -115,123 +110,119 @@ final class AddRecordViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "background")
-        setupNavigationBarTitle()
-        setupSubviews()
-        setupLayout()
-        configureTableView()
-        configureButtons()
-    }
-}
-
-extension AddRecordViewController {
-    
-    func setupNavigationBarTitle() {
-        title = "Add Record"
-        navigationController?.navigationBar.prefersLargeTitles = true
-    }
-    
-    func setupSubviews() {
-        view.addSubview(contentView)
-        contentView.addSubview(amountTextField)
-        contentView.addSubview(usdButton)
-        contentView.addSubview(eurButton)
-        contentView.addSubview(plnButton)
-        contentView.addSubview(tableView)
-        contentView.addSubview(notesView)
-        contentView.addSubview(saveButton)
-        contentView.addSubview(cancelButton)
-        notesView.addSubview(notesTextView)
-    }
-    
-    func setupLayout() {
-        NSLayoutConstraint.activate([
-            contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-            contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-            contentView.topAnchor.constraint(equalTo: view.topAnchor, constant: 120),
-            contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
-            
-            amountTextField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            amountTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            amountTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            amountTextField.heightAnchor.constraint(equalToConstant: 70),
-            
-            usdButton.topAnchor.constraint(equalTo: amountTextField.bottomAnchor, constant: 20),
-            usdButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            usdButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.24),
-            usdButton.heightAnchor.constraint(equalToConstant: 40),
-            
-            eurButton.centerYAnchor.constraint(equalTo: usdButton.centerYAnchor),
-            eurButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            eurButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.24),
-            eurButton.heightAnchor.constraint(equalToConstant: 40),
-            
-            plnButton.centerYAnchor.constraint(equalTo: usdButton.centerYAnchor),
-            plnButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            plnButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.24),
-            plnButton.heightAnchor.constraint(equalToConstant: 40),
-            
-            tableView.topAnchor.constraint(equalTo: usdButton.bottomAnchor, constant: 20),
-            tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            tableView.heightAnchor.constraint(equalToConstant: 140),
         
-            notesView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 20),
-            notesView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            notesView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            notesView.bottomAnchor.constraint(equalTo: cancelButton.topAnchor, constant: -50),
-            
-            notesTextView.topAnchor.constraint(equalTo: notesView.topAnchor, constant: 30),
-            notesTextView.leadingAnchor.constraint(equalTo: notesView.leadingAnchor, constant: 15),
-            notesTextView.trailingAnchor.constraint(equalTo: notesView.trailingAnchor, constant: -15),
-            notesTextView.bottomAnchor.constraint(equalTo: notesView.bottomAnchor, constant: -10),
-            
-            cancelButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            cancelButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
-            cancelButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.42),
-            cancelButton.heightAnchor.constraint(equalToConstant: 40),
-            
-            saveButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            saveButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
-            saveButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.42),
-            saveButton.heightAnchor.constraint(equalToConstant: 40),
-        ])
+        view.backgroundColor = UIColor(named: "background")
+        
+        configureUI()
+        configureNavigationBar()
     }
     
-    func configureTableView() {
+    private func configureUI() {
+        amountTextField.delegate = self
+
+        configureCurrencyButtons()
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "option")
         tableView.backgroundColor = .clear
+        
+        view.addSubview(containerView)
+        
+        containerView.addSubview(amountTextField)
+        containerView.addSubview(currencyButtonsContainer)
+        containerView.addSubview(tableView)
+        containerView.addSubview(notesView)
+        
+        notesView.addSubview(notesTextView)
+        
+        NSLayoutConstraint.activate([
+            containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            
+            amountTextField.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20),
+            amountTextField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
+            amountTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
+            amountTextField.heightAnchor.constraint(equalToConstant: 70),
+            
+            currencyButtonsContainer.topAnchor.constraint(equalTo: amountTextField.bottomAnchor, constant: 20),
+            currencyButtonsContainer.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
+            currencyButtonsContainer.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
+            currencyButtonsContainer.heightAnchor.constraint(equalToConstant: 40),
+            
+            tableView.topAnchor.constraint(equalTo: currencyButtonsContainer.bottomAnchor, constant: 20),
+            tableView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
+            tableView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
+            tableView.heightAnchor.constraint(equalToConstant: 140),
+        
+            notesView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 20),
+            notesView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
+            notesView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
+            notesView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
+            notesView.heightAnchor.constraint(equalToConstant: 100),
+            
+            notesTextView.topAnchor.constraint(equalTo: notesView.topAnchor, constant: 30),
+            notesTextView.bottomAnchor.constraint(equalTo: notesView.bottomAnchor, constant: -30),
+            notesTextView.leadingAnchor.constraint(equalTo: notesView.leadingAnchor, constant: 15),
+            notesTextView.trailingAnchor.constraint(equalTo: notesView.trailingAnchor, constant: -15),
+        ])
     }
     
-    func configureButtons() {
-        usdButton.configure("USD", .systemGray6, 20)
-        eurButton.configure("EUR", .systemGray6, 20)
-        plnButton.configure("PLN", .systemGray4, 20)
-        saveButton.configure("Save", .systemGray5, 17)
-        cancelButton.configure("Cancel", .systemGray5, 17)
+    private func configureNavigationBar() {
+        navigationItem.title = "Add Record"
+        navigationItem.largeTitleDisplayMode = .never
         
-        usdButton.addTarget(self, action: #selector(usdButtonTapped), for: .touchUpInside)
-        eurButton.addTarget(self, action: #selector(eurButtonTapped), for: .touchUpInside)
-        plnButton.addTarget(self, action: #selector(plnButtonTapped), for: .touchUpInside)
-        saveButton.addTarget(self, action: #selector(getExchangeRates), for: .touchUpInside)
-        cancelButton.addTarget(self, action: #selector(cancelTransaction), for: .touchUpInside)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didTapCancelButton))
+        navigationItem.leftBarButtonItem?.tintColor = .red
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didTapSaveButton))
+    }
+    
+    private func configureCurrencyButtons() {
+        currencyButtonsContainer.axis = .horizontal
+        currencyButtonsContainer.distribution = .fillEqually
+        currencyButtonsContainer.spacing = 15
+        currencyButtonsContainer.translatesAutoresizingMaskIntoConstraints = false
+        
+        TransactionCurrency.allCases.forEach { currency in
+            let currencyButton = CurrencyButton()
+            currencyButton.configure(currency.title)
+            currencyButton.tag = currency.rawValue
+            currencyButton.addTarget(self, action: #selector(currencyButtonTapped(_:)), for: .touchUpInside)
+            
+            if currency == .pln {
+                currencyButton.setActive()
+            }
+            
+            currencyButtonsContainer.addArrangedSubview(currencyButton)
+        }
+    }
+    
+    func textField(_ textField: UITextField,
+                   shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
+        let currentText = textField.text ?? ""
+        
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        
+        return updatedText.count <= 10
     }
     
     @objc func getExchangeRates() {
-        networkManager?.fetchRates { [weak self] result in
-            switch result {
-            case .success(let response):
-                DispatchQueue.main.async {
-                    self?.exchangeRates = response.rates
-                }
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    self?.handleError(error)
-                }
-            }
-        }
+//        networkManager?.fetchRates { [weak self] result in
+//            switch result {
+//            case .success(let response):
+//                DispatchQueue.main.async {
+//                    self?.exchangeRates = response.rates
+//                }
+//            case .failure(let error):
+//                DispatchQueue.main.async {
+//                    self?.handleError(error)
+//                }
+//            }
+//        }
     }
     
     func handleError(_ error: Error) {
@@ -245,16 +236,29 @@ extension AddRecordViewController {
         present(ac, animated: true)
     }
     
-    @objc func cancelTransaction() {
+    @objc
+    private func currencyButtonTapped(_ sender: UIButton) {
+        currencyButtonsContainer.arrangedSubviews.forEach { button in
+            (button as? CurrencyButton)?.setInactive()
+        }
+        
+        (currencyButtonsContainer.arrangedSubviews[sender.tag] as? CurrencyButton)?.setActive()
+        
+        selectedCurrency = TransactionCurrency(rawValue: sender.tag) ?? .pln
+    }
+        
+    @objc
+    private func didTapCancelButton() {
         dismiss(animated: true)
     }
     
-    @objc func saveTransaction() {
-        guard let amountText = amountTextField.text, let amount = Double(amountText) else { return }
-        guard let category = categoryCellLabel.text, category != "Required" else { return }
-        let description = notesTextView.text ?? ""
-        let rate = exchangeRates?.first { $0.code == selectedCurrency.rawValue }
-        let rateValue = rate?.mid ?? 1.0
+    @objc
+    private func didTapSaveButton() {
+//        guard let amountText = amountTextField.text, let amount = Double(amountText) else { return }
+//        guard let category = categoryCellLabel.text, category != "Required" else { return }
+//        let description = notesTextView.text ?? ""
+//        let rate = exchangeRates?.first { $0.code == selectedCurrency.rawValue }
+//        let rateValue = rate?.mid ?? 1.0
 //        delegate?.addTransaction(
 //            Transaction(amount: amount,
 //                        currency: selectedCurrency,
@@ -263,25 +267,6 @@ extension AddRecordViewController {
 //                        description: description,
 //                        exchangeRate: rateValue))
         dismiss(animated: true)
-    }
-    
-    @objc func usdButtonTapped() {
-        selectedCurrency = .usd
-        usdButton.backgroundColor = .systemGray4
-        eurButton.backgroundColor = .systemGray6
-        plnButton.backgroundColor = .systemGray6
-    }
-    @objc func eurButtonTapped() {
-        selectedCurrency = .eur
-        usdButton.backgroundColor = .systemGray6
-        eurButton.backgroundColor = .systemGray4
-        plnButton.backgroundColor = .systemGray6
-    }
-    @objc func plnButtonTapped() {
-        selectedCurrency = .pln
-        usdButton.backgroundColor = .systemGray6
-        eurButton.backgroundColor = .systemGray6
-        plnButton.backgroundColor = .systemGray4
     }
 }
 
