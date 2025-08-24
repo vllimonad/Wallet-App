@@ -255,13 +255,13 @@ extension AddRecordViewController {
         let description = notesTextView.text ?? ""
         let rate = exchangeRates?.first { $0.code == selectedCurrency.rawValue }
         let rateValue = rate?.mid ?? 1.0
-        delegate?.addTransaction(
-            Transaction(amount: amount,
-                        currency: selectedCurrency,
-                        date: datePicker.date,
-                        category: category,
-                        description: description,
-                        exchangeRate: rateValue))
+//        delegate?.addTransaction(
+//            Transaction(amount: amount,
+//                        currency: selectedCurrency,
+//                        date: datePicker.date,
+//                        category: category,
+//                        description: description,
+//                        exchangeRate: rateValue))
         dismiss(animated: true)
     }
     

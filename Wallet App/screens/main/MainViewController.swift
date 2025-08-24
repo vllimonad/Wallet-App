@@ -9,7 +9,6 @@ import UIKit
 
 final class MainViewController: UIViewController {
     
-     var transactionsList = [[Transaction]]()
     private var selectedDate = [String: String]()
     private var monthIndex = 1
     private var yearIndex = 0
@@ -59,7 +58,7 @@ final class MainViewController: UIViewController {
         return stack
     }()
     
-    private let backView: UIView = {
+    private let backgroundPanelView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 24
         view.layer.shadowColor = UIColor.systemGray.cgColor
@@ -78,13 +77,25 @@ final class MainViewController: UIViewController {
         return label
     }()
     
-    private let stackView: UIStackView = {
+    private let categoriesStackView: UIStackView = {
         let stack = UIStackView()
-        stack.spacing = 70
         stack.axis = .vertical
+        stack.spacing = 20
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
+    
+    private let viewModel: MainViewModel
+    
+    init(viewModel: MainViewModel = MainViewModel()) {
+        self.viewModel = viewModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,37 +119,59 @@ final class MainViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = UIColor(named: "background")
         
+        configureCategoriesStackView()
+        
         view.addSubview(monthStackView)
-        view.addSubview(backView)
+        view.addSubview(backgroundPanelView)
 
         monthStackView.addArrangedSubview(backwardButton)
         monthStackView.addArrangedSubview(monthLabel)
         monthStackView.addArrangedSubview(forwardButton)
                 
-        backView.addSubview(amountLabel)
-        backView.addSubview(stackView)
+        backgroundPanelView.addSubview(amountLabel)
+        backgroundPanelView.addSubview(categoriesStackView)
         
         NSLayoutConstraint.activate([
             backwardButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25),
             forwardButton.widthAnchor.constraint(equalTo: backwardButton.widthAnchor),
 
+            monthStackView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             monthStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
             monthStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-            monthStackView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             monthStackView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.04),
             
-            backView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-            backView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-            backView.topAnchor.constraint(equalTo: monthLabel.bottomAnchor, constant: 20),
-            backView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -20),
+            backgroundPanelView.topAnchor.constraint(equalTo: monthLabel.bottomAnchor, constant: 20),
+            backgroundPanelView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            backgroundPanelView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
 
-            amountLabel.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 20),
-            amountLabel.topAnchor.constraint(equalTo: backView.topAnchor, constant: 20),
+            amountLabel.topAnchor.constraint(equalTo: backgroundPanelView.topAnchor, constant: 20),
+            amountLabel.leadingAnchor.constraint(equalTo: backgroundPanelView.leadingAnchor, constant: 20),
             
-            stackView.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 20),
-            stackView.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -20),
-            stackView.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 20),
+            categoriesStackView.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 20),
+            categoriesStackView.bottomAnchor.constraint(equalTo: backgroundPanelView.bottomAnchor, constant: -20),
+            categoriesStackView.leadingAnchor.constraint(equalTo: backgroundPanelView.leadingAnchor, constant: 20),
+            categoriesStackView.trailingAnchor.constraint(equalTo: backgroundPanelView.trailingAnchor, constant: -20)
         ])
+    }
+    
+    private func configureCategoriesStackView() {
+        //let expensesByCategories = viewModel.getExpensesByCategory()
+        let expensesByCategories: [TransactionCategory: Double] = [
+            .communication: 100,
+            .food: 500,
+            .transportation: 300,
+            .entertainment: 200
+        ]
+        let totalExpenses = 2000.0
+        
+        expensesByCategories.forEach { (category, expenses) in
+            let bar = BarView()
+            bar.amountLabel.text = expenses.description
+            bar.categoryLabel.text = category.rawValue
+            bar.progressView.setProgress(Float(expenses/totalExpenses), animated: false)
+            
+            categoriesStackView.addArrangedSubview(bar)
+        }
     }
     
     private func setupDate() {
@@ -148,49 +181,50 @@ final class MainViewController: UIViewController {
     }
     
     private func getTotalSum() -> Double {
-        var sum: Double = 0
-        for i in getExpensesByCategories() {
-            sum += i.value
-        }
-        return (sum * 100).rounded()/100
+//        var sum: Double = 0
+//        for i in getExpensesByCategories() {
+//            sum += i.value
+//        }
+//        return (sum * 100).rounded()/100
+        return 2000.0
     }
     
-    private func getExpensesByCategories() -> [String: Double] {
-        var values = [String: Double]()
-        for day in transactionsList {
-            if formatter.string(from: day[0].date).contains(selectedDate["Month"]!)
-                && formatter.string(from: day[0].date).contains(selectedDate["Year"]!){
-                for transaction in day {
-                    if values.index(forKey: transaction.category) != nil {
-                        values[transaction.category]! += (transaction.amount * transaction.exchangeRate).rounded()
-                    } else {
-                        values[transaction.category] = (transaction.amount * transaction.exchangeRate).rounded()
-                    }
-                }
-            }
-        }
-        return values
-    }
+//    private func getExpensesByCategories() -> [String: Double] {
+//        var values = [String: Double]()
+//        for day in transactionsList {
+//            if formatter.string(from: day[0].date).contains(selectedDate["Month"]!)
+//                && formatter.string(from: day[0].date).contains(selectedDate["Year"]!){
+//                for transaction in day {
+//                    if values.index(forKey: transaction.category) != nil {
+//                        values[transaction.category]! += (transaction.amount * transaction.exchangeRate).rounded()
+//                    } else {
+//                        values[transaction.category] = (transaction.amount * transaction.exchangeRate).rounded()
+//                    }
+//                }
+//            }
+//        }
+//        return values
+//    }
     
     private func updateUI() {
         amountLabel.text = "Total: \(getTotalSum())zł"
         monthLabel.text = selectedDate["Month"]! + " " + selectedDate["Year"]!
-        updateBars()
+        //setupBars()
     }
     
-    private func updateBars() {
-        for view in stackView.arrangedSubviews {
-            view.removeFromSuperview()
-        }
-        let values = getExpensesByCategories().sorted(by: { $0.value > $1.value } )
-        for value in values {
-            let bar = BarView()
-            bar.amountLabel.text = "\(value.value)"
-            bar.categoryLabel.text = value.key
-            bar.progressView.setProgress(Float(value.value/values.first!.value), animated: false)
-            stackView.addArrangedSubview(bar)
-        }
-    }
+//    private func updateBars() {
+//        for view in categoriesStackView.arrangedSubviews {
+//            view.removeFromSuperview()
+//        }
+//        let values = getExpensesByCategories().sorted(by: { $0.value > $1.value } )
+//        for value in values {
+//            let bar = BarView()
+//            bar.amountLabel.text = "\(value.value)"
+//            bar.categoryLabel.text = value.key
+//            bar.progressView.setProgress(Float(value.value/values.first!.value), animated: false)
+//            categoriesStackView.addArrangedSubview(bar)
+//        }
+//    }
     
 //    @objc func addButtonTapped() {
 //        let transactionView = AddRecordViewController()
@@ -226,30 +260,30 @@ final class MainViewController: UIViewController {
     }
 }
 
-extension MainViewController: NewTransactionViewControllerDelegate {
-    func addTransaction(_ transaction: Transaction) {
-        if let index = transactionsList.firstIndex(where: {
-            formatter.string(from: $0[0].date) == formatter.string(from: transaction.date) })
-        {
-            transactionsList[index].insert(transaction, at: 0)
-        } else {
-            transactionsList.append([transaction])
-        }
-        transactionsList.sort(by: { $0[0].date > $1[0].date })
-        updateUI()
-        //DataManager.shared.saveData(transactionsList)
-    }
-}
-
-extension MainViewController: TransactionsTableViewControllerDelegate {
-    
-    func getTransactionsList() -> [[Transaction]] {
-        return transactionsList
-    }
-    
-    func setTransactionsList(_ list: [[Transaction]]) {
-        transactionsList = list
-        updateUI()
-        //DataManager.shared.saveData(transactionsList)
-    }
-}
+//extension MainViewController: NewTransactionViewControllerDelegate {
+//    func addTransaction(_ transaction: Transaction) {
+//        if let index = transactionsList.firstIndex(where: {
+//            formatter.string(from: $0[0].date) == formatter.string(from: transaction.date) })
+//        {
+//            transactionsList[index].insert(transaction, at: 0)
+//        } else {
+//            transactionsList.append([transaction])
+//        }
+//        transactionsList.sort(by: { $0[0].date > $1[0].date })
+//        updateUI()
+//        //DataManager.shared.saveData(transactionsList)
+//    }
+//}
+//
+//extension MainViewController: TransactionsTableViewControllerDelegate {
+//    
+//    func getTransactionsList() -> [[Transaction]] {
+//        return transactionsList
+//    }
+//    
+//    func setTransactionsList(_ list: [[Transaction]]) {
+//        transactionsList = list
+//        updateUI()
+//        //DataManager.shared.saveData(transactionsList)
+//    }
+//}

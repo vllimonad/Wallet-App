@@ -17,7 +17,7 @@ class TransactionModel {
     
     var date: Date
     
-    var category: String
+    var category: TransactionCategory
     
     var note: String
     
@@ -26,7 +26,7 @@ class TransactionModel {
     init(amount: Double,
          currency: Currency,
          date: Date,
-         category: String,
+         category: TransactionCategory,
          note: String,
          exchangeRate: Double) {
         self.amount = amount
@@ -36,4 +36,20 @@ class TransactionModel {
         self.note = note
         self.exchangeRate = exchangeRate
     }
+}
+
+
+struct Transaction {
+    
+    var amount: Double
+    
+    var currency: Currency
+    
+    var date: Date
+    
+    var category: String
+    
+    var note: String
+    
+    var exchangeRate: Double
 }

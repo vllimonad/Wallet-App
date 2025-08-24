@@ -58,8 +58,8 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
     }
     
     private func setupTabBarItems() {
-        historyViewController.delegate = mainViewController
-        mainViewController.transactionsList = DataManager.shared.readData()
+//        historyViewController.delegate = mainViewController
+//        mainViewController.transactionsList = DataManager.shared.readData()
 
         viewControllers = [
             UINavigationController(rootViewController: mainViewController),

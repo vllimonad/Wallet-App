@@ -80,7 +80,7 @@ extension HistoryTableViewController: UITableViewDataSource, UITableViewDelegate
         cell.backgroundColor = UIColor(named: "cell")
         cell.amountLabel.text = "\(transactionsList[indexPath.section][indexPath.row].amount) \(transactionsList[indexPath.section][indexPath.row].currency.rawValue)"
         cell.categoryLabel.text = transactionsList[indexPath.section][indexPath.row].category
-        cell.desciptionLabel.text = transactionsList[indexPath.section][indexPath.row].description
+        //cell.desciptionLabel.text = transactionsList[indexPath.section][indexPath.row].description
         cell.icon.image = UIImage(named: "\(transactionsList[indexPath.section][indexPath.row].category.lowercased())")
         return cell
     }

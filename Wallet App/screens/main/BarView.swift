@@ -11,14 +11,12 @@ final class BarView: UIView {
     
      let categoryLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
      let amountLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -48,20 +46,18 @@ final class BarView: UIView {
         addSubview(progressView)
         
         NSLayoutConstraint.activate([
+            categoryLabel.topAnchor.constraint(equalTo: amountLabel.topAnchor),
             categoryLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            categoryLabel.topAnchor.constraint(equalTo: topAnchor),
-            categoryLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5),
             
-            amountLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             amountLabel.topAnchor.constraint(equalTo: topAnchor),
-            amountLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5),
+            amountLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            amountLabel.leadingAnchor.constraint(greaterThanOrEqualTo: categoryLabel.trailingAnchor, constant: 20),
 
             progressView.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 5),
+            progressView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
             progressView.heightAnchor.constraint(equalToConstant: 16),
             progressView.widthAnchor.constraint(equalTo: widthAnchor)
         ])
     }
-    
-    
 }
 
