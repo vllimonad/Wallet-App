@@ -42,8 +42,8 @@ final class TransactionHistoryViewController: UIViewController {
     private func configureUI() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(TransactionCell.self, forCellReuseIdentifier: "cell")
-        tableView.rowHeight = 80
+        tableView.register(TransactionViewCell.self, forCellReuseIdentifier: TransactionViewCell.reuseIdentifier())
+        tableView.rowHeight = 75
         tableView.backgroundColor = UIColor(named: "cell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -55,6 +55,12 @@ final class TransactionHistoryViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+        
+        viewModel.didUpdateTransactions = { [weak self] in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
     }
     
     private func configureNavigationBar() {
@@ -70,21 +76,22 @@ extension TransactionHistoryViewController: UITableViewDataSource, UITableViewDe
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.transactions[section].count
+        viewModel.transactions[section].items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TransactionCell
-        cell.backgroundColor = UIColor(named: "cell")
-        cell.amountLabel.text = "\(viewModel.transactions[indexPath.section][indexPath.row].amount) \(viewModel.transactions[indexPath.section][indexPath.row].currency.rawValue)"
-        cell.categoryLabel.text = viewModel.transactions[indexPath.section][indexPath.row].category
-        //cell.desciptionLabel.text = transactionsList[indexPath.section][indexPath.row].description
-        cell.icon.image = UIImage(named: "\(viewModel.transactions[indexPath.section][indexPath.row].category.lowercased())")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TransactionViewCell.reuseIdentifier(), for: indexPath) as? TransactionViewCell else {
+            return UITableViewCell()
+        }
+        
+        let model = viewModel.transactions[indexPath.section].items[indexPath.row]
+        cell.bind(model)
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return formatter.string(from: viewModel.transactions[section].first?.date ?? Date.now)
+        formatter.string(from: viewModel.transactions[section].date)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

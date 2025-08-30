@@ -67,7 +67,8 @@ final class CategoryViewCell: UITableViewCell {
     }
     
     public func bind(_ category: TransactionCategory) {
-        categoryImageView.image = UIImage(named: category.rawValue.lowercased())
+        let categoryImageResource = TransactionDataSource.getCategoryImageResource(category)
+        categoryImageView.image = UIImage(resource: categoryImageResource)
         
         categoryLabel.text = category.rawValue
     }

@@ -33,6 +33,8 @@ final class TransactionService {
         Task {
             do {
                 try await storage.addModel(transaction)
+                transactions.append(transaction)
+                
                 observers.allObjects.forEach { $0.updatedTransactionsList() }
             } catch {
                 print(error)
