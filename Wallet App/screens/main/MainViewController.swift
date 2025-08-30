@@ -52,7 +52,7 @@ final class MainViewController: UIViewController {
         stack.layer.shadowOpacity = 0.2
         stack.layer.shadowOffset = .zero
         stack.layer.shadowRadius = 10
-        stack.backgroundColor = UIColor(named: "view")
+        stack.backgroundColor = UIColor(resource: .view)
         stack.layer.cornerRadius = 13
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
@@ -65,7 +65,7 @@ final class MainViewController: UIViewController {
         view.layer.shadowOpacity = 0.2
         view.layer.shadowOffset = .zero
         view.layer.shadowRadius = 10
-        view.backgroundColor = UIColor(named: "view")
+        view.backgroundColor = UIColor(resource: .view)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -117,7 +117,7 @@ final class MainViewController: UIViewController {
     }
     
     private func configureUI() {
-        view.backgroundColor = UIColor(named: "background")
+        view.backgroundColor = UIColor(resource: .background)
         
         configureCategoriesStackView()
         

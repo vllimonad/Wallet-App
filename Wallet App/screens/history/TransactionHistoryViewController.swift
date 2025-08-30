@@ -8,14 +8,7 @@
 import UIKit
 
 final class TransactionHistoryViewController: UIViewController {
-    
-    let formatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
-        return formatter
-    }()
-    
+        
     private let tableView: UITableView
     
     private let viewModel: TransactionHistoryViewModel
@@ -40,18 +33,20 @@ final class TransactionHistoryViewController: UIViewController {
     }
     
     private func configureUI() {
+        view.backgroundColor = UIColor(resource: .cell)
+        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(TransactionViewCell.self, forCellReuseIdentifier: TransactionViewCell.reuseIdentifier())
         tableView.rowHeight = 75
-        tableView.backgroundColor = UIColor(named: "cell")
+        tableView.backgroundColor = .clear
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
@@ -64,7 +59,7 @@ final class TransactionHistoryViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.title = "Records"
+        navigationItem.title = "History"
         navigationController?.navigationBar.prefersLargeTitles = false
     }
 }
@@ -91,7 +86,7 @@ extension TransactionHistoryViewController: UITableViewDataSource, UITableViewDe
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        formatter.string(from: viewModel.transactions[section].date)
+        viewModel.getFormattedDate(for: section)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

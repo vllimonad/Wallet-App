@@ -48,14 +48,14 @@ final class AddTransactionViewController: UIViewController {
     }
     
     private func configureUI() {
-        view.backgroundColor = UIColor(named: "background")
+        view.backgroundColor = UIColor(resource: .background)
         
         containerView.layer.cornerRadius = 24
         containerView.layer.shadowColor = UIColor.systemGray.cgColor
         containerView.layer.shadowOpacity = 0.2
         containerView.layer.shadowOffset = .zero
         containerView.layer.shadowRadius = 10
-        containerView.backgroundColor = UIColor(named: "view")
+        containerView.backgroundColor = UIColor(resource: .view)
         containerView.translatesAutoresizingMaskIntoConstraints = false
         
         amountTextField.placeholder = "1234.56"
@@ -147,7 +147,7 @@ final class AddTransactionViewController: UIViewController {
     private func getTransactionDetailsView() -> UIView {
         let categoryLabel = UILabel()
         categoryLabel.text = "Category"
-        categoryLabel.textColor = UIColor(named: "text")
+        categoryLabel.textColor = UIColor(resource: .text)
         
         let chevronImageView = UIImageView(image: UIImage(systemName: "chevron.right"))
         chevronImageView.tintColor = .systemGray
@@ -164,7 +164,7 @@ final class AddTransactionViewController: UIViewController {
         
         let dateLabel = UILabel()
         dateLabel.text = "Date"
-        dateLabel.textColor = UIColor(named: "text")
+        dateLabel.textColor = UIColor(resource: .text)
         
         let dateContainerView = UIStackView(arrangedSubviews: [dateLabel, datePicker])
         dateContainerView.axis = .horizontal
@@ -213,7 +213,7 @@ final class AddTransactionViewController: UIViewController {
         notesTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         notesTextView.font = UIFont.systemFont(ofSize: 17)
-        notesTextView.textColor = UIColor(named: "text")
+        notesTextView.textColor = UIColor(resource: .text)
         notesTextView.backgroundColor = .systemGray5
         notesTextView.layer.cornerRadius = 20
         notesTextView.textContainerInset = .init(top: 10, left: 10, bottom: 10, right: 10)

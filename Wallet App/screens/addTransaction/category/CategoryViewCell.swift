@@ -44,25 +44,30 @@ final class CategoryViewCell: UITableViewCell {
     }
 
     private func configureUI() {
-        contentView.backgroundColor = UIColor(named: "cell")
+        contentView.backgroundColor = UIColor(resource: .cell)
         
-        categoryImageView.backgroundColor = UIColor(named: "background")
         categoryImageView.contentMode = .center
-        categoryImageView.translatesAutoresizingMaskIntoConstraints = false
+        categoryImageView.backgroundColor = UIColor(resource: .background)
         
-        categoryLabel.translatesAutoresizingMaskIntoConstraints = false
+        categoryLabel.numberOfLines = 1
+        categoryLabel.font = UIFont.boldSystemFont(ofSize: 16)
         
-        contentView.addSubview(categoryImageView)
-        contentView.addSubview(categoryLabel)
+        let containerView = UIStackView(arrangedSubviews: [categoryImageView, categoryLabel])
+        containerView.axis = .horizontal
+        containerView.alignment = .center
+        containerView.spacing = 10
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(containerView)
         
         NSLayoutConstraint.activate([
-            categoryImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            categoryImageView.widthAnchor.constraint(equalToConstant: 50),
-            categoryImageView.heightAnchor.constraint(equalTo: categoryImageView.widthAnchor),
-            categoryImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             
-            categoryLabel.leadingAnchor.constraint(equalTo: categoryImageView.trailingAnchor, constant: 15),
-            categoryLabel.centerYAnchor.constraint(equalTo: categoryImageView.centerYAnchor)
+            categoryImageView.heightAnchor.constraint(equalTo: containerView.heightAnchor),
+            categoryImageView.widthAnchor.constraint(equalTo: categoryImageView.heightAnchor)
         ])
     }
     

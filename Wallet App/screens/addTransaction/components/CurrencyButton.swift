@@ -20,7 +20,7 @@ class CurrencyButton: UIButton {
     init(activeBackgroundColor: UIColor = .systemBlue,
          activeTitleColor: UIColor = .white,
          inactiveBackgoundColor: UIColor = .systemGray6,
-         inactiveTitleColor: UIColor = UIColor(named: "text")!) {
+         inactiveTitleColor: UIColor = UIColor(resource: .text)) {
         self.activeBackgroundColor = activeBackgroundColor
         self.activeTitleColor = activeTitleColor
         self.inactiveBackgoundColor = inactiveBackgoundColor

@@ -7,16 +7,16 @@
 
 import UIKit
 
-final class CategoryTableViewController: UITableViewController {
+final class CategoryTableViewController: UIViewController {
     
-    private let categories: [TransactionCategory]
-    
+    private let tableView: UITableView
+        
     public var didSelectCategory: ((TransactionCategory) -> ())?
     
     init() {
-        self.categories = TransactionCategory.allCases
+        self.tableView = UITableView()
         
-        super.init(style: .plain)
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -31,32 +31,49 @@ final class CategoryTableViewController: UITableViewController {
     }
     
     private func configureUI() {
+        view.backgroundColor = UIColor(resource: .cell)
+        
+        tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(CategoryViewCell.self, forCellReuseIdentifier: CategoryViewCell.reuseIdentifier())
-        tableView.rowHeight = 70
-        tableView.backgroundColor = UIColor(named: "cell")
+        tableView.rowHeight = 75
+        tableView.backgroundColor = .clear
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(tableView)
+        
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
     
     private func configureNavigationBar() {
         navigationItem.title = "Categories"
     }
+}
+
+extension CategoryTableViewController: UITableViewDataSource, UITableViewDelegate {
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        categories.count
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        TransactionCategory.allCases.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CategoryViewCell.reuseIdentifier(), for: indexPath) as? CategoryViewCell else {
             return UITableViewCell()
         }
         
-        let category = categories[indexPath.row]
+        let category = TransactionCategory.allCases[indexPath.row]
         cell.bind(category)
         
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedCategory = categories[indexPath.row]
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedCategory = TransactionCategory.allCases[indexPath.row]
         didSelectCategory?(selectedCategory)
         
         navigationController?.popViewController(animated: true)
