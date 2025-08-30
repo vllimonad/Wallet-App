@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private let mainViewController: MainViewController
         
-    private let historyViewController: HistoryTableViewController
+    private let transactionHistoryViewController: TransactionHistoryViewController
     
     override init() {
         self.transactionService = TransactionService()
@@ -25,7 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.tabBarController = TabBarController(transactionService)
 
         self.mainViewController = MainViewController(viewModel: MainViewModel(transactionService))
-        self.historyViewController = HistoryTableViewController()
+        self.transactionHistoryViewController = TransactionHistoryViewController(viewModel: TransactionHistoryViewModel(transactionService))
         
         super.init()
     }
@@ -35,7 +35,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         tabBarController.viewControllers = [
             UINavigationController(rootViewController: mainViewController),
-            UINavigationController(rootViewController: historyViewController)
+            UINavigationController(rootViewController: transactionHistoryViewController)
         ]
         
         let window = UIWindow(windowScene: windowScene)
