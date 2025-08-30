@@ -7,7 +7,9 @@
 
 import Foundation
 
-final class AddRecordViewModel {
+final class AddTransactionViewModel {
+    
+    private let transactionSecrvice: TransactionService
     
     public var amount: Double?
     
@@ -19,7 +21,9 @@ final class AddRecordViewModel {
     
     public var note: String?
     
-    init() {
+    init(_ transactionSecrvice: TransactionService) {
+        self.transactionSecrvice = transactionSecrvice
+        
         self.selectedCurrency = .pln
         self.selectedDate = Date()
     }
@@ -34,6 +38,8 @@ final class AddRecordViewModel {
             let selectedCategory = selectedCategory
         else { return }
         
-        let record = TransactionModel(amount: amount, currency: selectedCurrency, date: selectedDate, category: selectedCategory, note: note, exchangeRate: 1.0)
+        let transaction = TransactionModel(amount: amount, currency: selectedCurrency, date: selectedDate, category: selectedCategory, note: note, exchangeRate: 1.0)
+        
+        transactionSecrvice.addTransaction(transaction)
     }
 }

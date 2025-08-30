@@ -9,14 +9,6 @@ import UIKit
 
 final class AddTransactionViewController: UIViewController {
     
-//    var delegate: NewTransactionViewControllerDelegate?
-//    var networkManager: NetworkManagerProtocol?
-//    var exchangeRates: [Rate]? {
-//        didSet {
-//            //saveTransaction()
-//        }
-//    }
-    
     private let amountTextField: UITextField
     
     private let currencyButtonsContainer: UIStackView
@@ -29,18 +21,18 @@ final class AddTransactionViewController: UIViewController {
     
     private let categoryValueLabel: UILabel
     
-    private let viewModel: AddRecordViewModel
+    private let viewModel: AddTransactionViewModel
     
-    init() {
+    init(viewModel: AddTransactionViewModel) {
+        self.viewModel = viewModel
+        
         self.containerView = UIView()
         self.amountTextField = UITextField()
         self.categoryValueLabel = UILabel()
         self.currencyButtonsContainer = UIStackView()
         self.datePicker = UIDatePicker()
         self.notesTextView = UITextView()
-        
-        self.viewModel = AddRecordViewModel()
-        
+                
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -267,9 +259,10 @@ final class AddTransactionViewController: UIViewController {
     }
     
     func showAlert(with description: String) {
-        let ac = UIAlertController(title: "Try again", message: description, preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "Done", style: .default))
-        present(ac, animated: true)
+        let alertController = UIAlertController(title: "Try again", message: description, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Done", style: .default))
+        
+        present(alertController, animated: true)
     }
     
     @objc
@@ -308,7 +301,10 @@ final class AddTransactionViewController: UIViewController {
     
     @objc
     private func didTapSaveButton() {
-        guard viewModel.isValidInput() else { return }
+        guard viewModel.isValidInput() else {
+            showAlert(with: "Missing transaction data")
+            return
+        }
         
         viewModel.saveTransaction()
         
@@ -350,8 +346,4 @@ extension AddTransactionViewController: UITextFieldDelegate, UITextViewDelegate 
     func textViewDidChange(_ textView: UITextView) {
         viewModel.note = textView.text
     }
-}
-
-protocol NewTransactionViewControllerDelegate {
-    func addTransaction(_ transaction: Transaction)
 }

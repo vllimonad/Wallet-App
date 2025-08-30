@@ -8,7 +8,7 @@
 import Foundation
 import SwiftData
 
-final class TranscationStorage {
+final class TransactionStorage {
     
     private let modelContainer: ModelContainer
     

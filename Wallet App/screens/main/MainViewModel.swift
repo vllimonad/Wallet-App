@@ -9,16 +9,20 @@ import Foundation
 
 final class MainViewModel {
     
+    private let transactionSecrvice: TransactionService
+    
     private(set) var transactions: [TransactionModel]
     
-    init() {
+    init(_ transactionSecrvice: TransactionService) {
+        self.transactionSecrvice = transactionSecrvice
         self.transactions = []
+        
         loadTransactions()
     }
     
     public func loadTransactions() {
         Task {
-            let storage = TranscationStorage()
+            let storage = TransactionStorage()
             self.transactions = await storage.getModels()
         }
     }

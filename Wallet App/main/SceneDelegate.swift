@@ -10,13 +10,36 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    
+    private let transactionService: TransactionService
+    
+    private let tabBarController: TabBarController
+    
+    private let mainViewController: MainViewController
+        
+    private let historyViewController: HistoryTableViewController
+    
+    override init() {
+        self.transactionService = TransactionService()
+        
+        self.tabBarController = TabBarController(transactionService)
 
+        self.mainViewController = MainViewController(viewModel: MainViewModel(transactionService))
+        self.historyViewController = HistoryTableViewController()
+        
+        super.init()
+    }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
+        tabBarController.viewControllers = [
+            UINavigationController(rootViewController: mainViewController),
+            UINavigationController(rootViewController: historyViewController)
+        ]
+        
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = TabBarController()
+        window.rootViewController = tabBarController
         window.makeKeyAndVisible()
         
         self.window = window

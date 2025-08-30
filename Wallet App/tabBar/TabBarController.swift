@@ -9,16 +9,10 @@ import UIKit
 
 final class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
-    private let mainViewController: MainViewController
-    
-    private let addRecordViewController: AddTransactionViewController
-    
-    private let historyViewController: HistoryTableViewController
-    
-    init() {
-        self.mainViewController = MainViewController()
-        self.addRecordViewController = AddTransactionViewController()
-        self.historyViewController = HistoryTableViewController()
+    private let transactionService: TransactionService
+
+    init(_ transactionService: TransactionService) {
+        self.transactionService = transactionService
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -32,7 +26,6 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
         
         setupTabBar()
         setupTabBarAppearance()
-        setupTabBarItems()
         updateTabBar()
     }
     
@@ -42,8 +35,12 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
         delegate = self
         
         tabBar.didTapAddRecord = { [weak self] in
-            let addRecordViewController = UINavigationController(rootViewController: AddTransactionViewController())
-            self?.present(addRecordViewController, animated: true)
+            guard let self else { return }
+            
+            let addTransactionViewModel = AddTransactionViewModel(transactionService)
+            let addTransactionViewController = AddTransactionViewController(viewModel: addTransactionViewModel)
+            
+            self.present(UINavigationController(rootViewController: addTransactionViewController), animated: true)
         }
     }
     
@@ -55,16 +52,6 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
         
         tabBar.standardAppearance = appearance
         tabBar.scrollEdgeAppearance = appearance
-    }
-    
-    private func setupTabBarItems() {
-//        historyViewController.delegate = mainViewController
-//        mainViewController.transactionsList = DataManager.shared.readData()
-
-        viewControllers = [
-            UINavigationController(rootViewController: mainViewController),
-            UINavigationController(rootViewController: historyViewController)
-        ]
     }
     
     private func updateTabBar() {
