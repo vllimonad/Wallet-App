@@ -19,7 +19,7 @@ class TransactionModel {
     
     var category: TransactionCategory
     
-    var note: String
+    var note: String?
     
     var exchangeRate: Double
     
@@ -27,7 +27,7 @@ class TransactionModel {
          currency: TransactionCurrency,
          date: Date,
          category: TransactionCategory,
-         note: String,
+         note: String?,
          exchangeRate: Double) {
         self.amount = amount
         self.currency = currency

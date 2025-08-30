@@ -11,13 +11,13 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     private let mainViewController: MainViewController
     
-    private let addRecordViewController: AddRecordViewController
+    private let addRecordViewController: AddTransactionViewController
     
     private let historyViewController: HistoryTableViewController
     
     init() {
         self.mainViewController = MainViewController()
-        self.addRecordViewController = AddRecordViewController()
+        self.addRecordViewController = AddTransactionViewController()
         self.historyViewController = HistoryTableViewController()
         
         super.init(nibName: nil, bundle: nil)
@@ -42,7 +42,7 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
         delegate = self
         
         tabBar.didTapAddRecord = { [weak self] in
-            let addRecordViewController = UINavigationController(rootViewController: AddRecordViewController())
+            let addRecordViewController = UINavigationController(rootViewController: AddTransactionViewController())
             self?.present(addRecordViewController, animated: true)
         }
     }

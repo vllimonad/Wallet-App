@@ -28,7 +28,7 @@
 		2B5EC0AD2AA37A4F00305D14 /* TransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC0AC2AA37A4F00305D14 /* TransactionCell.swift */; };
 		2B6A16C12C8DD21000464C03 /* NBPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6A16C02C8DD21000464C03 /* NBPResponse.swift */; };
 		2B6AABB22C7F744A006B968A /* CurrencyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6AABB12C7F744A006B968A /* CurrencyButton.swift */; };
-		2B8541592AA507EF00ADECEB /* AddRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8541582AA507EF00ADECEB /* AddRecordViewController.swift */; };
+		2B8541592AA507EF00ADECEB /* AddTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8541582AA507EF00ADECEB /* AddTransactionViewController.swift */; };
 		2B85415B2AA545DE00ADECEB /* NotesTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B85415A2AA545DE00ADECEB /* NotesTextField.swift */; };
 		2BC96F2B2AAB761D001D7042 /* CategoryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */; };
 		2BC96F2D2AAB7652001D7042 /* CategoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC96F2C2AAB7652001D7042 /* CategoryTableViewController.swift */; };
@@ -58,7 +58,7 @@
 		2B5EC0AC2AA37A4F00305D14 /* TransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCell.swift; sourceTree = "<group>"; };
 		2B6A16C02C8DD21000464C03 /* NBPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NBPResponse.swift; sourceTree = "<group>"; };
 		2B6AABB12C7F744A006B968A /* CurrencyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyButton.swift; sourceTree = "<group>"; };
-		2B8541582AA507EF00ADECEB /* AddRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecordViewController.swift; sourceTree = "<group>"; };
+		2B8541582AA507EF00ADECEB /* AddTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionViewController.swift; sourceTree = "<group>"; };
 		2B85415A2AA545DE00ADECEB /* NotesTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTextField.swift; sourceTree = "<group>"; };
 		2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewCell.swift; sourceTree = "<group>"; };
 		2BC96F2C2AAB7652001D7042 /* CategoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewController.swift; sourceTree = "<group>"; };
@@ -85,23 +85,22 @@
 			path = resources;
 			sourceTree = "<group>";
 		};
-		2B00FAAD2ABCFEA7001D7E1E /* addRecord */ = {
+		2B00FAAD2ABCFEA7001D7E1E /* addTransaction */ = {
 			isa = PBXGroup;
 			children = (
+				2B0EE3802E6354E80032441C /* components */,
 				2B0EE2592E5B66110032441C /* category */,
-				2B8541582AA507EF00ADECEB /* AddRecordViewController.swift */,
-				2B85415A2AA545DE00ADECEB /* NotesTextField.swift */,
-				2B6AABB12C7F744A006B968A /* CurrencyButton.swift */,
+				2B8541582AA507EF00ADECEB /* AddTransactionViewController.swift */,
 				2B0EE2572E5B3A880032441C /* AddRecordViewModel.swift */,
 			);
-			path = addRecord;
+			path = addTransaction;
 			sourceTree = "<group>";
 		};
 		2B03B9762C947CED00DF48C1 /* screens */ = {
 			isa = PBXGroup;
 			children = (
 				2BCCEF412C3B63D200E24A57 /* main */,
-				2B00FAAD2ABCFEA7001D7E1E /* addRecord */,
+				2B00FAAD2ABCFEA7001D7E1E /* addTransaction */,
 				2BCCEF462C3B645100E24A57 /* history */,
 			);
 			path = screens;
@@ -134,6 +133,15 @@
 				2BC96F2C2AAB7652001D7042 /* CategoryTableViewController.swift */,
 			);
 			path = category;
+			sourceTree = "<group>";
+		};
+		2B0EE3802E6354E80032441C /* components */ = {
+			isa = PBXGroup;
+			children = (
+				2B85415A2AA545DE00ADECEB /* NotesTextField.swift */,
+				2B6AABB12C7F744A006B968A /* CurrencyButton.swift */,
+			);
+			path = components;
 			sourceTree = "<group>";
 		};
 		2B5EC0802AA34EC900305D14 = {
@@ -288,7 +296,7 @@
 				2B0EE2582E5B3A880032441C /* AddRecordViewModel.swift in Sources */,
 				2B0EE2562E5B3A190032441C /* TransactionCurrency.swift in Sources */,
 				2B0EE2342E59FBFA0032441C /* TabBarTag.swift in Sources */,
-				2B8541592AA507EF00ADECEB /* AddRecordViewController.swift in Sources */,
+				2B8541592AA507EF00ADECEB /* AddTransactionViewController.swift in Sources */,
 				2B5EC08F2AA34EC900305D14 /* SceneDelegate.swift in Sources */,
 				2B85415B2AA545DE00ADECEB /* NotesTextField.swift in Sources */,
 				2B0EE2522E5B2A730032441C /* MainViewModel.swift in Sources */,

@@ -23,4 +23,17 @@ final class AddRecordViewModel {
         self.selectedCurrency = .pln
         self.selectedDate = Date()
     }
+    
+    public func isValidInput() -> Bool {
+        amount != nil && selectedCategory != nil
+    }
+    
+    public func saveTransaction() {
+        guard
+            let amount = amount,
+            let selectedCategory = selectedCategory
+        else { return }
+        
+        let record = TransactionModel(amount: amount, currency: selectedCurrency, date: selectedDate, category: selectedCategory, note: note, exchangeRate: 1.0)
+    }
 }

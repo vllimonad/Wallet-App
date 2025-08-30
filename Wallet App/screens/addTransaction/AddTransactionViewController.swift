@@ -7,15 +7,15 @@
 
 import UIKit
 
-final class AddRecordViewController: UIViewController, UITextFieldDelegate {
+final class AddTransactionViewController: UIViewController {
     
 //    var delegate: NewTransactionViewControllerDelegate?
 //    var networkManager: NetworkManagerProtocol?
-    var exchangeRates: [Rate]? {
-        didSet {
-            //saveTransaction()
-        }
-    }
+//    var exchangeRates: [Rate]? {
+//        didSet {
+//            //saveTransaction()
+//        }
+//    }
     
     private let amountTextField: UITextField
     
@@ -244,16 +244,7 @@ final class AddRecordViewController: UIViewController, UITextFieldDelegate {
         return notesView
     }
     
-    func textField(_ textField: UITextField,
-                   shouldChangeCharactersIn range: NSRange,
-                   replacementString string: String) -> Bool {
-        let currentText = textField.text ?? ""
-        
-        guard let stringRange = Range(range, in: currentText) else { return false }
-        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
-        
-        return updatedText.count <= 10
-    }
+    
     
     @objc func getExchangeRates() {
 //        networkManager?.fetchRates { [weak self] result in
@@ -317,10 +308,11 @@ final class AddRecordViewController: UIViewController, UITextFieldDelegate {
     
     @objc
     private func didTapSaveButton() {
-//        guard let amountText = amountTextField.text, let amount = Double(amountText) else { return }
-//        guard let category = categoryCellLabel.text, category != "Required" else { return }
-//        let description = notesTextView.text ?? ""
-//        let rate = exchangeRates?.first { $0.code == selectedCurrency.rawValue }
+        guard viewModel.isValidInput() else { return }
+        
+        viewModel.saveTransaction()
+        
+        //        let rate = exchangeRates?.first { $0.code == selectedCurrency.rawValue }
 //        let rateValue = rate?.mid ?? 1.0
 //        delegate?.addTransaction(
 //            Transaction(amount: amount,
@@ -330,6 +322,33 @@ final class AddRecordViewController: UIViewController, UITextFieldDelegate {
 //                        description: description,
 //                        exchangeRate: rateValue))
         dismiss(animated: true)
+    }
+}
+
+extension AddTransactionViewController: UITextFieldDelegate, UITextViewDelegate {
+    
+    func textField(_ textField: UITextField,
+                   shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
+        let currentText = textField.text ?? ""
+        
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        
+        return updatedText.count <= 10
+    }
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        guard
+            let amountText = amountTextField.text,
+            let amount = Double(amountText)
+        else { return }
+
+        viewModel.amount = amount
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        viewModel.note = textView.text
     }
 }
 
