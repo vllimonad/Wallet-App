@@ -9,7 +9,7 @@ import Foundation
 
 final class AddTransactionViewModel {
     
-    private let transactionSecrvice: TransactionService
+    private let transactionService: TransactionService
     
     public var amount: Double?
     
@@ -21,8 +21,8 @@ final class AddTransactionViewModel {
     
     public var note: String?
     
-    init(_ transactionSecrvice: TransactionService) {
-        self.transactionSecrvice = transactionSecrvice
+    init(_ transactionService: TransactionService) {
+        self.transactionService = transactionService
         
         self.selectedCurrency = .pln
         self.selectedDate = Date()
@@ -40,6 +40,6 @@ final class AddTransactionViewModel {
         
         let transaction = TransactionModel(amount: amount, currency: selectedCurrency, date: selectedDate, category: selectedCategory, note: note, exchangeRate: 1.0)
         
-        transactionSecrvice.addTransaction(transaction)
+        transactionService.addTransaction(transaction)
     }
 }

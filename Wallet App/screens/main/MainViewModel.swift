@@ -7,25 +7,33 @@
 
 import Foundation
 
-final class MainViewModel {
+final class MainViewModel: TransactionServiceObserver {
     
-    private let transactionSecrvice: TransactionService
+    private let transactionService: TransactionService
     
     private(set) var transactions: [TransactionModel]
     
-    init(_ transactionSecrvice: TransactionService) {
-        self.transactionSecrvice = transactionSecrvice
-        self.transactions = []
+    init(_ transactionService: TransactionService) {
+        self.transactionService = transactionService
+        self.transactions = transactionService.transactions
         
-        loadTransactions()
+        self.transactionService.observers.add(self)
     }
     
-    public func loadTransactions() {
-        Task {
-            let storage = TransactionStorage()
-            self.transactions = await storage.getModels()
-        }
+    deinit {
+        self.transactionService.observers.remove(self)
     }
+    
+    func updatedTransactionsList() {
+        self.transactions = transactionService.transactions
+    }
+    
+//    public func loadTransactions() {
+//        Task {
+//            let storage = TransactionStorage()
+//            self.transactions = await storage.getModels()
+//        }
+//    }
     
     public func getExpensesByCategory() -> [TransactionCategory: Double] {
         let transactionsByCategory = Dictionary(grouping: transactions, by: { $0.category })

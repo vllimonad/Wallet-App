@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class TransactionHistoryViewModel {
+final class TransactionHistoryViewModel: TransactionServiceObserver {
     
     private let transactionService: TransactionService
     
@@ -16,5 +16,15 @@ final class TransactionHistoryViewModel {
     init(_ transactionService: TransactionService) {
         self.transactionService = transactionService
         self.transactions = []
+        
+        self.transactionService.observers.add(self)
+    }
+    
+    deinit {
+        self.transactionService.observers.remove(self)
+    }
+    
+    func updatedTransactionsList() {
+        
     }
 }

@@ -13,6 +13,8 @@ final class TransactionService {
     
     private(set) var transactions: [TransactionModel]
     
+    public var observers = NSHashTable<TransactionServiceObserver>.weakObjects()
+    
     init() {
         self.storage = TransactionStorage()
         self.transactions = []
@@ -23,12 +25,18 @@ final class TransactionService {
     private func fetchTransactions() {
         Task {
             self.transactions = await storage.getModels()
+            observers.allObjects.forEach { $0.updatedTransactionsList() }
         }
     }
     
     public func addTransaction(_ transaction: TransactionModel) {
         Task {
-            
+            do {
+                try await storage.addModel(transaction)
+                observers.allObjects.forEach { $0.updatedTransactionsList() }
+            } catch {
+                print(error)
+            }
         }
     }
 }

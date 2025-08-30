@@ -91,7 +91,7 @@ extension TransactionHistoryViewController: UITableViewDataSource, UITableViewDe
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 //        let swipe = UISwipeActionsConfiguration(actions: [UIContextualAction(style: .destructive, title: "Delete", handler: { [weak self] _,_,_ in
 //            self?.viewModel.transactions[indexPath.section].remove(at: indexPath.row)
 //            tableView.deleteRows(at: [indexPath], with: .right)
@@ -101,5 +101,5 @@ extension TransactionHistoryViewController: UITableViewDataSource, UITableViewDe
 //            }
 //        })])
 //        return swipe
-    }
+//    }
 }
