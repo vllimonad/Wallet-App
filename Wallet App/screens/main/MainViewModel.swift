@@ -17,6 +17,8 @@ final class MainViewModel: TransactionServiceObserver {
     
     private var selectedYearIndex: Int
     
+    public var didUpdateExpenses: (() -> Void)?
+    
     init(_ transactionService: TransactionService) {
         self.transactionService = transactionService
         self.expenses = []
@@ -31,49 +33,51 @@ final class MainViewModel: TransactionServiceObserver {
         self.transactionService.observers.remove(self)
     }
     
-//    public func loadTransactions() {
-//        Task {
-//            let storage = TransactionStorage()
-//            self.transactions = await storage.getModels()
-//        }
-//    }
-    
     private func getMonthExpenses(from transactions: [TransactionModel]) -> [MonthExpenses] {
         let calendar = Calendar.current
         
-        let groupedByMonth = Dictionary(grouping: transactions) { transaction -> Date in
+        let expensesByMonth = Dictionary(grouping: transactions) { transaction -> Date in
             let components = calendar.dateComponents([.year, .month], from: transaction.date)
             return calendar.date(from: components)!
         }
         
-        // Convert each month group into MonthExpenses
-        let monthExpenses = groupedByMonth.map { (monthDate, transactions) -> MonthExpenses in
-            // Group by category inside month
-            let groupedByCategory = Dictionary(grouping: transactions) { $0.category }
+        let expensesByMonthCategory = expensesByMonth.map { (date, transactions) -> MonthExpenses in
+            let expensesByCategory = Dictionary(grouping: transactions) { $0.category }
             
-            var categoryExpenses = groupedByCategory.map { (category, items) -> CategoryExpense in
+            var categoryExpenses = expensesByCategory.map { (category, items) -> CategoryExpense in
                 let total = items.reduce(0) { $0 + $1.amount }
                 return CategoryExpense(category: category, amount: total)
             }
             
-            var totalMonthExpenses: Double = categoryExpenses.reduce(0) { $0 + $1.amount }
+            let totalMonthExpenses = categoryExpenses.reduce(0) { $0 + $1.amount }
             
             categoryExpenses.sort { $0.amount > $1.amount }
             
-            return MonthExpenses(date: monthDate, total: totalMonthExpenses, expenses: categoryExpenses)
+            return MonthExpenses(date: date, total: totalMonthExpenses, items: categoryExpenses)
         }
         
-        // Sort by date (latest first for example)
-        return monthExpenses.sorted { $0.date > $1.date }
+        return expensesByMonthCategory
     }
     
     func updatedTransactionsList() {
         let transactions = transactionService.transactions
         self.expenses = getMonthExpenses(from: transactions)
+        
+        didUpdateExpenses?()
     }
     
-    public func getSelectedMonthExpenses() -> MonthExpenses {
-        MonthExpenses(date: .now, total: 234, expenses: [CategoryExpense(category: .communication, amount: 234)])
+    public func getSelectedMonthTotalExpenses() -> Double {
+        expenses.first(where: {
+            let expensesDateComponents = Calendar.current.dateComponents([.year, .month], from: $0.date)
+            return expensesDateComponents.year == selectedYearIndex && expensesDateComponents.month == selectedMonthIndex + 1
+        })?.total ?? 0
+    }
+    
+    public func getSelectedMonthExpenses() -> [CategoryExpense] {
+        expenses.first(where: {
+            let expensesDateComponents = Calendar.current.dateComponents([.year, .month], from: $0.date)
+            return expensesDateComponents.year == selectedYearIndex && expensesDateComponents.month == selectedMonthIndex + 1
+        })?.items ?? []
     }
     
     public func showPreviousMonth() {
@@ -105,7 +109,7 @@ final class MainViewModel: TransactionServiceObserver {
 struct MonthExpenses {
     let date: Date
     let total: Double
-    let expenses: [CategoryExpense]
+    let items: [CategoryExpense]
 }
 
 struct CategoryExpense {

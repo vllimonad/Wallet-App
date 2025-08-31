@@ -111,7 +111,7 @@ final class MainViewController: UIViewController {
         
         statisticTableView.invalidateIntrinsicContentSize()
         statisticTableView.layoutIfNeeded()
-        statisticTableView.heightAnchor.constraint(equalToConstant: statisticTableView.contentSize.height).isActive = true
+        statisticTableView.heightAnchor.constraint(equalToConstant: 300).isActive = true
     }
     
     private func configureUI() {
@@ -120,6 +120,7 @@ final class MainViewController: UIViewController {
         statisticTableView.dataSource = self
         statisticTableView.delegate = self
         statisticTableView.register(StatisticViewCell.self, forCellReuseIdentifier: StatisticViewCell.reuseIdentifier())
+        statisticTableView.allowsSelection = false
         statisticTableView.separatorStyle = .none
         statisticTableView.rowHeight = 70
         statisticTableView.isScrollEnabled = false
@@ -156,6 +157,12 @@ final class MainViewController: UIViewController {
             statisticTableView.leadingAnchor.constraint(equalTo: backgroundPanelView.leadingAnchor, constant: 20),
             statisticTableView.trailingAnchor.constraint(equalTo: backgroundPanelView.trailingAnchor, constant: -20)
         ])
+        
+        viewModel.didUpdateExpenses = { [weak self] in
+            DispatchQueue.main.async {
+                 self?.reloadStatistic()
+            }
+        }
     }
     
     private func configureNavigationBar() {
@@ -164,9 +171,11 @@ final class MainViewController: UIViewController {
     }
     
     private func reloadStatistic() {
-        amountLabel.text = "Total: 10 zł"
+        amountLabel.text = "Total: \(viewModel.getSelectedMonthTotalExpenses()) zł"
         
         monthLabel.text = viewModel.getSelectedDateDescription()
+        
+        view.layoutIfNeeded()
         
         statisticTableView.reloadData()
     }
@@ -187,7 +196,7 @@ final class MainViewController: UIViewController {
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        viewModel.getSelectedMonthExpenses().count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -195,7 +204,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let model = viewModel.getSelectedMonthExpenses().expenses[0]
+        let model = viewModel.getSelectedMonthExpenses()[indexPath.row]
         cell.bind(model)
         
         return cell
