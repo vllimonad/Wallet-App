@@ -9,17 +9,6 @@ import UIKit
 
 final class MainViewController: UIViewController {
     
-    private var selectedDate = [String: String]()
-    private var monthIndex = 1
-    private var yearIndex = 0
-    
-    private let formatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
-        return formatter
-    }()
-    
     private let monthLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -31,7 +20,7 @@ final class MainViewController: UIViewController {
         let button = UIButton()
         let config = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular)
         button.setImage(UIImage(systemName: "chevron.backward", withConfiguration: config), for: .normal)
-        button.addTarget(self, action: #selector(showPreviousMonth), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didTapPreviousButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -40,7 +29,7 @@ final class MainViewController: UIViewController {
         let button = UIButton()
         let config = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular)
         button.setImage(UIImage(systemName: "chevron.forward", withConfiguration: config), for: .normal)
-        button.addTarget(self, action: #selector(showNextMonth), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didTapNextButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -85,9 +74,16 @@ final class MainViewController: UIViewController {
         return stack
     }()
     
+    private let statisticTableView: UITableView
+    
+    private let emptyStatisticView: EmptyStatisticView
+    
     private let viewModel: MainViewModel
     
     init(viewModel: MainViewModel) {
+        self.statisticTableView = UITableView()
+        self.emptyStatisticView = EmptyStatisticView()
+        
         self.viewModel = viewModel
         
         super.init(nibName: nil, bundle: nil)
@@ -102,34 +98,34 @@ final class MainViewController: UIViewController {
         
         configureUI()
         configureNavigationBar()
-        setupDate()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        updateUI()
-    }
-    
-    private func configureNavigationBar() {
-        navigationItem.title = "Statistics"
-        navigationController?.navigationBar.prefersLargeTitles = true
+        reloadStatistic()
     }
     
     private func configureUI() {
         view.backgroundColor = UIColor(resource: .background)
         
-        configureCategoriesStackView()
-        
+        statisticTableView.dataSource = self
+        statisticTableView.delegate = self
+        statisticTableView.register(StatisticViewCell.self, forCellReuseIdentifier: StatisticViewCell.reuseIdentifier())
+        statisticTableView.separatorStyle = .none
+        statisticTableView.rowHeight = 70
+        statisticTableView.isScrollEnabled = false
+        statisticTableView.translatesAutoresizingMaskIntoConstraints = false
+                
         view.addSubview(monthStackView)
         view.addSubview(backgroundPanelView)
 
         monthStackView.addArrangedSubview(backwardButton)
         monthStackView.addArrangedSubview(monthLabel)
         monthStackView.addArrangedSubview(forwardButton)
-                
+        
         backgroundPanelView.addSubview(amountLabel)
-        backgroundPanelView.addSubview(categoriesStackView)
+        backgroundPanelView.addSubview(statisticTableView)
         
         NSLayoutConstraint.activate([
             backwardButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25),
@@ -147,147 +143,53 @@ final class MainViewController: UIViewController {
             amountLabel.topAnchor.constraint(equalTo: backgroundPanelView.topAnchor, constant: 20),
             amountLabel.leadingAnchor.constraint(equalTo: backgroundPanelView.leadingAnchor, constant: 20),
             
-            categoriesStackView.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 20),
-            categoriesStackView.bottomAnchor.constraint(equalTo: backgroundPanelView.bottomAnchor, constant: -20),
-            categoriesStackView.leadingAnchor.constraint(equalTo: backgroundPanelView.leadingAnchor, constant: 20),
-            categoriesStackView.trailingAnchor.constraint(equalTo: backgroundPanelView.trailingAnchor, constant: -20)
+            statisticTableView.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 20),
+            statisticTableView.bottomAnchor.constraint(equalTo: backgroundPanelView.bottomAnchor, constant: -20),
+            statisticTableView.leadingAnchor.constraint(equalTo: backgroundPanelView.leadingAnchor, constant: 20),
+            statisticTableView.trailingAnchor.constraint(equalTo: backgroundPanelView.trailingAnchor, constant: -20),
         ])
     }
     
-    private func configureCategoriesStackView() {
-        //let expensesByCategories = viewModel.getExpensesByCategory()
-        let expensesByCategories: [TransactionCategory: Double] = [
-            .communication: 100,
-            .food: 500,
-            .transportation: 300,
-            .entertainment: 200
-        ]
-        let totalExpenses = 2000.0
+    private func configureNavigationBar() {
+        navigationItem.title = "Statistics"
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    private func reloadStatistic() {
+        amountLabel.text = "Total: 10 zł"
         
-        for arrangedSubview in categoriesStackView.arrangedSubviews {
-            arrangedSubview.removeFromSuperview()
-        }
+        monthLabel.text = viewModel.getSelectedDateDescription()
         
-        expensesByCategories.forEach { (category, expenses) in
-            let bar = BarView()
-            bar.amountLabel.text = expenses.description
-            bar.categoryLabel.text = category.rawValue
-            bar.progressView.setProgress(Float(expenses/totalExpenses), animated: false)
-            
-            categoriesStackView.addArrangedSubview(bar)
-        }
-    }
-    
-    private func setupDate() {
-        let index = Calendar.current.component(.month, from: Date())
-        selectedDate["Month"] = Calendar.current.standaloneMonthSymbols[index-1]
-        selectedDate["Year"] = "\(Calendar.current.component(.year, from: Date()))"
-    }
-    
-    private func getTotalSum() -> Double {
-//        var sum: Double = 0
-//        for i in getExpensesByCategories() {
-//            sum += i.value
-//        }
-//        return (sum * 100).rounded()/100
-        return 2000.0
-    }
-    
-//    private func getExpensesByCategories() -> [String: Double] {
-//        var values = [String: Double]()
-//        for day in transactionsList {
-//            if formatter.string(from: day[0].date).contains(selectedDate["Month"]!)
-//                && formatter.string(from: day[0].date).contains(selectedDate["Year"]!){
-//                for transaction in day {
-//                    if values.index(forKey: transaction.category) != nil {
-//                        values[transaction.category]! += (transaction.amount * transaction.exchangeRate).rounded()
-//                    } else {
-//                        values[transaction.category] = (transaction.amount * transaction.exchangeRate).rounded()
-//                    }
-//                }
-//            }
-//        }
-//        return values
-//    }
-    
-    private func updateUI() {
-        amountLabel.text = "Total: \(getTotalSum())zł"
-        monthLabel.text = selectedDate["Month"]! + " " + selectedDate["Year"]!
-        //setupBars()
-    }
-    
-//    private func updateBars() {
-//        for view in categoriesStackView.arrangedSubviews {
-//            view.removeFromSuperview()
-//        }
-//        let values = getExpensesByCategories().sorted(by: { $0.value > $1.value } )
-//        for value in values {
-//            let bar = BarView()
-//            bar.amountLabel.text = "\(value.value)"
-//            bar.categoryLabel.text = value.key
-//            bar.progressView.setProgress(Float(value.value/values.first!.value), animated: false)
-//            categoriesStackView.addArrangedSubview(bar)
-//        }
-//    }
-    
-//    @objc func addButtonTapped() {
-//        let transactionView = AddRecordViewController()
-//        transactionView.delegate = self
-//        transactionView.modalPresentationStyle = .overCurrentContext
-//        present(UINavigationController(rootViewController: transactionView), animated: true)
-//    }
-    
-    @objc
-    private func showPreviousMonth() {
-        let index = Calendar.current.component(.month, from: Date())
-        if index - monthIndex - 1 < 0 {
-            yearIndex -= 31_577_600
-            monthIndex -= 12
-        }
-        monthIndex += 1
-        selectedDate["Month"] = Calendar.current.standaloneMonthSymbols[index-monthIndex]
-        selectedDate["Year"] = "\(Calendar.current.component(.year, from: Date.now.addingTimeInterval(TimeInterval(yearIndex))))"
-        updateUI()
+        statisticTableView.reloadData()
     }
     
     @objc
-    private func showNextMonth() {
-        let index = Calendar.current.component(.month, from: Date())
-        if index - monthIndex + 1 > 11 {
-            yearIndex += 31_577_600
-            monthIndex += 12
-        }
-        monthIndex -= 1
-        selectedDate["Month"] = Calendar.current.standaloneMonthSymbols[index-monthIndex]
-        selectedDate["Year"] = "\(Calendar.current.component(.year, from: Date.now.addingTimeInterval(TimeInterval(yearIndex))))"
-        updateUI()
+    private func didTapNextButton() {
+        viewModel.showNextMonth()
+        reloadStatistic()
+    }
+    
+    @objc
+    private func didTapPreviousButton() {
+        viewModel.showPreviousMonth()
+        reloadStatistic()
     }
 }
 
-//extension MainViewController: NewTransactionViewControllerDelegate {
-//    func addTransaction(_ transaction: Transaction) {
-//        if let index = transactionsList.firstIndex(where: {
-//            formatter.string(from: $0[0].date) == formatter.string(from: transaction.date) })
-//        {
-//            transactionsList[index].insert(transaction, at: 0)
-//        } else {
-//            transactionsList.append([transaction])
-//        }
-//        transactionsList.sort(by: { $0[0].date > $1[0].date })
-//        updateUI()
-//        //DataManager.shared.saveData(transactionsList)
-//    }
-//}
-//
-//extension MainViewController: TransactionsTableViewControllerDelegate {
-//    
-//    func getTransactionsList() -> [[Transaction]] {
-//        return transactionsList
-//    }
-//    
-//    func setTransactionsList(_ list: [[Transaction]]) {
-//        transactionsList = list
-//        updateUI()
-//        //DataManager.shared.saveData(transactionsList)
-//    }
-//}
+extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: StatisticViewCell.reuseIdentifier(), for: indexPath) as? StatisticViewCell else {
+            return UITableViewCell()
+        }
+        
+        let model = viewModel.getSelectedMonthExpenses().expenses[0]
+        cell.bind(model)
+        
+        return cell
+    }
+}
