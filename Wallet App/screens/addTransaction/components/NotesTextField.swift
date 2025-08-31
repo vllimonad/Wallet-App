@@ -21,7 +21,7 @@ final class NotesTextField: UITextField {
     }
     
     func setupTextField(_ placeholder: String) {
-        textColor = UIColor(named: "text")
+        textColor = UIColor(resource: .text)
         layer.cornerRadius = 20
         attributedPlaceholder = NSAttributedString(string: placeholder)
     }
