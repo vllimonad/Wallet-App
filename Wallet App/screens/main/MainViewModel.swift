@@ -12,21 +12,19 @@ final class MainViewModel: TransactionServiceObserver {
     private let transactionService: TransactionService
     
     private(set) var expenses: [MonthExpenses]
+        
+    private var selectedMonthIndex: Int
     
-    private var selectedDate: [Calendar.Component: String]
-    
-    private var selectedMonthIndex = 1
-    
-    private var selectedYearIndex = 0
+    private var selectedYearIndex: Int
     
     init(_ transactionService: TransactionService) {
         self.transactionService = transactionService
         self.expenses = []
-        self.selectedDate = [:]
+        
+        self.selectedMonthIndex = Calendar.current.component(.month, from: .now) - 1
+        self.selectedYearIndex = Calendar.current.component(.year, from: .now)
         
         self.transactionService.observers.add(self)
-        
-        setupCurrentDate()
     }
     
     deinit {
@@ -39,13 +37,6 @@ final class MainViewModel: TransactionServiceObserver {
 //            self.transactions = await storage.getModels()
 //        }
 //    }
-    
-    private func setupCurrentDate() {
-        let monthIndex = Calendar.current.component(.month, from: .now) - 1
-        selectedDate[.month] = Calendar.current.standaloneMonthSymbols[monthIndex]
-        
-        selectedDate[.year] = Calendar.current.component(.year, from: .now).description
-    }
     
     private func getMonthExpenses(from transactions: [TransactionModel]) -> [MonthExpenses] {
         let calendar = Calendar.current
@@ -86,32 +77,28 @@ final class MainViewModel: TransactionServiceObserver {
     }
     
     public func showPreviousMonth() {
-        let index = Calendar.current.component(.month, from: Date())
-        
-        if index - selectedMonthIndex - 1 < 0 {
-            selectedYearIndex -= 31_577_600
-            selectedMonthIndex -= 12
+        if selectedMonthIndex == 0 {
+            selectedMonthIndex = 11
+            selectedYearIndex -= 1
+        } else {
+            selectedMonthIndex -= 1
         }
-        
-        selectedMonthIndex += 1
-        
-        selectedDate[.month] = Calendar.current.standaloneMonthSymbols[index-selectedMonthIndex]
-        selectedDate[.year] = "\(Calendar.current.component(.year, from: Date.now.addingTimeInterval(TimeInterval(selectedYearIndex))))"
     }
     
     public func showNextMonth() {
-        let index = Calendar.current.component(.month, from: Date())
-        if index - selectedMonthIndex + 1 > 11 {
-            selectedYearIndex += 31_577_600
-            selectedMonthIndex += 12
+        if selectedMonthIndex == 11 {
+            selectedMonthIndex = 0
+            selectedYearIndex += 1
+        } else {
+            selectedMonthIndex += 1
         }
-        selectedMonthIndex -= 1
-        selectedDate[.month] = Calendar.current.standaloneMonthSymbols[index-selectedMonthIndex]
-        selectedDate[.year] = "\(Calendar.current.component(.year, from: Date.now.addingTimeInterval(TimeInterval(selectedYearIndex))))"
     }
     
     public func getSelectedDateDescription() -> String {
-        selectedDate[.month]! + " " + selectedDate[.year]!
+        let monthName = Calendar.current.standaloneMonthSymbols[selectedMonthIndex]
+        let yearName = selectedYearIndex.description
+        
+        return monthName + " " + yearName
     }
 }
 

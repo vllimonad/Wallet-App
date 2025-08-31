@@ -106,6 +106,14 @@ final class MainViewController: UIViewController {
         reloadStatistic()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        statisticTableView.invalidateIntrinsicContentSize()
+        statisticTableView.layoutIfNeeded()
+        statisticTableView.heightAnchor.constraint(equalToConstant: statisticTableView.contentSize.height).isActive = true
+    }
+    
     private func configureUI() {
         view.backgroundColor = UIColor(resource: .background)
         
@@ -136,7 +144,7 @@ final class MainViewController: UIViewController {
             monthStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
             monthStackView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.04),
             
-            backgroundPanelView.topAnchor.constraint(equalTo: monthLabel.bottomAnchor, constant: 20),
+            backgroundPanelView.topAnchor.constraint(equalTo: monthStackView.bottomAnchor, constant: 20),
             backgroundPanelView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
             backgroundPanelView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
 
@@ -146,7 +154,7 @@ final class MainViewController: UIViewController {
             statisticTableView.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 20),
             statisticTableView.bottomAnchor.constraint(equalTo: backgroundPanelView.bottomAnchor, constant: -20),
             statisticTableView.leadingAnchor.constraint(equalTo: backgroundPanelView.leadingAnchor, constant: 20),
-            statisticTableView.trailingAnchor.constraint(equalTo: backgroundPanelView.trailingAnchor, constant: -20),
+            statisticTableView.trailingAnchor.constraint(equalTo: backgroundPanelView.trailingAnchor, constant: -20)
         ])
     }
     
