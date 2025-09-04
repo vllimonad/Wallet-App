@@ -74,14 +74,20 @@ final class MainViewController: UIViewController {
         return stack
     }()
     
-    private let statisticTableView: UITableView
+    private let categoriesTableView: UITableView
     
     private let emptyStatisticView: EmptyStatisticView
     
-    private let viewModel: MainViewModel
+    private var viewModel: MainViewModelType {
+        didSet {
+            viewModel.viewDelegate = self
+        }
+    }
     
-    init(viewModel: MainViewModel) {
-        self.statisticTableView = UITableView()
+    private var tableViewHeightConstraint: NSLayoutConstraint?
+    
+    init(viewModel: MainViewModelType) {
+        self.categoriesTableView = UITableView()
         self.emptyStatisticView = EmptyStatisticView()
         
         self.viewModel = viewModel
@@ -109,22 +115,20 @@ final class MainViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        statisticTableView.invalidateIntrinsicContentSize()
-        statisticTableView.layoutIfNeeded()
-        statisticTableView.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        tableViewHeightConstraint?.constant = categoriesTableView.contentSize.height
     }
     
     private func configureUI() {
         view.backgroundColor = UIColor(resource: .background)
         
-        statisticTableView.dataSource = self
-        statisticTableView.delegate = self
-        statisticTableView.register(StatisticViewCell.self, forCellReuseIdentifier: StatisticViewCell.reuseIdentifier())
-        statisticTableView.allowsSelection = false
-        statisticTableView.separatorStyle = .none
-        statisticTableView.rowHeight = 70
-        statisticTableView.isScrollEnabled = false
-        statisticTableView.translatesAutoresizingMaskIntoConstraints = false
+        categoriesTableView.dataSource = self
+        categoriesTableView.delegate = self
+        categoriesTableView.register(StatisticViewCell.self, forCellReuseIdentifier: StatisticViewCell.reuseIdentifier())
+        categoriesTableView.allowsSelection = false
+        categoriesTableView.separatorStyle = .none
+        categoriesTableView.rowHeight = 70
+        categoriesTableView.isScrollEnabled = false
+        categoriesTableView.translatesAutoresizingMaskIntoConstraints = false
                 
         view.addSubview(monthStackView)
         view.addSubview(backgroundPanelView)
@@ -134,7 +138,7 @@ final class MainViewController: UIViewController {
         monthStackView.addArrangedSubview(forwardButton)
         
         backgroundPanelView.addSubview(amountLabel)
-        backgroundPanelView.addSubview(statisticTableView)
+        backgroundPanelView.addSubview(categoriesTableView)
         
         NSLayoutConstraint.activate([
             backwardButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25),
@@ -152,17 +156,14 @@ final class MainViewController: UIViewController {
             amountLabel.topAnchor.constraint(equalTo: backgroundPanelView.topAnchor, constant: 20),
             amountLabel.leadingAnchor.constraint(equalTo: backgroundPanelView.leadingAnchor, constant: 20),
             
-            statisticTableView.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 20),
-            statisticTableView.bottomAnchor.constraint(equalTo: backgroundPanelView.bottomAnchor, constant: -20),
-            statisticTableView.leadingAnchor.constraint(equalTo: backgroundPanelView.leadingAnchor, constant: 20),
-            statisticTableView.trailingAnchor.constraint(equalTo: backgroundPanelView.trailingAnchor, constant: -20)
+            categoriesTableView.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 20),
+            categoriesTableView.bottomAnchor.constraint(equalTo: backgroundPanelView.bottomAnchor, constant: -20),
+            categoriesTableView.leadingAnchor.constraint(equalTo: backgroundPanelView.leadingAnchor, constant: 20),
+            categoriesTableView.trailingAnchor.constraint(equalTo: backgroundPanelView.trailingAnchor, constant: -20),
         ])
         
-        viewModel.didUpdateExpenses = { [weak self] in
-            DispatchQueue.main.async {
-                 self?.reloadStatistic()
-            }
-        }
+        tableViewHeightConstraint = categoriesTableView.heightAnchor.constraint(equalToConstant: 0)
+        tableViewHeightConstraint?.isActive = true
     }
     
     private func configureNavigationBar() {
@@ -174,10 +175,8 @@ final class MainViewController: UIViewController {
         amountLabel.text = "Total: \(viewModel.getSelectedMonthTotalExpenses()) zł"
         
         monthLabel.text = viewModel.getSelectedDateDescription()
-        
-        view.layoutIfNeeded()
-        
-        statisticTableView.reloadData()
+                
+        categoriesTableView.reloadData()
     }
     
     @objc
@@ -208,5 +207,14 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         cell.bind(model)
         
         return cell
+    }
+}
+
+extension MainViewController: MainViewModelDelegate {
+    
+    func reloadData() {
+        DispatchQueue.main.async { [weak self] in
+            self?.reloadStatistic()
+        }
     }
 }

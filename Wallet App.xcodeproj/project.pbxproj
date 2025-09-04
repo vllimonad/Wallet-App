@@ -22,6 +22,10 @@
 		2B522A4E2E6369BC00105245 /* TransactionServiceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B522A4D2E6369BC00105245 /* TransactionServiceObserver.swift */; };
 		2B522A502E6373FE00105245 /* TransactionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B522A4F2E6373FE00105245 /* TransactionDataSource.swift */; };
 		2B522A5B2E647DF400105245 /* EmptyStatisticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B522A5A2E647DF400105245 /* EmptyStatisticView.swift */; };
+		2B522A862E69E73E00105245 /* MainViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B522A852E69E73E00105245 /* MainViewModelType.swift */; };
+		2B522A882E69E98900105245 /* MainViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B522A872E69E98900105245 /* MainViewModelDelegate.swift */; };
+		2B522A8B2E69EBF700105245 /* MonthExpenses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B522A8A2E69EBF700105245 /* MonthExpenses.swift */; };
+		2B522A8D2E69EC7C00105245 /* CategoryExpense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B522A8C2E69EC7C00105245 /* CategoryExpense.swift */; };
 		2B5EC08D2AA34EC900305D14 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC08C2AA34EC900305D14 /* AppDelegate.swift */; };
 		2B5EC08F2AA34EC900305D14 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC08E2AA34EC900305D14 /* SceneDelegate.swift */; };
 		2B5EC0912AA34EC900305D14 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC0902AA34EC900305D14 /* TabBarController.swift */; };
@@ -55,6 +59,10 @@
 		2B522A4D2E6369BC00105245 /* TransactionServiceObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionServiceObserver.swift; sourceTree = "<group>"; };
 		2B522A4F2E6373FE00105245 /* TransactionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDataSource.swift; sourceTree = "<group>"; };
 		2B522A5A2E647DF400105245 /* EmptyStatisticView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStatisticView.swift; sourceTree = "<group>"; };
+		2B522A852E69E73E00105245 /* MainViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModelType.swift; sourceTree = "<group>"; };
+		2B522A872E69E98900105245 /* MainViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModelDelegate.swift; sourceTree = "<group>"; };
+		2B522A8A2E69EBF700105245 /* MonthExpenses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthExpenses.swift; sourceTree = "<group>"; };
+		2B522A8C2E69EC7C00105245 /* CategoryExpense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryExpense.swift; sourceTree = "<group>"; };
 		2B5EC0892AA34EC900305D14 /* Wallet App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wallet App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B5EC08C2AA34EC900305D14 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B5EC08E2AA34EC900305D14 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -166,6 +174,15 @@
 			path = components;
 			sourceTree = "<group>";
 		};
+		2B522A892E69EBEF00105245 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				2B522A8A2E69EBF700105245 /* MonthExpenses.swift */,
+				2B522A8C2E69EC7C00105245 /* CategoryExpense.swift */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
 		2B5EC0802AA34EC900305D14 = {
 			isa = PBXGroup;
 			children = (
@@ -209,8 +226,11 @@
 		2BCCEF412C3B63D200E24A57 /* main */ = {
 			isa = PBXGroup;
 			children = (
+				2B522A892E69EBEF00105245 /* models */,
 				2B522A4A2E63654900105245 /* components */,
 				2B5EC0A22AA3587500305D14 /* MainViewController.swift */,
+				2B522A852E69E73E00105245 /* MainViewModelType.swift */,
+				2B522A872E69E98900105245 /* MainViewModelDelegate.swift */,
 				2B0EE2512E5B2A730032441C /* MainViewModel.swift */,
 			);
 			path = main;
@@ -306,18 +326,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B5EC0912AA34EC900305D14 /* TabBarController.swift in Sources */,
+				2B522A8B2E69EBF700105245 /* MonthExpenses.swift in Sources */,
 				2B522A5B2E647DF400105245 /* EmptyStatisticView.swift in Sources */,
 				2B5EC0A72AA359E700305D14 /* TransactionHistoryViewController.swift in Sources */,
 				2B522A4E2E6369BC00105245 /* TransactionServiceObserver.swift in Sources */,
 				2B5EC0A92AA3608B00305D14 /* TransactionModel.swift in Sources */,
+				2B522A8D2E69EC7C00105245 /* CategoryExpense.swift in Sources */,
 				2B0EE2372E5A0D310032441C /* TransactionStorage.swift in Sources */,
 				2B08DC822C78F4EF003F49D0 /* DataManager.swift in Sources */,
 				2B5EC08D2AA34EC900305D14 /* AppDelegate.swift in Sources */,
+				2B522A882E69E98900105245 /* MainViewModelDelegate.swift in Sources */,
 				2BC96F2B2AAB761D001D7042 /* CategoryViewCell.swift in Sources */,
 				2B6AABB22C7F744A006B968A /* CurrencyButton.swift in Sources */,
 				2B0EE2322E59FBD20032441C /* TabBar.swift in Sources */,
 				2B080BB32AC0A01100BC89E3 /* StatisticViewCell.swift in Sources */,
 				2B6A16C12C8DD21000464C03 /* NBPResponse.swift in Sources */,
+				2B522A862E69E73E00105245 /* MainViewModelType.swift in Sources */,
 				2B0EE2582E5B3A880032441C /* AddTransactionViewModel.swift in Sources */,
 				2B0EE2562E5B3A190032441C /* TransactionCurrency.swift in Sources */,
 				2B0EE2342E59FBFA0032441C /* TabBarTag.swift in Sources */,

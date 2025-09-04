@@ -11,13 +11,13 @@ final class MainViewModel: TransactionServiceObserver {
     
     private let transactionService: TransactionService
     
-    private(set) var expenses: [MonthExpenses]
-        
+    private var expenses: [MonthExpenses]
+    
     private var selectedMonthIndex: Int
     
     private var selectedYearIndex: Int
     
-    public var didUpdateExpenses: (() -> Void)?
+    weak var viewDelegate: MainViewModelDelegate?
     
     init(_ transactionService: TransactionService) {
         self.transactionService = transactionService
@@ -59,28 +59,32 @@ final class MainViewModel: TransactionServiceObserver {
         return expensesByMonthCategory
     }
     
+}
+
+extension MainViewModel: MainViewModelType {
+    
     func updatedTransactionsList() {
         let transactions = transactionService.transactions
         self.expenses = getMonthExpenses(from: transactions)
         
-        didUpdateExpenses?()
+        viewDelegate?.reloadData()
     }
     
-    public func getSelectedMonthTotalExpenses() -> Double {
+    func getSelectedMonthTotalExpenses() -> Double {
         expenses.first(where: {
             let expensesDateComponents = Calendar.current.dateComponents([.year, .month], from: $0.date)
             return expensesDateComponents.year == selectedYearIndex && expensesDateComponents.month == selectedMonthIndex + 1
         })?.total ?? 0
     }
     
-    public func getSelectedMonthExpenses() -> [CategoryExpense] {
+    func getSelectedMonthExpenses() -> [CategoryExpense] {
         expenses.first(where: {
             let expensesDateComponents = Calendar.current.dateComponents([.year, .month], from: $0.date)
             return expensesDateComponents.year == selectedYearIndex && expensesDateComponents.month == selectedMonthIndex + 1
         })?.items ?? []
     }
     
-    public func showPreviousMonth() {
+    func showPreviousMonth() {
         if selectedMonthIndex == 0 {
             selectedMonthIndex = 11
             selectedYearIndex -= 1
@@ -89,7 +93,7 @@ final class MainViewModel: TransactionServiceObserver {
         }
     }
     
-    public func showNextMonth() {
+    func showNextMonth() {
         if selectedMonthIndex == 11 {
             selectedMonthIndex = 0
             selectedYearIndex += 1
@@ -98,21 +102,10 @@ final class MainViewModel: TransactionServiceObserver {
         }
     }
     
-    public func getSelectedDateDescription() -> String {
+    func getSelectedDateDescription() -> String {
         let monthName = Calendar.current.standaloneMonthSymbols[selectedMonthIndex]
         let yearName = selectedYearIndex.description
         
         return monthName + " " + yearName
     }
-}
-
-struct MonthExpenses {
-    let date: Date
-    let total: Double
-    let items: [CategoryExpense]
-}
-
-struct CategoryExpense {
-    let category: TransactionCategory
-    let amount: Double
 }
