@@ -85,6 +85,6 @@ final class TransactionViewCell: UITableViewCell {
         
         categoryLabel.text = model.category.rawValue
         
-        amountLabel.text = model.amount.description
+        amountLabel.text = "\(model.amount) \(model.currency.title)"
     }
 }

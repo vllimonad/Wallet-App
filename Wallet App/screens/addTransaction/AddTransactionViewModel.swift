@@ -7,19 +7,19 @@
 
 import Foundation
 
-final class AddTransactionViewModel {
+final class AddTransactionViewModel: AddTransactionViewModelType {
     
     private let transactionService: TransactionService
     
-    public var amount: Double?
+    var amount: Double?
     
-    public var selectedCurrency: TransactionCurrency
+    var selectedCurrency: TransactionCurrency
     
-    public var selectedCategory: TransactionCategory?
+    var selectedCategory: TransactionCategory?
     
-    public var selectedDate: Date
+    var selectedDate: Date
     
-    public var note: String?
+    var note: String?
     
     init(_ transactionService: TransactionService) {
         self.transactionService = transactionService

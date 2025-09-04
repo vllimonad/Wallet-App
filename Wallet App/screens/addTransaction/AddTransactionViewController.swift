@@ -21,9 +21,9 @@ final class AddTransactionViewController: UIViewController {
     
     private let categoryValueLabel: UILabel
     
-    private let viewModel: AddTransactionViewModel
+    private let viewModel: AddTransactionViewModelType
     
-    init(viewModel: AddTransactionViewModel) {
+    init(viewModel: AddTransactionViewModelType) {
         self.viewModel = viewModel
         
         self.containerView = UIView()

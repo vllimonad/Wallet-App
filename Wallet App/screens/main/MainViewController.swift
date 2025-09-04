@@ -154,7 +154,7 @@ final class MainViewController: UIViewController {
             amountLabel.topAnchor.constraint(equalTo: backgroundPanelView.topAnchor, constant: 20),
             amountLabel.leadingAnchor.constraint(equalTo: backgroundPanelView.leadingAnchor, constant: 20),
             
-            categoriesTableView.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 20),
+            categoriesTableView.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 10),
             categoriesTableView.bottomAnchor.constraint(equalTo: backgroundPanelView.bottomAnchor, constant: -20),
             categoriesTableView.leadingAnchor.constraint(equalTo: backgroundPanelView.leadingAnchor, constant: 20),
             categoriesTableView.trailingAnchor.constraint(equalTo: backgroundPanelView.trailingAnchor, constant: -20),
@@ -202,7 +202,9 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         let model = viewModel.getSelectedMonthExpenses()[indexPath.row]
-        cell.bind(model)
+        let totalExpenes = viewModel.getSelectedMonthTotalExpenses()
+        
+        cell.bind(model, totalExpenes)
         
         return cell
     }

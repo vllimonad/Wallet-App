@@ -48,10 +48,10 @@ final class StatisticViewCell: UITableViewCell {
         contentView.addSubview(progressView)
         
         NSLayoutConstraint.activate([
-            categoryLabel.topAnchor.constraint(equalTo: amountLabel.topAnchor),
+            categoryLabel.bottomAnchor.constraint(equalTo: amountLabel.bottomAnchor),
             categoryLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             
-            amountLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            amountLabel.bottomAnchor.constraint(equalTo: progressView.topAnchor, constant: -10),
             amountLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             amountLabel.leadingAnchor.constraint(greaterThanOrEqualTo: categoryLabel.trailingAnchor, constant: 20),
 
@@ -62,10 +62,12 @@ final class StatisticViewCell: UITableViewCell {
         ])
     }
     
-    public func bind(_ model: CategoryExpense) {
+    public func bind(_ model: CategoryExpense, _ totalExpenses: Double) {
         categoryLabel.text = model.category.rawValue
         
         amountLabel.text = model.amount.description
+        
+        progressView.setProgress(Float(model.amount / totalExpenses), animated: false)
     }
 }
 

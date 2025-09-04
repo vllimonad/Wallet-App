@@ -24,7 +24,7 @@
 		2B522A882E69E98900105245 /* MainViewModelViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B522A872E69E98900105245 /* MainViewModelViewDelegate.swift */; };
 		2B522A8B2E69EBF700105245 /* MonthExpenses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B522A8A2E69EBF700105245 /* MonthExpenses.swift */; };
 		2B522A8D2E69EC7C00105245 /* CategoryExpense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B522A8C2E69EC7C00105245 /* CategoryExpense.swift */; };
-		2B522A8F2E69EEA000105245 /* AddTransactionViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B522A8E2E69EEA000105245 /* AddTransactionViewModelDelegate.swift */; };
+		2B522A8F2E69EEA000105245 /* AddTransactionViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B522A8E2E69EEA000105245 /* AddTransactionViewModelType.swift */; };
 		2B522A922E69EF0B00105245 /* HistoryViewModelViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B522A912E69EF0B00105245 /* HistoryViewModelViewDelegate.swift */; };
 		2B522A942E69EF2F00105245 /* HistoryViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B522A932E69EF2F00105245 /* HistoryViewModelType.swift */; };
 		2B522A972E69F0E100105245 /* TransactionsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B522A962E69F0E100105245 /* TransactionsSection.swift */; };
@@ -64,7 +64,7 @@
 		2B522A872E69E98900105245 /* MainViewModelViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModelViewDelegate.swift; sourceTree = "<group>"; };
 		2B522A8A2E69EBF700105245 /* MonthExpenses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthExpenses.swift; sourceTree = "<group>"; };
 		2B522A8C2E69EC7C00105245 /* CategoryExpense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryExpense.swift; sourceTree = "<group>"; };
-		2B522A8E2E69EEA000105245 /* AddTransactionViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionViewModelDelegate.swift; sourceTree = "<group>"; };
+		2B522A8E2E69EEA000105245 /* AddTransactionViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionViewModelType.swift; sourceTree = "<group>"; };
 		2B522A912E69EF0B00105245 /* HistoryViewModelViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModelViewDelegate.swift; sourceTree = "<group>"; };
 		2B522A932E69EF2F00105245 /* HistoryViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModelType.swift; sourceTree = "<group>"; };
 		2B522A962E69F0E100105245 /* TransactionsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsSection.swift; sourceTree = "<group>"; };
@@ -115,7 +115,7 @@
 				2B0EE3802E6354E80032441C /* components */,
 				2B0EE2592E5B66110032441C /* category */,
 				2B8541582AA507EF00ADECEB /* AddTransactionViewController.swift */,
-				2B522A8E2E69EEA000105245 /* AddTransactionViewModelDelegate.swift */,
+				2B522A8E2E69EEA000105245 /* AddTransactionViewModelType.swift */,
 				2B0EE2572E5B3A880032441C /* AddTransactionViewModel.swift */,
 			);
 			path = addTransaction;
@@ -383,7 +383,7 @@
 				2B522A4C2E63659100105245 /* HistoryViewModel.swift in Sources */,
 				2B5EC0A32AA3587500305D14 /* MainViewController.swift in Sources */,
 				2B522A922E69EF0B00105245 /* HistoryViewModelViewDelegate.swift in Sources */,
-				2B522A8F2E69EEA000105245 /* AddTransactionViewModelDelegate.swift in Sources */,
+				2B522A8F2E69EEA000105245 /* AddTransactionViewModelType.swift in Sources */,
 				2BC96F2D2AAB7652001D7042 /* CategoryTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

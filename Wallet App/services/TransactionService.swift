@@ -35,10 +35,14 @@ final class TransactionService {
     func addTransaction(_ transaction: TransactionModel) {
         Task {
             do {
-                let transactionCurrency = transaction.currency.title
-                let transactionDateString = getFormattedDate(transaction.date)
-                
-                transaction.exchangeRate = try await exchangeRateService.fetchRates(transactionCurrency, transactionDateString)
+                if transaction.currency != .pln {
+                    let transactionCurrency = transaction.currency.title
+                    let transactionDateString = getFormattedDate(transaction.date)
+                    
+                    transaction.exchangeRate = try await exchangeRateService.fetchRates(transactionCurrency, transactionDateString)
+                } else {
+                    transaction.exchangeRate = 1.0
+                }
                 
                 try await storage.addModel(transaction)
                 transactions.append(transaction)
