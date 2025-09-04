@@ -15,12 +15,15 @@ final class TransactionViewCell: UITableViewCell {
             
     private let categoryImageView: UIImageView
     
+    private let imageContainer: UIView
+    
     private let categoryLabel: UILabel
     
     private let amountLabel: UILabel
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         self.categoryImageView = UIImageView()
+        self.imageContainer = UIView()
         self.categoryLabel = UILabel()
         self.amountLabel = UILabel()
         
@@ -44,29 +47,29 @@ final class TransactionViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        categoryImageView.layer.cornerRadius = categoryImageView.bounds.width / 2
+        imageContainer.layer.cornerRadius = imageContainer.bounds.width / 2
     }
     
     private func configureUI() {
         contentView.backgroundColor = UIColor(resource: .cell)
+                
+        categoryImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        categoryImageView.contentMode = .center
-        categoryImageView.backgroundColor = UIColor(resource: .background)
+        imageContainer.backgroundColor = UIColor(resource: .background)
         
-        amountLabel.numberOfLines = 1
         amountLabel.font = UIFont.boldSystemFont(ofSize: 16)
         
-        categoryLabel.numberOfLines = 1
         categoryLabel.font = UIFont.boldSystemFont(ofSize: 16)
         
-        let containerView = UIStackView(arrangedSubviews: [categoryImageView, categoryLabel, amountLabel])
+        let containerView = UIStackView(arrangedSubviews: [imageContainer, categoryLabel, amountLabel])
         containerView.axis = .horizontal
         containerView.alignment = .center
-        containerView.distribution = .fill
-        containerView.setCustomSpacing(10, after: categoryImageView)
+        containerView.setCustomSpacing(10, after: imageContainer)
         containerView.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(containerView)
+        
+        imageContainer.addSubview(categoryImageView)
         
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
@@ -74,7 +77,12 @@ final class TransactionViewCell: UITableViewCell {
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             
-            categoryImageView.heightAnchor.constraint(equalTo: containerView.heightAnchor),
+            imageContainer.heightAnchor.constraint(equalTo: containerView.heightAnchor),
+            imageContainer.widthAnchor.constraint(equalTo: imageContainer.heightAnchor),
+            
+            categoryImageView.centerYAnchor.constraint(equalTo: imageContainer.centerYAnchor),
+            categoryImageView.centerXAnchor.constraint(equalTo: imageContainer.centerXAnchor),
+            categoryImageView.heightAnchor.constraint(equalToConstant: 22),
             categoryImageView.widthAnchor.constraint(equalTo: categoryImageView.heightAnchor)
         ])
     }
@@ -85,6 +93,6 @@ final class TransactionViewCell: UITableViewCell {
         
         categoryLabel.text = model.category.rawValue
         
-        amountLabel.text = model.amount.description
+        amountLabel.text = "\(model.amount) \(model.currency.title)"
     }
 }

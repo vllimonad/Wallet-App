@@ -8,10 +8,10 @@
 import Foundation
 
 struct NBPResponse: Codable {
+    
+    struct Rate: Codable {
+        let mid: Double
+    }
+    
     let rates: [Rate]
-}
-
-struct Rate: Codable {
-    let code: String
-    let mid: Double
 }

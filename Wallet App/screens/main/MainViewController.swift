@@ -9,79 +9,28 @@ import UIKit
 
 final class MainViewController: UIViewController {
     
-    private let monthLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let monthLabel: UILabel
     
-    private let backwardButton: UIButton = {
-        let button = UIButton()
-        let config = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular)
-        button.setImage(UIImage(systemName: "chevron.backward", withConfiguration: config), for: .normal)
-        button.addTarget(self, action: #selector(didTapPreviousButton), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    private let backwardButton: UIButton
     
-    private let forwardButton: UIButton = {
-        let button = UIButton()
-        let config = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular)
-        button.setImage(UIImage(systemName: "chevron.forward", withConfiguration: config), for: .normal)
-        button.addTarget(self, action: #selector(didTapNextButton), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    private let forwardButton: UIButton
     
-    private let monthStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.layer.shadowColor = UIColor.systemGray.cgColor
-        stack.layer.shadowOpacity = 0.2
-        stack.layer.shadowOffset = .zero
-        stack.layer.shadowRadius = 10
-        stack.backgroundColor = UIColor(resource: .view)
-        stack.layer.cornerRadius = 13
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
+    private let amountLabel: UILabel
     
-    private let backgroundPanelView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 24
-        view.layer.shadowColor = UIColor.systemGray.cgColor
-        view.layer.shadowOpacity = 0.2
-        view.layer.shadowOffset = .zero
-        view.layer.shadowRadius = 10
-        view.backgroundColor = UIColor(resource: .view)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private let amountLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 22)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let categoriesStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.spacing = 20
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
-    
-    private let statisticTableView: UITableView
+    private let categoriesTableView: UITableView
     
     private let emptyStatisticView: EmptyStatisticView
     
-    private let viewModel: MainViewModel
+    private var viewModel: MainViewModelType
     
-    init(viewModel: MainViewModel) {
-        self.statisticTableView = UITableView()
+    private var tableViewHeightConstraint: NSLayoutConstraint?
+    
+    init(viewModel: MainViewModelType) {
+        self.monthLabel = UILabel()
+        self.backwardButton = UIButton()
+        self.forwardButton = UIButton()
+        self.amountLabel = UILabel()
+        self.categoriesTableView = UITableView()
         self.emptyStatisticView = EmptyStatisticView()
         
         self.viewModel = viewModel
@@ -96,6 +45,8 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        viewModel.viewDelegate = self
+        
         configureUI()
         configureNavigationBar()
     }
@@ -109,32 +60,55 @@ final class MainViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        statisticTableView.invalidateIntrinsicContentSize()
-        statisticTableView.layoutIfNeeded()
-        statisticTableView.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        tableViewHeightConstraint?.constant = categoriesTableView.contentSize.height
     }
     
     private func configureUI() {
         view.backgroundColor = UIColor(resource: .background)
         
-        statisticTableView.dataSource = self
-        statisticTableView.delegate = self
-        statisticTableView.register(StatisticViewCell.self, forCellReuseIdentifier: StatisticViewCell.reuseIdentifier())
-        statisticTableView.allowsSelection = false
-        statisticTableView.separatorStyle = .none
-        statisticTableView.rowHeight = 70
-        statisticTableView.isScrollEnabled = false
-        statisticTableView.translatesAutoresizingMaskIntoConstraints = false
-                
+        monthLabel.textAlignment = .center
+        monthLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        let buttonImageConfiguration = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular)
+        
+        forwardButton.setImage(UIImage(systemName: "chevron.forward", withConfiguration: buttonImageConfiguration), for: .normal)
+        forwardButton.addTarget(self, action: #selector(didTapNextButton), for: .touchUpInside)
+        forwardButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        backwardButton.setImage(UIImage(systemName: "chevron.backward", withConfiguration: buttonImageConfiguration), for: .normal)
+        backwardButton.addTarget(self, action: #selector(didTapPreviousButton), for: .touchUpInside)
+        backwardButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        let monthStackView = UIStackView(arrangedSubviews: [backwardButton, monthLabel, forwardButton])
+        monthStackView.axis = .horizontal
+        monthStackView.backgroundColor = UIColor(resource: .view)
+        monthStackView.applyCustomShadow()
+        monthStackView.layer.cornerRadius = 16
+        monthStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        amountLabel.font = UIFont.boldSystemFont(ofSize: 22)
+        amountLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        categoriesTableView.dataSource = self
+        categoriesTableView.delegate = self
+        categoriesTableView.register(StatisticViewCell.self, forCellReuseIdentifier: StatisticViewCell.reuseIdentifier())
+        categoriesTableView.allowsSelection = false
+        categoriesTableView.separatorStyle = .none
+        categoriesTableView.rowHeight = 70
+        categoriesTableView.isScrollEnabled = false
+        categoriesTableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let backgroundPanelView = UIView()
+        backgroundPanelView.backgroundColor = UIColor(resource: .view)
+        backgroundPanelView.applyCustomShadow()
+        backgroundPanelView.layer.cornerRadius = 32
+        backgroundPanelView.translatesAutoresizingMaskIntoConstraints = false
+        
         view.addSubview(monthStackView)
         view.addSubview(backgroundPanelView)
-
-        monthStackView.addArrangedSubview(backwardButton)
-        monthStackView.addArrangedSubview(monthLabel)
-        monthStackView.addArrangedSubview(forwardButton)
         
         backgroundPanelView.addSubview(amountLabel)
-        backgroundPanelView.addSubview(statisticTableView)
+        backgroundPanelView.addSubview(categoriesTableView)
         
         NSLayoutConstraint.activate([
             backwardButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25),
@@ -152,17 +126,14 @@ final class MainViewController: UIViewController {
             amountLabel.topAnchor.constraint(equalTo: backgroundPanelView.topAnchor, constant: 20),
             amountLabel.leadingAnchor.constraint(equalTo: backgroundPanelView.leadingAnchor, constant: 20),
             
-            statisticTableView.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 20),
-            statisticTableView.bottomAnchor.constraint(equalTo: backgroundPanelView.bottomAnchor, constant: -20),
-            statisticTableView.leadingAnchor.constraint(equalTo: backgroundPanelView.leadingAnchor, constant: 20),
-            statisticTableView.trailingAnchor.constraint(equalTo: backgroundPanelView.trailingAnchor, constant: -20)
+            categoriesTableView.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 10),
+            categoriesTableView.bottomAnchor.constraint(equalTo: backgroundPanelView.bottomAnchor, constant: -20),
+            categoriesTableView.leadingAnchor.constraint(equalTo: backgroundPanelView.leadingAnchor, constant: 20),
+            categoriesTableView.trailingAnchor.constraint(equalTo: backgroundPanelView.trailingAnchor, constant: -20),
         ])
         
-        viewModel.didUpdateExpenses = { [weak self] in
-            DispatchQueue.main.async {
-                 self?.reloadStatistic()
-            }
-        }
+        tableViewHeightConstraint = categoriesTableView.heightAnchor.constraint(equalToConstant: 0)
+        tableViewHeightConstraint?.isActive = true
     }
     
     private func configureNavigationBar() {
@@ -174,10 +145,8 @@ final class MainViewController: UIViewController {
         amountLabel.text = "Total: \(viewModel.getSelectedMonthTotalExpenses()) zł"
         
         monthLabel.text = viewModel.getSelectedDateDescription()
-        
-        view.layoutIfNeeded()
-        
-        statisticTableView.reloadData()
+                
+        categoriesTableView.reloadData()
     }
     
     @objc
@@ -205,8 +174,19 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         let model = viewModel.getSelectedMonthExpenses()[indexPath.row]
-        cell.bind(model)
+        let totalExpenes = viewModel.getSelectedMonthTotalExpenses()
+        
+        cell.bind(model, totalExpenes)
         
         return cell
+    }
+}
+
+extension MainViewController: MainViewModelViewDelegate {
+    
+    func reloadData() {
+        DispatchQueue.main.async { [weak self] in
+            self?.reloadStatistic()
+        }
     }
 }

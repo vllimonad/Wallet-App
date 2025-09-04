@@ -11,12 +11,15 @@ final class TransactionService {
     
     private let storage: TransactionStorage
     
+    private let exchangeRateService: ExchangeRateService
+    
     private(set) var transactions: [TransactionModel]
     
     public var observers = NSHashTable<TransactionServiceObserver>.weakObjects()
     
     init() {
         self.storage = TransactionStorage()
+        self.exchangeRateService = ExchangeRateService()
         self.transactions = []
         
         fetchTransactions()
@@ -29,9 +32,18 @@ final class TransactionService {
         }
     }
     
-    public func addTransaction(_ transaction: TransactionModel) {
+    func addTransaction(_ transaction: TransactionModel) {
         Task {
             do {
+                if transaction.currency != .pln {
+                    let transactionCurrency = transaction.currency.title
+                    let transactionDateString = getFormattedDate(transaction.date)
+                    
+                    transaction.exchangeRate = try await exchangeRateService.fetchRates(transactionCurrency, transactionDateString)
+                } else {
+                    transaction.exchangeRate = 1.0
+                }
+                
                 try await storage.addModel(transaction)
                 transactions.append(transaction)
                 
@@ -40,5 +52,12 @@ final class TransactionService {
                 print(error)
             }
         }
+    }
+    
+    private func getFormattedDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        
+        return formatter.string(from: date)
     }
 }

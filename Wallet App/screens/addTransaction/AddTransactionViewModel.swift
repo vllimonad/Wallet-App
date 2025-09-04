@@ -7,19 +7,19 @@
 
 import Foundation
 
-final class AddTransactionViewModel {
+final class AddTransactionViewModel: AddTransactionViewModelType {
     
     private let transactionService: TransactionService
     
-    public var amount: Double?
+    var amount: Double?
     
-    public var selectedCurrency: TransactionCurrency
+    var selectedCurrency: TransactionCurrency
     
-    public var selectedCategory: TransactionCategory?
+    var selectedCategory: TransactionCategory?
     
-    public var selectedDate: Date
+    var selectedDate: Date
     
-    public var note: String?
+    var note: String?
     
     init(_ transactionService: TransactionService) {
         self.transactionService = transactionService
@@ -28,11 +28,11 @@ final class AddTransactionViewModel {
         self.selectedDate = Date()
     }
     
-    public func isValidInput() -> Bool {
+    func isValidInput() -> Bool {
         amount != nil && selectedCategory != nil
     }
     
-    public func saveTransaction() {
+    func saveTransaction() {
         guard
             let amount = amount,
             let selectedCategory = selectedCategory
