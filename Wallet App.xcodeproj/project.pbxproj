@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2B080BB32AC0A01100BC89E3 /* StatisticViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B080BB22AC0A01100BC89E3 /* StatisticViewCell.swift */; };
-		2B08DC822C78F4EF003F49D0 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B08DC812C78F4EF003F49D0 /* DataManager.swift */; };
-		2B08DC842C78FD03003F49D0 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B08DC832C78FD03003F49D0 /* NetworkManager.swift */; };
 		2B0EE2322E59FBD20032441C /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0EE2312E59FBD20032441C /* TabBar.swift */; };
 		2B0EE2342E59FBFA0032441C /* TabBarTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0EE2332E59FBFA0032441C /* TabBarTag.swift */; };
 		2B0EE2372E5A0D310032441C /* TransactionStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0EE2362E5A0D310032441C /* TransactionStorage.swift */; };
@@ -30,6 +28,7 @@
 		2B522A922E69EF0B00105245 /* HistoryViewModelViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B522A912E69EF0B00105245 /* HistoryViewModelViewDelegate.swift */; };
 		2B522A942E69EF2F00105245 /* HistoryViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B522A932E69EF2F00105245 /* HistoryViewModelType.swift */; };
 		2B522A972E69F0E100105245 /* TransactionsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B522A962E69F0E100105245 /* TransactionsSection.swift */; };
+		2B522A992E69F3AF00105245 /* ExchangeRateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B522A982E69F3AF00105245 /* ExchangeRateService.swift */; };
 		2B5EC08D2AA34EC900305D14 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC08C2AA34EC900305D14 /* AppDelegate.swift */; };
 		2B5EC08F2AA34EC900305D14 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC08E2AA34EC900305D14 /* SceneDelegate.swift */; };
 		2B5EC0912AA34EC900305D14 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC0902AA34EC900305D14 /* TabBarController.swift */; };
@@ -49,8 +48,6 @@
 
 /* Begin PBXFileReference section */
 		2B080BB22AC0A01100BC89E3 /* StatisticViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticViewCell.swift; sourceTree = "<group>"; };
-		2B08DC812C78F4EF003F49D0 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
-		2B08DC832C78FD03003F49D0 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		2B0EE2312E59FBD20032441C /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		2B0EE2332E59FBFA0032441C /* TabBarTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarTag.swift; sourceTree = "<group>"; };
 		2B0EE2362E5A0D310032441C /* TransactionStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionStorage.swift; sourceTree = "<group>"; };
@@ -71,6 +68,7 @@
 		2B522A912E69EF0B00105245 /* HistoryViewModelViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModelViewDelegate.swift; sourceTree = "<group>"; };
 		2B522A932E69EF2F00105245 /* HistoryViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModelType.swift; sourceTree = "<group>"; };
 		2B522A962E69F0E100105245 /* TransactionsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsSection.swift; sourceTree = "<group>"; };
+		2B522A982E69F3AF00105245 /* ExchangeRateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateService.swift; sourceTree = "<group>"; };
 		2B5EC0892AA34EC900305D14 /* Wallet App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wallet App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B5EC08C2AA34EC900305D14 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B5EC08E2AA34EC900305D14 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -136,12 +134,11 @@
 		2B08DC852C78FD14003F49D0 /* services */ = {
 			isa = PBXGroup;
 			children = (
-				2B08DC832C78FD03003F49D0 /* NetworkManager.swift */,
-				2B08DC812C78F4EF003F49D0 /* DataManager.swift */,
 				2B0EE2362E5A0D310032441C /* TransactionStorage.swift */,
 				2B522A482E635F6500105245 /* TransactionService.swift */,
 				2B522A4D2E6369BC00105245 /* TransactionServiceObserver.swift */,
 				2B522A4F2E6373FE00105245 /* TransactionDataSource.swift */,
+				2B522A982E69F3AF00105245 /* ExchangeRateService.swift */,
 			);
 			path = services;
 			sourceTree = "<group>";
@@ -363,12 +360,12 @@
 				2B522A942E69EF2F00105245 /* HistoryViewModelType.swift in Sources */,
 				2B522A8D2E69EC7C00105245 /* CategoryExpense.swift in Sources */,
 				2B0EE2372E5A0D310032441C /* TransactionStorage.swift in Sources */,
-				2B08DC822C78F4EF003F49D0 /* DataManager.swift in Sources */,
 				2B5EC08D2AA34EC900305D14 /* AppDelegate.swift in Sources */,
 				2B522A882E69E98900105245 /* MainViewModelViewDelegate.swift in Sources */,
 				2BC96F2B2AAB761D001D7042 /* CategoryViewCell.swift in Sources */,
 				2B6AABB22C7F744A006B968A /* CurrencyButton.swift in Sources */,
 				2B0EE2322E59FBD20032441C /* TabBar.swift in Sources */,
+				2B522A992E69F3AF00105245 /* ExchangeRateService.swift in Sources */,
 				2B080BB32AC0A01100BC89E3 /* StatisticViewCell.swift in Sources */,
 				2B6A16C12C8DD21000464C03 /* NBPResponse.swift in Sources */,
 				2B522A862E69E73E00105245 /* MainViewModelType.swift in Sources */,
@@ -384,7 +381,6 @@
 				2B0EE2542E5B30D50032441C /* TransactionCategory.swift in Sources */,
 				2B5EC0AD2AA37A4F00305D14 /* TransactionViewCell.swift in Sources */,
 				2B522A4C2E63659100105245 /* HistoryViewModel.swift in Sources */,
-				2B08DC842C78FD03003F49D0 /* NetworkManager.swift in Sources */,
 				2B5EC0A32AA3587500305D14 /* MainViewController.swift in Sources */,
 				2B522A922E69EF0B00105245 /* HistoryViewModelViewDelegate.swift in Sources */,
 				2B522A8F2E69EEA000105245 /* AddTransactionViewModelDelegate.swift in Sources */,
