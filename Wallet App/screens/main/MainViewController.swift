@@ -9,70 +9,13 @@ import UIKit
 
 final class MainViewController: UIViewController {
     
-    private let monthLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let monthLabel: UILabel
     
-    private let backwardButton: UIButton = {
-        let button = UIButton()
-        let config = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular)
-        button.setImage(UIImage(systemName: "chevron.backward", withConfiguration: config), for: .normal)
-        button.addTarget(self, action: #selector(didTapPreviousButton), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    private let backwardButton: UIButton
     
-    private let forwardButton: UIButton = {
-        let button = UIButton()
-        let config = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular)
-        button.setImage(UIImage(systemName: "chevron.forward", withConfiguration: config), for: .normal)
-        button.addTarget(self, action: #selector(didTapNextButton), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    private let forwardButton: UIButton
     
-    private let monthStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.layer.shadowColor = UIColor.systemGray.cgColor
-        stack.layer.shadowOpacity = 0.2
-        stack.layer.shadowOffset = .zero
-        stack.layer.shadowRadius = 10
-        stack.backgroundColor = UIColor(resource: .view)
-        stack.layer.cornerRadius = 13
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
-    
-    private let backgroundPanelView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 24
-        view.layer.shadowColor = UIColor.systemGray.cgColor
-        view.layer.shadowOpacity = 0.2
-        view.layer.shadowOffset = .zero
-        view.layer.shadowRadius = 10
-        view.backgroundColor = UIColor(resource: .view)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private let amountLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 22)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let categoriesStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.spacing = 20
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
+    private let amountLabel: UILabel
     
     private let categoriesTableView: UITableView
     
@@ -83,6 +26,10 @@ final class MainViewController: UIViewController {
     private var tableViewHeightConstraint: NSLayoutConstraint?
     
     init(viewModel: MainViewModelType) {
+        self.monthLabel = UILabel()
+        self.backwardButton = UIButton()
+        self.forwardButton = UIButton()
+        self.amountLabel = UILabel()
         self.categoriesTableView = UITableView()
         self.emptyStatisticView = EmptyStatisticView()
         
@@ -119,6 +66,29 @@ final class MainViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = UIColor(resource: .background)
         
+        monthLabel.textAlignment = .center
+        monthLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        let buttonImageConfiguration = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular)
+        
+        forwardButton.setImage(UIImage(systemName: "chevron.forward", withConfiguration: buttonImageConfiguration), for: .normal)
+        forwardButton.addTarget(self, action: #selector(didTapNextButton), for: .touchUpInside)
+        forwardButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        backwardButton.setImage(UIImage(systemName: "chevron.backward", withConfiguration: buttonImageConfiguration), for: .normal)
+        backwardButton.addTarget(self, action: #selector(didTapPreviousButton), for: .touchUpInside)
+        backwardButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        let monthStackView = UIStackView(arrangedSubviews: [backwardButton, monthLabel, forwardButton])
+        monthStackView.axis = .horizontal
+        monthStackView.backgroundColor = UIColor(resource: .view)
+        monthStackView.applyCustomShadow()
+        monthStackView.layer.cornerRadius = 16
+        monthStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        amountLabel.font = UIFont.boldSystemFont(ofSize: 22)
+        amountLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         categoriesTableView.dataSource = self
         categoriesTableView.delegate = self
         categoriesTableView.register(StatisticViewCell.self, forCellReuseIdentifier: StatisticViewCell.reuseIdentifier())
@@ -127,13 +97,15 @@ final class MainViewController: UIViewController {
         categoriesTableView.rowHeight = 70
         categoriesTableView.isScrollEnabled = false
         categoriesTableView.translatesAutoresizingMaskIntoConstraints = false
-                
+        
+        let backgroundPanelView = UIView()
+        backgroundPanelView.backgroundColor = UIColor(resource: .view)
+        backgroundPanelView.applyCustomShadow()
+        backgroundPanelView.layer.cornerRadius = 32
+        backgroundPanelView.translatesAutoresizingMaskIntoConstraints = false
+        
         view.addSubview(monthStackView)
         view.addSubview(backgroundPanelView)
-
-        monthStackView.addArrangedSubview(backwardButton)
-        monthStackView.addArrangedSubview(monthLabel)
-        monthStackView.addArrangedSubview(forwardButton)
         
         backgroundPanelView.addSubview(amountLabel)
         backgroundPanelView.addSubview(categoriesTableView)

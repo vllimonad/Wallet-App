@@ -10,15 +10,18 @@ import UIKit
 final class CategoryViewCell: UITableViewCell {
     
     public static func reuseIdentifier() -> String {
-        "\(Self.self)"
+        return "\(Self.self)"
     }
+            
+    private let categoryImageView: UIImageView
     
-    private var categoryImageView: UIImageView
+    private let imageContainer: UIView
     
-    private var categoryLabel: UILabel
+    private let categoryLabel: UILabel
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         self.categoryImageView = UIImageView()
+        self.imageContainer = UIView()
         self.categoryLabel = UILabel()
         
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -40,25 +43,27 @@ final class CategoryViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        categoryImageView.layer.cornerRadius = categoryImageView.bounds.width / 2
+        imageContainer.layer.cornerRadius = imageContainer.bounds.width / 2
     }
-
+    
     private func configureUI() {
         contentView.backgroundColor = UIColor(resource: .cell)
+                
+        categoryImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        categoryImageView.contentMode = .center
-        categoryImageView.backgroundColor = UIColor(resource: .background)
+        imageContainer.backgroundColor = UIColor(resource: .background)
         
-        categoryLabel.numberOfLines = 1
         categoryLabel.font = UIFont.boldSystemFont(ofSize: 16)
         
-        let containerView = UIStackView(arrangedSubviews: [categoryImageView, categoryLabel])
+        let containerView = UIStackView(arrangedSubviews: [imageContainer, categoryLabel])
         containerView.axis = .horizontal
         containerView.alignment = .center
-        containerView.spacing = 10
+        containerView.setCustomSpacing(10, after: imageContainer)
         containerView.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(containerView)
+        
+        imageContainer.addSubview(categoryImageView)
         
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
@@ -66,7 +71,12 @@ final class CategoryViewCell: UITableViewCell {
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             
-            categoryImageView.heightAnchor.constraint(equalTo: containerView.heightAnchor),
+            imageContainer.heightAnchor.constraint(equalTo: containerView.heightAnchor),
+            imageContainer.widthAnchor.constraint(equalTo: imageContainer.heightAnchor),
+            
+            categoryImageView.centerYAnchor.constraint(equalTo: imageContainer.centerYAnchor),
+            categoryImageView.centerXAnchor.constraint(equalTo: imageContainer.centerXAnchor),
+            categoryImageView.heightAnchor.constraint(equalToConstant: 22),
             categoryImageView.widthAnchor.constraint(equalTo: categoryImageView.heightAnchor)
         ])
     }

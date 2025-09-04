@@ -18,6 +18,8 @@ final class EmptyStatisticView: UIView {
         self.iconImageView = UIImageView()
         
         super.init(frame: .zero)
+        
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
@@ -25,6 +27,9 @@ final class EmptyStatisticView: UIView {
     }
     
     private func configureUI() {
+        iconImageView.image = UIImage(resource: .emptyStatistic)
+
+        titleLabel.text = "No transactions in this month"
         titleLabel.font = .systemFont(ofSize: 17, weight: .medium)
         titleLabel.textColor = UIColor(resource: .text)
         titleLabel.textAlignment = .center
@@ -44,13 +49,10 @@ final class EmptyStatisticView: UIView {
             contentContainer.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor),
             contentContainer.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor),
             contentContainer.centerXAnchor.constraint(equalTo: centerXAnchor),
-            contentContainer.centerYAnchor.constraint(equalTo: centerYAnchor)
+            contentContainer.centerYAnchor.constraint(equalTo: centerYAnchor),
+            
+            iconImageView.widthAnchor.constraint(equalToConstant: 50),
+            iconImageView.heightAnchor.constraint(equalToConstant: 50),
         ])
-    }
-    
-    public func bind(_ title: String, _ iconImageResource: ImageResource) {
-        titleLabel.text = title
-        
-        iconImageView.image = UIImage(resource: iconImageResource)
     }
 }

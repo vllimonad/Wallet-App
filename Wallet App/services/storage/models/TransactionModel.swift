@@ -37,19 +37,3 @@ class TransactionModel {
         self.exchangeRate = exchangeRate
     }
 }
-
-
-struct Transaction {
-    
-    var amount: Double
-    
-    var currency: TransactionCurrency
-    
-    var date: Date
-    
-    var category: String
-    
-    var note: String
-    
-    var exchangeRate: Double
-}
