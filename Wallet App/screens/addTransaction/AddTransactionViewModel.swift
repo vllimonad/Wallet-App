@@ -28,11 +28,11 @@ final class AddTransactionViewModel {
         self.selectedDate = Date()
     }
     
-    public func isValidInput() -> Bool {
+    func isValidInput() -> Bool {
         amount != nil && selectedCategory != nil
     }
     
-    public func saveTransaction() {
+    func saveTransaction() {
         guard
             let amount = amount,
             let selectedCategory = selectedCategory

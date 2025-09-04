@@ -78,11 +78,7 @@ final class MainViewController: UIViewController {
     
     private let emptyStatisticView: EmptyStatisticView
     
-    private var viewModel: MainViewModelType {
-        didSet {
-            viewModel.viewDelegate = self
-        }
-    }
+    private var viewModel: MainViewModelType
     
     private var tableViewHeightConstraint: NSLayoutConstraint?
     
@@ -101,6 +97,8 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        viewModel.viewDelegate = self
         
         configureUI()
         configureNavigationBar()
@@ -210,7 +208,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-extension MainViewController: MainViewModelDelegate {
+extension MainViewController: MainViewModelViewDelegate {
     
     func reloadData() {
         DispatchQueue.main.async { [weak self] in

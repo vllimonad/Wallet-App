@@ -1,5 +1,5 @@
 //
-//  MainViewControllerDelegate.swift
+//  TransactionHistoryViewModelDelegate.swift
 //  Wallet App
 //
 //  Created by Vlad Klunduk on 04/09/2025.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol MainViewModelDelegate: AnyObject {
+protocol HistoryViewModelViewDelegate: AnyObject {
     
     func reloadData()
 }

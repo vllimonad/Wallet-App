@@ -9,7 +9,7 @@ import Foundation
 
 protocol MainViewModelType {
     
-    var viewDelegate: MainViewModelDelegate? { get set }
+    var viewDelegate: MainViewModelViewDelegate? { get set }
     
     func showNextMonth()
     

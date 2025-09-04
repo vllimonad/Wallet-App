@@ -7,15 +7,15 @@
 
 import Foundation
 
-final class TransactionHistoryViewModel: TransactionServiceObserver {
+final class HistoryViewModel: TransactionServiceObserver {
     
     private let transactionService: TransactionService
     
-    private(set) var transactions: [TransactionsSection]
-    
     private let dateFormatter: DateFormatter
     
-    public var didUpdateTransactions: (() -> Void)?
+    weak var viewDelegate: HistoryViewModelViewDelegate?
+    
+    private(set) var transactions: [TransactionsSection]
     
     init(_ transactionService: TransactionService) {
         self.transactionService = transactionService
@@ -45,20 +45,18 @@ final class TransactionHistoryViewModel: TransactionServiceObserver {
             .map { TransactionsSection(date: $0.key, items: $0.value.sorted { $0.date > $1.date }) }
             .sorted { $0.date > $1.date }
     }
-    
-    public func getFormattedDate(for section: Int) -> String {
-        dateFormatter.string(from: transactions[section].date)
-    }
-    
+        
     func updatedTransactionsList() {
         let fetchedTransactions = transactionService.transactions
         self.transactions = groupTransactionsByDate(fetchedTransactions)
         
-        didUpdateTransactions?()
+        viewDelegate?.reloadData()
     }
 }
 
-struct TransactionsSection {
-    let date: Date
-    let items: [TransactionModel]
+extension HistoryViewModel: HistoryViewModelType {
+    
+    func getFormattedDate(for section: Int) -> String {
+        dateFormatter.string(from: transactions[section].date)
+    }
 }

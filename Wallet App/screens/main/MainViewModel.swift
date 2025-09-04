@@ -17,7 +17,7 @@ final class MainViewModel: TransactionServiceObserver {
     
     private var selectedYearIndex: Int
     
-    weak var viewDelegate: MainViewModelDelegate?
+    weak var viewDelegate: MainViewModelViewDelegate?
     
     init(_ transactionService: TransactionService) {
         self.transactionService = transactionService

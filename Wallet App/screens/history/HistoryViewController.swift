@@ -7,13 +7,13 @@
 
 import UIKit
 
-final class TransactionHistoryViewController: UIViewController {
+final class HistoryViewController: UIViewController {
         
     private let tableView: UITableView
     
-    private let viewModel: TransactionHistoryViewModel
+    private var viewModel: HistoryViewModelType
     
-    init(viewModel: TransactionHistoryViewModel) {
+    init(viewModel: HistoryViewModelType) {
         self.viewModel = viewModel
         
         self.tableView = UITableView()
@@ -27,6 +27,8 @@ final class TransactionHistoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        viewModel.viewDelegate = self
         
         configureUI()
         configureNavigationBar()
@@ -50,12 +52,6 @@ final class TransactionHistoryViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
-        
-        viewModel.didUpdateTransactions = { [weak self] in
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
-            }
-        }
     }
     
     private func configureNavigationBar() {
@@ -64,7 +60,7 @@ final class TransactionHistoryViewController: UIViewController {
     }
 }
 
-extension TransactionHistoryViewController: UITableViewDataSource, UITableViewDelegate {
+extension HistoryViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         viewModel.transactions.count
@@ -104,4 +100,14 @@ extension TransactionHistoryViewController: UITableViewDataSource, UITableViewDe
 //        })])
 //        return swipe
 //    }
+}
+
+extension HistoryViewController: HistoryViewModelViewDelegate {
+    
+    func reloadData() {
+        DispatchQueue.main.async { [weak self] in
+            print("reload was called")
+            self?.tableView.reloadData()
+        }
+    }
 }
