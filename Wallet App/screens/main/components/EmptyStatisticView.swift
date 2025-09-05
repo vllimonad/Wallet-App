@@ -27,10 +27,11 @@ final class EmptyStatisticView: UIView {
     }
     
     private func configureUI() {
-        iconImageView.image = UIImage(resource: .emptyStatistic)
+        let iconImage = UIImage(resource: .emptyStatistic).withRenderingMode(.alwaysTemplate)
+        iconImageView.image = iconImage
 
         titleLabel.text = "No transactions in this month"
-        titleLabel.font = .systemFont(ofSize: 17, weight: .medium)
+        titleLabel.font = .systemFont(ofSize: 17, weight: .regular)
         titleLabel.textColor = UIColor(resource: .text)
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 0
@@ -51,8 +52,8 @@ final class EmptyStatisticView: UIView {
             contentContainer.centerXAnchor.constraint(equalTo: centerXAnchor),
             contentContainer.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-            iconImageView.widthAnchor.constraint(equalToConstant: 50),
-            iconImageView.heightAnchor.constraint(equalToConstant: 50),
+            iconImageView.widthAnchor.constraint(equalToConstant: 70),
+            iconImageView.heightAnchor.constraint(equalToConstant: 70),
         ])
     }
 }

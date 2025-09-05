@@ -104,9 +104,12 @@ final class MainViewController: UIViewController {
         backgroundPanelView.layer.cornerRadius = 32
         backgroundPanelView.translatesAutoresizingMaskIntoConstraints = false
         
+        emptyStatisticView.translatesAutoresizingMaskIntoConstraints = false
+        
         view.addSubview(monthStackView)
         view.addSubview(backgroundPanelView)
         
+        backgroundPanelView.addSubview(emptyStatisticView)
         backgroundPanelView.addSubview(amountLabel)
         backgroundPanelView.addSubview(categoriesTableView)
         
@@ -130,6 +133,11 @@ final class MainViewController: UIViewController {
             categoriesTableView.bottomAnchor.constraint(equalTo: backgroundPanelView.bottomAnchor, constant: -20),
             categoriesTableView.leadingAnchor.constraint(equalTo: backgroundPanelView.leadingAnchor, constant: 20),
             categoriesTableView.trailingAnchor.constraint(equalTo: backgroundPanelView.trailingAnchor, constant: -20),
+            
+            emptyStatisticView.topAnchor.constraint(equalTo: backgroundPanelView.topAnchor, constant: 20),
+            emptyStatisticView.bottomAnchor.constraint(equalTo: backgroundPanelView.bottomAnchor, constant: -20),
+            emptyStatisticView.leadingAnchor.constraint(equalTo: backgroundPanelView.leadingAnchor, constant: 20),
+            emptyStatisticView.trailingAnchor.constraint(equalTo: backgroundPanelView.trailingAnchor, constant: -20),
         ])
         
         tableViewHeightConstraint = categoriesTableView.heightAnchor.constraint(equalToConstant: 0)
@@ -139,14 +147,6 @@ final class MainViewController: UIViewController {
     private func configureNavigationBar() {
         navigationItem.title = "Statistics"
         navigationController?.navigationBar.prefersLargeTitles = true
-    }
-    
-    private func reloadStatistic() {
-        amountLabel.text = "Total: \(viewModel.getSelectedMonthTotalExpenses()) zł"
-        
-        monthLabel.text = viewModel.getSelectedDateDescription()
-                
-        categoriesTableView.reloadData()
     }
     
     @objc
@@ -184,9 +184,21 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension MainViewController: MainViewModelViewDelegate {
     
-    func reloadData() {
+    func reloadStatistic() {
         DispatchQueue.main.async { [weak self] in
-            self?.reloadStatistic()
+            guard let self else { return }
+            
+            let hasRecords = !viewModel.getSelectedMonthExpenses().isEmpty
+            
+            monthLabel.text = viewModel.getSelectedDateDescription()
+
+            amountLabel.text = "Total: \(viewModel.getSelectedMonthTotalExpenses()) zł"
+            amountLabel.isHidden = !hasRecords
+                    
+            categoriesTableView.isHidden = !hasRecords
+            categoriesTableView.reloadData()
+            
+            emptyStatisticView.isHidden = hasRecords
         }
     }
 }

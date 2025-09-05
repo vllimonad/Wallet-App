@@ -63,7 +63,7 @@ final class MainViewModel: TransactionServiceObserver {
         let transactions = transactionService.transactions
         self.expenses = getMonthExpenses(from: transactions)
         
-        viewDelegate?.reloadData()
+        viewDelegate?.reloadStatistic()
     }
 }
 
