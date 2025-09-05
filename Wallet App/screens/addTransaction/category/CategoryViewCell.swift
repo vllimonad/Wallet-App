@@ -49,6 +49,7 @@ final class CategoryViewCell: UITableViewCell {
     private func configureUI() {
         contentView.backgroundColor = UIColor(resource: .cell)
                 
+        categoryImageView.preferredSymbolConfiguration = .init(pointSize: 20)
         categoryImageView.translatesAutoresizingMaskIntoConstraints = false
         
         imageContainer.backgroundColor = UIColor(resource: .background)
@@ -75,15 +76,13 @@ final class CategoryViewCell: UITableViewCell {
             imageContainer.widthAnchor.constraint(equalTo: imageContainer.heightAnchor),
             
             categoryImageView.centerYAnchor.constraint(equalTo: imageContainer.centerYAnchor),
-            categoryImageView.centerXAnchor.constraint(equalTo: imageContainer.centerXAnchor),
-            categoryImageView.heightAnchor.constraint(equalToConstant: 22),
-            categoryImageView.widthAnchor.constraint(equalTo: categoryImageView.heightAnchor)
+            categoryImageView.centerXAnchor.constraint(equalTo: imageContainer.centerXAnchor)
         ])
     }
     
     public func bind(_ category: TransactionCategory) {
-        let categoryImageResource = TransactionDataSource.getCategoryImageResource(category)
-        categoryImageView.image = UIImage(resource: categoryImageResource)
+        let categoryImageName = TransactionDataSource.getCategorySystemImageName(category)
+        categoryImageView.image = UIImage(systemName: categoryImageName)
         
         categoryLabel.text = category.rawValue
     }

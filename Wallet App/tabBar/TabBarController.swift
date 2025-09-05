@@ -9,6 +9,12 @@ import UIKit
 
 final class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
+    override var viewControllers: [UIViewController]? {
+        didSet {
+            updateTabBar()
+        }
+    }
+    
     private let transactionService: TransactionService
 
     init(_ transactionService: TransactionService) {
