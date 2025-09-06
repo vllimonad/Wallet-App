@@ -27,10 +27,11 @@ final class EmptyStatisticView: UIView {
     }
     
     private func configureUI() {
-        iconImageView.image = UIImage(resource: .emptyStatistic)
+        iconImageView.image = UIImage(systemName: "xmark.icloud")
+        iconImageView.preferredSymbolConfiguration = .init(pointSize: 50)
 
         titleLabel.text = "No transactions in this month"
-        titleLabel.font = .systemFont(ofSize: 17, weight: .medium)
+        titleLabel.font = .systemFont(ofSize: 17, weight: .light)
         titleLabel.textColor = UIColor(resource: .text)
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 0
@@ -38,7 +39,7 @@ final class EmptyStatisticView: UIView {
         let contentContainer = UIStackView(arrangedSubviews: [iconImageView, titleLabel])
         contentContainer.axis = .vertical
         contentContainer.alignment = .center
-        contentContainer.spacing = 20
+        contentContainer.spacing = 6
         contentContainer.translatesAutoresizingMaskIntoConstraints = false
 
         addSubview(contentContainer)
@@ -49,10 +50,7 @@ final class EmptyStatisticView: UIView {
             contentContainer.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor),
             contentContainer.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor),
             contentContainer.centerXAnchor.constraint(equalTo: centerXAnchor),
-            contentContainer.centerYAnchor.constraint(equalTo: centerYAnchor),
-            
-            iconImageView.widthAnchor.constraint(equalToConstant: 50),
-            iconImageView.heightAnchor.constraint(equalToConstant: 50),
+            contentContainer.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
 }

@@ -80,11 +80,11 @@ final class TabBar: UITabBar {
     
     public func updateButtonsState(_ selectedIndex: Int) {
         let isMainSelected = selectedIndex == mainButton.tag
-        let mainButtonImageSystemName = isMainSelected ? "chart.pie.fill" : "chart.pie"
+        let mainButtonImageSystemName = isMainSelected ? "chart.bar.fill" : "chart.bar"
         mainButton.configuration?.image = UIImage(systemName: mainButtonImageSystemName)
         
         let isHistorySelected = selectedIndex == historyButton.tag
-        let historyButtonImageSystemName = isHistorySelected ? "list.clipboard.fill" : "list.clipboard"
+        let historyButtonImageSystemName = isHistorySelected ? "newspaper.fill" : "newspaper"
         historyButton.configuration?.image = UIImage(systemName: historyButtonImageSystemName)
     }
     

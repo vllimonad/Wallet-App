@@ -10,26 +10,26 @@ import DeveloperToolsSupport
 
 final class TransactionDataSource {
     
-    public static func getCategoryImageResource(_ category: TransactionCategory) -> ImageResource {
-        let imageResorce: ImageResource
+    public static func getCategorySystemImageName(_ category: TransactionCategory) -> String {
+        let imageName: String
         
         switch category {
         case .food:
-            imageResorce = .categoryFood
+            imageName = "fork.knife"
         case .communication:
-            imageResorce = .categoryCommunication
+            imageName = "phone.fill"
         case .entertainment:
-            imageResorce = .categoryEntertainment
+            imageName = "gamecontroller.fill"
         case .financialExpenses:
-            imageResorce = .categoryFinancialExpenses
+            imageName = "creditcard.fill"
         case .housing:
-            imageResorce = .categoryHousing
+            imageName = "house.fill"
         case .shopping:
-            imageResorce = .categoryShopping
+            imageName = "handbag.fill"
         case .transportation:
-            imageResorce = .categoryTransportation
+            imageName = "car.fill"
         }
         
-        return imageResorce
+        return imageName
     }
 }
