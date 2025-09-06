@@ -56,6 +56,16 @@ final class HistoryViewModel: TransactionServiceObserver {
 
 extension HistoryViewModel: HistoryViewModelType {
     
+    func removeTransaction(at indexPath: IndexPath) {
+        if transactions[indexPath.section].items.count > 1 {
+            transactions[indexPath.section].items.remove(at: indexPath.row)
+            viewDelegate?.deleteRow(at: indexPath)
+        } else {
+            transactions.remove(at: indexPath.section)
+            viewDelegate?.deleteSection(at: indexPath)
+        }
+    }
+    
     func getFormattedDate(for section: Int) -> String {
         dateFormatter.string(from: transactions[section].date)
     }
