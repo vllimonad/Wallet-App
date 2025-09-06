@@ -37,9 +37,10 @@ final class TransactionService {
             do {
                 if transaction.currency != .pln {
                     let transactionCurrency = transaction.currency.title
-                    let transactionDateString = getFormattedDate(transaction.date)
+                    let exchangeDate = getExchageDate(transaction.date)
+                    let exchangeDateString = formatDateToString(exchangeDate)
                     
-                    transaction.exchangeRate = try await exchangeRateService.fetchRates(transactionCurrency, transactionDateString)
+                    transaction.exchangeRate = try await exchangeRateService.fetchRates(transactionCurrency, exchangeDateString)
                 } else {
                     transaction.exchangeRate = 1.0
                 }
@@ -54,7 +55,17 @@ final class TransactionService {
         }
     }
     
-    private func getFormattedDate(_ date: Date) -> String {
+    private func getExchageDate(_ date: Date) -> Date {
+        let calendar = Calendar.current
+        
+        if calendar.isDateInToday(date) || calendar.startOfDay(for: date) > calendar.startOfDay(for: .now) {
+            return calendar.date(byAdding: .day, value: -1, to: .now)!
+        } else {
+            return date
+        }
+    }
+    
+    private func formatDateToString(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         
