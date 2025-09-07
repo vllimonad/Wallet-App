@@ -13,14 +13,15 @@ final class NotesTextField: UITextField {
     
     init(placeholder: String) {
         super.init(frame: .zero)
-        setupTextField(placeholder)
+        
+        configureTextField(placeholder)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupTextField(_ placeholder: String) {
+    func configureTextField(_ placeholder: String) {
         textColor = UIColor(resource: .text)
         layer.cornerRadius = 20
         attributedPlaceholder = NSAttributedString(string: placeholder)

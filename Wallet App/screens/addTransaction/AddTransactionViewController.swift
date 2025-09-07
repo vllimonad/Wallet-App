@@ -209,7 +209,7 @@ final class AddTransactionViewController: UIViewController {
         
         let notesTitleLabel = UILabel()
         notesTitleLabel.text = "Note"
-        notesTitleLabel.textColor = .black
+        notesTitleLabel.textColor = UIColor(resource: .text)
         notesTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         notesTextView.font = UIFont.systemFont(ofSize: 17)
