@@ -45,8 +45,10 @@ final class MainViewModel: TransactionServiceObserver {
             let expensesByCategory = Dictionary(grouping: transactions) { $0.category }
             
             var categoryExpenses = expensesByCategory.map { (category, items) -> CategoryExpense in
-                let total = items.reduce(0) { $0 + ($1.amount * $1.exchangeRate) }
-                return CategoryExpense(category: category, amount: total)
+                var totalCategoryExpenses = items.reduce(0) { $0 + ($1.amount * $1.exchangeRate) }
+                totalCategoryExpenses = round(1000 * totalCategoryExpenses) / 1000
+
+                return CategoryExpense(category: category, amount: totalCategoryExpenses)
             }
             
             let totalMonthExpenses = categoryExpenses.reduce(0) { $0 + $1.amount }
