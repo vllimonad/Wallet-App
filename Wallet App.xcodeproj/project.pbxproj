@@ -114,11 +114,11 @@
 		2B00FAAD2ABCFEA7001D7E1E /* addTransaction */ = {
 			isa = PBXGroup;
 			children = (
+				2B522AB72E6DB20300105245 /* viewModel */,
 				2B0EE3802E6354E80032441C /* components */,
 				2B0EE2592E5B66110032441C /* category */,
 				2B8541582AA507EF00ADECEB /* AddTransactionViewController.swift */,
 				2B522A8E2E69EEA000105245 /* AddTransactionViewModelType.swift */,
-				2B0EE2572E5B3A880032441C /* AddTransactionViewModel.swift */,
 			);
 			path = addTransaction;
 			sourceTree = "<group>";
@@ -252,6 +252,32 @@
 			path = dataSource;
 			sourceTree = "<group>";
 		};
+		2B522AB62E6DB1D300105245 /* viewModel */ = {
+			isa = PBXGroup;
+			children = (
+				2B0EE2512E5B2A730032441C /* MainViewModel.swift */,
+				2B522A872E69E98900105245 /* MainViewModelViewDelegate.swift */,
+			);
+			path = viewModel;
+			sourceTree = "<group>";
+		};
+		2B522AB72E6DB20300105245 /* viewModel */ = {
+			isa = PBXGroup;
+			children = (
+				2B0EE2572E5B3A880032441C /* AddTransactionViewModel.swift */,
+			);
+			path = viewModel;
+			sourceTree = "<group>";
+		};
+		2B522AB82E6DB21B00105245 /* viewModel */ = {
+			isa = PBXGroup;
+			children = (
+				2B522A4B2E63659100105245 /* HistoryViewModel.swift */,
+				2B522A912E69EF0B00105245 /* HistoryViewModelViewDelegate.swift */,
+			);
+			path = viewModel;
+			sourceTree = "<group>";
+		};
 		2B5EC0802AA34EC900305D14 = {
 			isa = PBXGroup;
 			children = (
@@ -272,7 +298,7 @@
 			isa = PBXGroup;
 			children = (
 				2B0EE2352E5A03B20032441C /* tabBar */,
-				2BCCEF472C3B646A00E24A57 /* main */,
+				2BCCEF472C3B646A00E24A57 /* application */,
 				2B03B9762C947CED00DF48C1 /* screens */,
 				2B08DC852C78FD14003F49D0 /* services */,
 				2B00FAAB2ABCFB6B001D7E1E /* resources */,
@@ -283,12 +309,11 @@
 		2BCCEF412C3B63D200E24A57 /* main */ = {
 			isa = PBXGroup;
 			children = (
+				2B522AB62E6DB1D300105245 /* viewModel */,
 				2B522A892E69EBEF00105245 /* models */,
 				2B522A4A2E63654900105245 /* components */,
 				2B5EC0A22AA3587500305D14 /* MainViewController.swift */,
 				2B522A852E69E73E00105245 /* MainViewModelType.swift */,
-				2B522A872E69E98900105245 /* MainViewModelViewDelegate.swift */,
-				2B0EE2512E5B2A730032441C /* MainViewModel.swift */,
 			);
 			path = main;
 			sourceTree = "<group>";
@@ -296,23 +321,22 @@
 		2BCCEF462C3B645100E24A57 /* history */ = {
 			isa = PBXGroup;
 			children = (
+				2B522AB82E6DB21B00105245 /* viewModel */,
 				2B522A952E69F0D700105245 /* model */,
 				2B522A902E69EEE100105245 /* cell */,
 				2B5EC0A62AA359E700305D14 /* HistoryViewController.swift */,
-				2B522A912E69EF0B00105245 /* HistoryViewModelViewDelegate.swift */,
 				2B522A932E69EF2F00105245 /* HistoryViewModelType.swift */,
-				2B522A4B2E63659100105245 /* HistoryViewModel.swift */,
 			);
 			path = history;
 			sourceTree = "<group>";
 		};
-		2BCCEF472C3B646A00E24A57 /* main */ = {
+		2BCCEF472C3B646A00E24A57 /* application */ = {
 			isa = PBXGroup;
 			children = (
 				2B5EC08C2AA34EC900305D14 /* AppDelegate.swift */,
 				2B5EC08E2AA34EC900305D14 /* SceneDelegate.swift */,
 			);
-			path = main;
+			path = application;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

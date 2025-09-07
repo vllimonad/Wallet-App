@@ -10,5 +10,8 @@ import Foundation
 @objc
 protocol TransactionServiceObserver: AnyObject {
     
-    func updatedTransactionsList()
+    func didAddTransaction()
+    
+    @objc
+    optional func didRemoveTransaction()
 }

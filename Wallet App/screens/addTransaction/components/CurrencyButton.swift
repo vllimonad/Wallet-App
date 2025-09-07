@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CurrencyButton: UIButton {
+final class CurrencyButton: UIButton {
     
     private let activeBackgroundColor: UIColor
     
@@ -39,7 +39,7 @@ class CurrencyButton: UIButton {
         layer.cornerRadius = bounds.height / 2
     }
     
-    public func configure(_ title: String) {
+    func configure(_ title: String) {
         let attributedTitle = NSAttributedString(string: title,
                                                  attributes: [
                                                    .font: UIFont.systemFont(ofSize: 16)
@@ -50,12 +50,12 @@ class CurrencyButton: UIButton {
         translatesAutoresizingMaskIntoConstraints = false
     }
     
-    public func setActive() {
+    func setActive() {
         setTitleColor(activeTitleColor, for: .normal)
         backgroundColor = activeBackgroundColor
     }
     
-    public func setInactive() {
+    func setInactive() {
         setTitleColor(inactiveTitleColor, for: .normal)
         backgroundColor = inactiveBackgoundColor
     }

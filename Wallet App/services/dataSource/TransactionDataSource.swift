@@ -10,7 +10,7 @@ import DeveloperToolsSupport
 
 final class TransactionDataSource {
     
-    public static func getCategorySystemImageName(_ category: TransactionCategory) -> String {
+    static func getCategorySystemImageName(_ category: TransactionCategory) -> String {
         let imageName: String
         
         switch category {

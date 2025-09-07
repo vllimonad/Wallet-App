@@ -9,5 +9,5 @@ import Foundation
 
 struct TransactionsSection {
     let date: Date
-    let items: [TransactionModel]
+    var items: [TransactionModel]
 }

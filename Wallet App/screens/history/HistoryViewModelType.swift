@@ -13,5 +13,7 @@ protocol HistoryViewModelType {
     
     var transactions: [TransactionsSection] { get }
     
+    func removeTransaction(at indexPath: IndexPath)
+    
     func getFormattedDate(for section: Int) -> String
 }

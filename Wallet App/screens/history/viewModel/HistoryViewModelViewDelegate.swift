@@ -10,4 +10,8 @@ import Foundation
 protocol HistoryViewModelViewDelegate: AnyObject {
     
     func reloadData()
+    
+    func deleteRow(at indexPath: IndexPath)
+    
+    func deleteSection(at indexPath: IndexPath)
 }

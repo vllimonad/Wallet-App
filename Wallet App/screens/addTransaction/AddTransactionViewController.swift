@@ -209,7 +209,7 @@ final class AddTransactionViewController: UIViewController {
         
         let notesTitleLabel = UILabel()
         notesTitleLabel.text = "Note"
-        notesTitleLabel.textColor = .black
+        notesTitleLabel.textColor = UIColor(resource: .text)
         notesTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         notesTextView.font = UIFont.systemFont(ofSize: 17)
@@ -234,28 +234,6 @@ final class AddTransactionViewController: UIViewController {
         ])
         
         return notesView
-    }
-    
-    
-    
-    @objc func getExchangeRates() {
-//        networkManager?.fetchRates { [weak self] result in
-//            switch result {
-//            case .success(let response):
-//                DispatchQueue.main.async {
-//                    self?.exchangeRates = response.rates
-//                }
-//            case .failure(let error):
-//                DispatchQueue.main.async {
-//                    self?.handleError(error)
-//                }
-//            }
-//        }
-    }
-    
-    func handleError(_ error: Error) {
-        guard let error = error as? URLError else { return }
-        showAlert(with: error.localizedDescription)
     }
     
     func showAlert(with description: String) {
@@ -308,15 +286,6 @@ final class AddTransactionViewController: UIViewController {
         
         viewModel.saveTransaction()
         
-        //        let rate = exchangeRates?.first { $0.code == selectedCurrency.rawValue }
-//        let rateValue = rate?.mid ?? 1.0
-//        delegate?.addTransaction(
-//            Transaction(amount: amount,
-//                        currency: selectedCurrency,
-//                        date: datePicker.date,
-//                        category: category,
-//                        description: description,
-//                        exchangeRate: rateValue))
         dismiss(animated: true)
     }
 }

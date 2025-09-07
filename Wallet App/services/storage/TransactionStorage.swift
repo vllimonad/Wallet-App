@@ -21,26 +21,26 @@ final class TransactionStorage {
     }
     
     @MainActor
-    public func getModels() -> [TransactionModel] {
+    func getModels() -> [TransactionModel] {
         let sortDescriptor = SortDescriptor<TransactionModel>(\.date, order: .reverse)
         let descriptor = FetchDescriptor<TransactionModel>(sortBy: [sortDescriptor])
         return (try? modelContainer.mainContext.fetch(descriptor)) ?? []
     }
     
     @MainActor
-    public func addModel(_ model: TransactionModel) throws {
+    func addModel(_ model: TransactionModel) throws {
         modelContainer.mainContext.insert(model)
         try saveContext()
     }
     
     @MainActor
-    public func deleteModel(_ model: TransactionModel) throws {
+    func deleteModel(_ model: TransactionModel) throws {
         modelContainer.mainContext.delete(model)
         try saveContext()
     }
     
     @MainActor
-    public func saveContext() throws {
+    func saveContext() throws {
         try modelContainer.mainContext.save()
     }
 }

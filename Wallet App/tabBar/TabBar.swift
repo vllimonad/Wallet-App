@@ -78,7 +78,7 @@ final class TabBar: UITabBar {
         return buttonConfiguration
     }
     
-    public func updateButtonsState(_ selectedIndex: Int) {
+    func updateButtonsState(_ selectedIndex: Int) {
         let isMainSelected = selectedIndex == mainButton.tag
         let mainButtonImageSystemName = isMainSelected ? "chart.bar.fill" : "chart.bar"
         mainButton.configuration?.image = UIImage(systemName: mainButtonImageSystemName)

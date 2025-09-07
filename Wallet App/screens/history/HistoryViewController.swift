@@ -89,25 +89,32 @@ extension HistoryViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        let swipe = UISwipeActionsConfiguration(actions: [UIContextualAction(style: .destructive, title: "Delete", handler: { [weak self] _,_,_ in
-//            self?.viewModel.transactions[indexPath.section].remove(at: indexPath.row)
-//            tableView.deleteRows(at: [indexPath], with: .right)
-//            if self?.transactionsList[indexPath.section].count == 0 {
-//                self?.transactionsList.remove(at: indexPath.section)
-//                tableView.deleteSections(IndexSet(arrayLiteral: indexPath.section), with: .top)
-//            }
-//        })])
-//        return swipe
-//    }
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete", handler: { [weak self] _,_,_ in
+            self?.viewModel.removeTransaction(at: indexPath)
+        })
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
 }
 
 extension HistoryViewController: HistoryViewModelViewDelegate {
     
     func reloadData() {
         DispatchQueue.main.async { [weak self] in
-            print("reload was called")
             self?.tableView.reloadData()
+        }
+    }
+    
+    func deleteRow(at indexPath: IndexPath) {
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
+    func deleteSection(at indexPath: IndexPath) {
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
         }
     }
 }
