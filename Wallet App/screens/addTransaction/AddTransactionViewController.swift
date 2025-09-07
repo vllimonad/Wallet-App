@@ -58,7 +58,7 @@ final class AddTransactionViewController: UIViewController {
         containerView.backgroundColor = UIColor(resource: .view)
         containerView.translatesAutoresizingMaskIntoConstraints = false
         
-        amountTextField.placeholder = "1234.56"
+        amountTextField.placeholder = NSLocalizedString("1234.56", comment: "")
         amountTextField.textAlignment = .center
         amountTextField.font = UIFont.systemFont(ofSize: 30)
         amountTextField.keyboardType = .decimalPad
@@ -115,13 +115,13 @@ final class AddTransactionViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.title = "Add Record"
+        navigationItem.title = NSLocalizedString("Add record", comment: "")
         navigationItem.largeTitleDisplayMode = .never
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didTapCancelButton))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: ""), style: .plain, target: self, action: #selector(didTapCancelButton))
         navigationItem.leftBarButtonItem?.tintColor = .red
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didTapSaveButton))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Save", comment: ""), style: .done, target: self, action: #selector(didTapSaveButton))
     }
     
     private func configureCurrencyButtons() {
@@ -146,13 +146,13 @@ final class AddTransactionViewController: UIViewController {
     
     private func getTransactionDetailsView() -> UIView {
         let categoryLabel = UILabel()
-        categoryLabel.text = "Category"
+        categoryLabel.text = NSLocalizedString("Category", comment: "")
         categoryLabel.textColor = UIColor(resource: .text)
         
         let chevronImageView = UIImageView(image: UIImage(systemName: "chevron.right"))
         chevronImageView.tintColor = .systemGray
         
-        categoryValueLabel.text = "Required"
+        categoryValueLabel.text = NSLocalizedString("Required", comment: "")
         categoryValueLabel.textColor = .systemRed
         
         let categoryContainerView = UIStackView(arrangedSubviews: [categoryLabel, categoryValueLabel, chevronImageView])
@@ -163,7 +163,7 @@ final class AddTransactionViewController: UIViewController {
         categoryContainerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapCategoryButton)))
         
         let dateLabel = UILabel()
-        dateLabel.text = "Date"
+        dateLabel.text = NSLocalizedString("Date", comment: "")
         dateLabel.textColor = UIColor(resource: .text)
         
         let dateContainerView = UIStackView(arrangedSubviews: [dateLabel, datePicker])
@@ -208,7 +208,7 @@ final class AddTransactionViewController: UIViewController {
         notesView.translatesAutoresizingMaskIntoConstraints = false
         
         let notesTitleLabel = UILabel()
-        notesTitleLabel.text = "Note"
+        notesTitleLabel.text = NSLocalizedString("Note", comment: "")
         notesTitleLabel.textColor = UIColor(resource: .text)
         notesTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -237,8 +237,8 @@ final class AddTransactionViewController: UIViewController {
     }
     
     func showAlert(with description: String) {
-        let alertController = UIAlertController(title: "Try again", message: description, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Done", style: .default))
+        let alertController = UIAlertController(title: NSLocalizedString("Try again", comment: ""), message: description, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("Done", comment: ""), style: .default))
         
         present(alertController, animated: true)
     }
@@ -260,7 +260,7 @@ final class AddTransactionViewController: UIViewController {
         categoryTableViewController.didSelectCategory = { [weak self] category in
             self?.viewModel.selectedCategory = category
             
-            self?.categoryValueLabel.text = category.rawValue
+            self?.categoryValueLabel.text = String(localized: category.description)
             self?.categoryValueLabel.textColor = .systemBlue
         }
         
@@ -280,7 +280,7 @@ final class AddTransactionViewController: UIViewController {
     @objc
     private func didTapSaveButton() {
         guard viewModel.isValidInput() else {
-            showAlert(with: "Missing transaction data")
+            showAlert(with: NSLocalizedString("Missing transaction's data", comment: ""))
             return
         }
         

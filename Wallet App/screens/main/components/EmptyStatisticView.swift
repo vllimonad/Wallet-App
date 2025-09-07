@@ -30,7 +30,7 @@ final class EmptyStatisticView: UIView {
         iconImageView.image = UIImage(systemName: "xmark.icloud")
         iconImageView.preferredSymbolConfiguration = .init(pointSize: 50)
 
-        titleLabel.text = "No transactions in this month"
+        titleLabel.text = NSLocalizedString("No transactions in this month", comment: "")
         titleLabel.font = .systemFont(ofSize: 17, weight: .light)
         titleLabel.textColor = UIColor(resource: .text)
         titleLabel.textAlignment = .center

@@ -32,7 +32,7 @@ final class TabBar: UITabBar {
     }
     
     private func configureUI() {
-        mainButton.configuration = getTabButtonConfiguration("Statistics", "chart.pie")
+        mainButton.configuration = getTabButtonConfiguration(NSLocalizedString("Statistics", comment: ""), "chart.pie")
         mainButton.tag = TabBarTag.main.rawValue
         mainButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -42,7 +42,7 @@ final class TabBar: UITabBar {
         addRecordButton.addTarget(self, action: #selector(didTapAddRecordButton), for: .touchUpInside)
         addRecordButton.translatesAutoresizingMaskIntoConstraints = false
         
-        historyButton.configuration = getTabButtonConfiguration("History", "list.clipboard")
+        historyButton.configuration = getTabButtonConfiguration(NSLocalizedString("History", comment: ""), "list.clipboard")
         historyButton.tag = TabBarTag.history.rawValue
         historyButton.translatesAutoresizingMaskIntoConstraints = false
         

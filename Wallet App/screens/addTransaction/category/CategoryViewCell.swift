@@ -84,6 +84,6 @@ final class CategoryViewCell: UITableViewCell {
         let categoryImageName = TransactionDataSource.getCategorySystemImageName(category)
         categoryImageView.image = UIImage(systemName: categoryImageName)
         
-        categoryLabel.text = category.rawValue
+        categoryLabel.text = String(localized: category.description)
     }
 }

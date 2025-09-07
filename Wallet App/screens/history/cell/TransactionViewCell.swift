@@ -90,7 +90,7 @@ final class TransactionViewCell: UITableViewCell {
         let categoryImageName = TransactionDataSource.getCategorySystemImageName(model.category)
         categoryImageView.image = UIImage(systemName: categoryImageName)
         
-        categoryLabel.text = model.category.rawValue
+        categoryLabel.text = String(localized: model.category.description)
         
         amountLabel.text = "\(model.amount) \(model.currency.title)"
     }

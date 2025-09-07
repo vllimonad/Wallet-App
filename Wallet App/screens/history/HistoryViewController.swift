@@ -55,7 +55,7 @@ final class HistoryViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.title = "History"
+        navigationItem.title = NSLocalizedString("History", comment: "")
         navigationController?.navigationBar.prefersLargeTitles = false
     }
 }
@@ -90,7 +90,7 @@ extension HistoryViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete", handler: { [weak self] _,_,_ in
+        let deleteAction = UIContextualAction(style: .destructive, title: NSLocalizedString("Delete", comment: ""), handler: { [weak self] _,_,_ in
             self?.viewModel.removeTransaction(at: indexPath)
         })
         

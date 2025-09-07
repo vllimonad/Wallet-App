@@ -63,7 +63,7 @@ final class StatisticViewCell: UITableViewCell {
     }
     
     func bind(_ model: CategoryExpense, _ totalExpenses: Double) {
-        categoryLabel.text = model.category.rawValue
+        categoryLabel.text = String(localized: model.category.description)
         
         amountLabel.text = model.amount.description
         

@@ -51,7 +51,7 @@ final class CategoryTableViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.title = "Categories"
+        navigationItem.title = NSLocalizedString("Categories", comment: "")
     }
 }
 

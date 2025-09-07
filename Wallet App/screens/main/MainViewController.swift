@@ -145,7 +145,7 @@ final class MainViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.title = "Statistics"
+        navigationItem.title = NSLocalizedString("Statistics", comment: "")
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
@@ -192,7 +192,7 @@ extension MainViewController: MainViewModelViewDelegate {
             
             monthLabel.text = viewModel.getSelectedDateDescription()
 
-            amountLabel.text = "Total: \(viewModel.getSelectedMonthTotalExpenses()) zł"
+            amountLabel.text = NSLocalizedString("Total", comment: "") + ": \(viewModel.getSelectedMonthTotalExpenses()) zł"
             amountLabel.isHidden = !hasRecords
                     
             categoriesTableView.isHidden = !hasRecords
