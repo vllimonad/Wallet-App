@@ -8,11 +8,23 @@
 import Foundation
 
 enum TransactionCategory: String, Codable, CaseIterable {
-    case food = "Food"
-    case transportation = "Transportation"
-    case shopping = "Shopping"
-    case communication = "Communication"
-    case entertainment = "Entertainment"
-    case housing = "Housing"
-    case financialExpenses = "Financial Expenses"
+    case food
+    case transportation
+    case shopping
+    case communication
+    case entertainment
+    case housing
+    case financialExpenses
+    
+    var description: LocalizedStringResource {
+        switch self {
+        case .food: "Food"
+        case .transportation: "Transportation"
+        case .shopping: "Shopping"
+        case .communication: "Communication"
+        case .entertainment: "Entertainment"
+        case .housing: "Housing"
+        case .financialExpenses: "Financial Expenses"
+        }
+    }
 }

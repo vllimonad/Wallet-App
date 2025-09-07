@@ -385,6 +385,7 @@
 				en,
 				Base,
 				pl,
+				de,
 			);
 			mainGroup = 2B5EC0802AA34EC900305D14;
 			productRefGroup = 2B5EC08A2AA34EC900305D14 /* Products */;

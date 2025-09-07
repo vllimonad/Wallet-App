@@ -152,7 +152,7 @@ final class AddTransactionViewController: UIViewController {
         let chevronImageView = UIImageView(image: UIImage(systemName: "chevron.right"))
         chevronImageView.tintColor = .systemGray
         
-        categoryValueLabel.text = NSLocalizedString("Reguired", comment: "")
+        categoryValueLabel.text = NSLocalizedString("Required", comment: "")
         categoryValueLabel.textColor = .systemRed
         
         let categoryContainerView = UIStackView(arrangedSubviews: [categoryLabel, categoryValueLabel, chevronImageView])
@@ -260,7 +260,7 @@ final class AddTransactionViewController: UIViewController {
         categoryTableViewController.didSelectCategory = { [weak self] category in
             self?.viewModel.selectedCategory = category
             
-            self?.categoryValueLabel.text = category.rawValue
+            self?.categoryValueLabel.text = String(localized: category.description)
             self?.categoryValueLabel.textColor = .systemBlue
         }
         

@@ -3,6 +3,12 @@
   "strings" : {
     "1234.56" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1234,56"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13,6 +19,12 @@
     },
     "Add record" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eintrag hinzufügen"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -23,6 +35,12 @@
     },
     "Cancel" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abbrechen"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -33,6 +51,12 @@
     },
     "Categories" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategorien"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -43,6 +67,12 @@
     },
     "Category" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategorie"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -51,8 +81,30 @@
         }
       }
     },
+    "Communication" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kommunikation"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komunikacja"
+          }
+        }
+      }
+    },
     "Date" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datum"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -63,6 +115,12 @@
     },
     "Delete" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löschen"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -73,6 +131,12 @@
     },
     "Done" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fertig"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -81,8 +145,62 @@
         }
       }
     },
+    "Entertainment" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unterhaltung"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rozrywka"
+          }
+        }
+      }
+    },
+    "Financial Expenses" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finanzausgaben"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wydatki finansowe"
+          }
+        }
+      }
+    },
+    "Food" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Essen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jedzenie"
+          }
+        }
+      }
+    },
     "History" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verlauf"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -91,8 +209,30 @@
         }
       }
     },
+    "Housing" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wohnen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mieszkanie"
+          }
+        }
+      }
+    },
     "Missing transaction's data" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehlende Transaktionsdaten"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -103,6 +243,12 @@
     },
     "No transactions in this month" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Transaktionen in diesem Monat"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -113,6 +259,12 @@
     },
     "Note" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notiz"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -121,8 +273,14 @@
         }
       }
     },
-    "Reguired" : {
+    "Required" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erforderlich"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -133,6 +291,12 @@
     },
     "Save" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speichern"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -141,8 +305,30 @@
         }
       }
     },
+    "Shopping" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einkaufen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zakupy"
+          }
+        }
+      }
+    },
     "Statistics" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Statistiken"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -153,6 +339,12 @@
     },
     "Total" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Summe"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -161,8 +353,30 @@
         }
       }
     },
+    "Transportation" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transport"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transport"
+          }
+        }
+      }
+    },
     "Try again" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erneut versuchen"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
