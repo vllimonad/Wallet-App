@@ -66,15 +66,6 @@ extension HistoryViewModel: HistoryViewModelType {
         } else {
             viewDelegate?.deleteRow(at: indexPath)
         }
-        
-//        if transactions[indexPath.section].items.count > 1 {
-//            let transaction = transactions[indexPath.section].items.remove(at: indexPath.row)
-//            transactionService.removeTransaction(transaction)
-//            viewDelegate?.deleteRow(at: indexPath)
-//        } else {
-//            transactions.remove(at: indexPath.section)
-//            viewDelegate?.deleteSection(at: indexPath)
-//        }
     }
     
     func getFormattedDate(for section: Int) -> String {

@@ -33,11 +33,11 @@ final class TransactionService {
     }
     
     func addTransaction(_ transaction: TransactionModel) {
-        Task {
+        Task { @MainActor in
             do {
                 if transaction.currency != .pln {
                     let transactionCurrency = transaction.currency.title
-                    let exchangeDate = getExchageDate(transaction.date)
+                    let exchangeDate = previousWorkingDay(from: transaction.date)
                     let exchangeDateString = formatDateToString(exchangeDate)
                     
                     transaction.exchangeRate = try await exchangeRateService.fetchRates(transactionCurrency, exchangeDateString)
@@ -45,7 +45,7 @@ final class TransactionService {
                     transaction.exchangeRate = 1.0
                 }
                 
-                try await storage.addModel(transaction)
+                try storage.addModel(transaction)
                 transactions.append(transaction)
                 
                 observers.allObjects.forEach { $0.didAddTransaction() }
@@ -56,24 +56,28 @@ final class TransactionService {
     }
     
     func removeTransaction(_ transaction: TransactionModel) {
-        Task {
+        Task { @MainActor in
             guard let transactionIndex = transactions.firstIndex(of: transaction) else { return }
             
-            try await storage.deleteModel(transaction)
+            try storage.deleteModel(transaction)
             transactions.remove(at: transactionIndex)
             
             observers.allObjects.forEach { $0.didRemoveTransaction?() }
         }
     }
     
-    private func getExchageDate(_ date: Date) -> Date {
+    private func previousWorkingDay(from date: Date) -> Date {
         let calendar = Calendar.current
+        let currentDate = calendar.startOfDay(for: .now)
         
-        if calendar.isDateInToday(date) || calendar.startOfDay(for: date) > calendar.startOfDay(for: .now) {
-            return calendar.date(byAdding: .day, value: -1, to: .now)!
-        } else {
-            return date
+        let referenceDate = date > currentDate ? currentDate : date
+        var previousDay = calendar.date(byAdding: .day, value: -1, to: referenceDate)!
+        
+        while calendar.isDateInWeekend(previousDay) {
+            previousDay = calendar.date(byAdding: .day, value: -1, to: previousDay)!
         }
+        
+        return previousDay
     }
     
     private func formatDateToString(_ date: Date) -> String {
