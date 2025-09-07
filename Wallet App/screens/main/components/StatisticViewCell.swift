@@ -62,7 +62,7 @@ final class StatisticViewCell: UITableViewCell {
         ])
     }
     
-    public func bind(_ model: CategoryExpense, _ totalExpenses: Double) {
+    func bind(_ model: CategoryExpense, _ totalExpenses: Double) {
         categoryLabel.text = model.category.rawValue
         
         amountLabel.text = model.amount.description

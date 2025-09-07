@@ -59,11 +59,19 @@ final class MainViewModel: TransactionServiceObserver {
         return expensesByMonthCategory
     }
     
-    func updatedTransactionsList() {
+    private func fetchTransactions() {
         let transactions = transactionService.transactions
         self.expenses = getMonthExpenses(from: transactions)
         
         viewDelegate?.reloadStatistic()
+    }
+    
+    func didAddTransaction() {
+        fetchTransactions()
+    }
+    
+    func didRemoveTransaction() {
+        fetchTransactions()
     }
 }
 

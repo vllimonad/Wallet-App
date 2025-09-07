@@ -28,7 +28,7 @@ final class TransactionService {
     private func fetchTransactions() {
         Task {
             self.transactions = await storage.getModels()
-            observers.allObjects.forEach { $0.updatedTransactionsList() }
+            observers.allObjects.forEach { $0.didAddTransaction() }
         }
     }
     
@@ -48,10 +48,21 @@ final class TransactionService {
                 try await storage.addModel(transaction)
                 transactions.append(transaction)
                 
-                observers.allObjects.forEach { $0.updatedTransactionsList() }
+                observers.allObjects.forEach { $0.didAddTransaction() }
             } catch {
                 print(error)
             }
+        }
+    }
+    
+    func removeTransaction(_ transaction: TransactionModel) {
+        Task {
+            guard let transactionIndex = transactions.firstIndex(of: transaction) else { return }
+            
+            try await storage.deleteModel(transaction)
+            transactions.remove(at: transactionIndex)
+            
+            observers.allObjects.forEach { $0.didRemoveTransaction?() }
         }
     }
     

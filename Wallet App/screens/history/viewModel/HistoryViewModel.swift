@@ -46,7 +46,7 @@ final class HistoryViewModel: TransactionServiceObserver {
             .sorted { $0.date > $1.date }
     }
         
-    func updatedTransactionsList() {
+    func didAddTransaction() {
         let fetchedTransactions = transactionService.transactions
         self.transactions = groupTransactionsByDate(fetchedTransactions)
         
@@ -57,13 +57,24 @@ final class HistoryViewModel: TransactionServiceObserver {
 extension HistoryViewModel: HistoryViewModelType {
     
     func removeTransaction(at indexPath: IndexPath) {
-        if transactions[indexPath.section].items.count > 1 {
-            transactions[indexPath.section].items.remove(at: indexPath.row)
-            viewDelegate?.deleteRow(at: indexPath)
-        } else {
+        let transaction = transactions[indexPath.section].items.remove(at: indexPath.row)
+        transactionService.removeTransaction(transaction)
+        
+        if transactions[indexPath.section].items.isEmpty {
             transactions.remove(at: indexPath.section)
             viewDelegate?.deleteSection(at: indexPath)
+        } else {
+            viewDelegate?.deleteRow(at: indexPath)
         }
+        
+//        if transactions[indexPath.section].items.count > 1 {
+//            let transaction = transactions[indexPath.section].items.remove(at: indexPath.row)
+//            transactionService.removeTransaction(transaction)
+//            viewDelegate?.deleteRow(at: indexPath)
+//        } else {
+//            transactions.remove(at: indexPath.section)
+//            viewDelegate?.deleteSection(at: indexPath)
+//        }
     }
     
     func getFormattedDate(for section: Int) -> String {

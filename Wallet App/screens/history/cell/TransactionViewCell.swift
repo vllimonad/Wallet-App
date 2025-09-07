@@ -86,7 +86,7 @@ final class TransactionViewCell: UITableViewCell {
         ])
     }
     
-    public func bind(_ model: TransactionModel) {
+    func bind(_ model: TransactionModel) {
         let categoryImageName = TransactionDataSource.getCategorySystemImageName(model.category)
         categoryImageView.image = UIImage(systemName: categoryImageName)
         

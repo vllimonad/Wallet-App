@@ -80,7 +80,7 @@ final class CategoryViewCell: UITableViewCell {
         ])
     }
     
-    public func bind(_ category: TransactionCategory) {
+    func bind(_ category: TransactionCategory) {
         let categoryImageName = TransactionDataSource.getCategorySystemImageName(category)
         categoryImageView.image = UIImage(systemName: categoryImageName)
         
