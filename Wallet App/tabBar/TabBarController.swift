@@ -51,7 +51,7 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
     }
     
     private func setupTabBarAppearance() {
-        view.backgroundColor = UIColor(named: "cell")
+        view.backgroundColor = UIColor(resource: .cell)
         
         let appearance = UITabBarAppearance()
         appearance.configureWithTransparentBackground()

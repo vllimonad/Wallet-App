@@ -30,6 +30,7 @@
 		2B522A972E69F0E100105245 /* TransactionsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B522A962E69F0E100105245 /* TransactionsSection.swift */; };
 		2B522A992E69F3AF00105245 /* ExchangeRateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B522A982E69F3AF00105245 /* ExchangeRateService.swift */; };
 		2B522AA02E6A0F8D00105245 /* UIView + Shadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B522A9F2E6A0F8D00105245 /* UIView + Shadow.swift */; };
+		2B522ABA2E6E291A00105245 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 2B522AB92E6E291A00105245 /* Localizable.xcstrings */; };
 		2B5EC08D2AA34EC900305D14 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC08C2AA34EC900305D14 /* AppDelegate.swift */; };
 		2B5EC08F2AA34EC900305D14 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC08E2AA34EC900305D14 /* SceneDelegate.swift */; };
 		2B5EC0912AA34EC900305D14 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC0902AA34EC900305D14 /* TabBarController.swift */; };
@@ -71,6 +72,7 @@
 		2B522A962E69F0E100105245 /* TransactionsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsSection.swift; sourceTree = "<group>"; };
 		2B522A982E69F3AF00105245 /* ExchangeRateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateService.swift; sourceTree = "<group>"; };
 		2B522A9F2E6A0F8D00105245 /* UIView + Shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + Shadow.swift"; sourceTree = "<group>"; };
+		2B522AB92E6E291A00105245 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		2B5EC0892AA34EC900305D14 /* Wallet App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wallet App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B5EC08C2AA34EC900305D14 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B5EC08E2AA34EC900305D14 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 			children = (
 				2B5EC0952AA34ECA00305D14 /* Assets.xcassets */,
 				2B5EC0972AA34ECA00305D14 /* LaunchScreen.storyboard */,
+				2B522AB92E6E291A00105245 /* Localizable.xcstrings */,
 				2B5EC09A2AA34ECA00305D14 /* Info.plist */,
 			);
 			path = resources;
@@ -381,6 +384,7 @@
 			knownRegions = (
 				en,
 				Base,
+				pl,
 			);
 			mainGroup = 2B5EC0802AA34EC900305D14;
 			productRefGroup = 2B5EC08A2AA34EC900305D14 /* Products */;
@@ -399,6 +403,7 @@
 			files = (
 				2B5EC0992AA34ECA00305D14 /* LaunchScreen.storyboard in Resources */,
 				2B5EC0962AA34ECA00305D14 /* Assets.xcassets in Resources */,
+				2B522ABA2E6E291A00105245 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,6 +523,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -571,6 +577,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};

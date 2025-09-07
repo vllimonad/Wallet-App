@@ -1,0 +1,57 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "1234.56" : {
+
+    },
+    "Add record" : {
+
+    },
+    "Cancel" : {
+
+    },
+    "Categories" : {
+
+    },
+    "Category" : {
+
+    },
+    "Date" : {
+
+    },
+    "Delete" : {
+
+    },
+    "Done" : {
+
+    },
+    "History" : {
+
+    },
+    "Missing transaction's data" : {
+
+    },
+    "No transactions in this month" : {
+
+    },
+    "Note" : {
+
+    },
+    "Reguired" : {
+
+    },
+    "Save" : {
+
+    },
+    "Statistics" : {
+
+    },
+    "Total" : {
+
+    },
+    "Try again" : {
+
+    }
+  },
+  "version" : "1.0"
+}
