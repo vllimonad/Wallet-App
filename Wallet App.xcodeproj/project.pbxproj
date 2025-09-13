@@ -42,11 +42,25 @@
 		2B5EC0AD2AA37A4F00305D14 /* TransactionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EC0AC2AA37A4F00305D14 /* TransactionViewCell.swift */; };
 		2B6A16C12C8DD21000464C03 /* NBPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6A16C02C8DD21000464C03 /* NBPResponse.swift */; };
 		2B6AABB22C7F744A006B968A /* CurrencyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6AABB12C7F744A006B968A /* CurrencyButton.swift */; };
+		2B7528132E75B8A1006072C1 /* TransactionDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7528122E75B8A1006072C1 /* TransactionDataSourceTests.swift */; };
+		2B7528152E75BE25006072C1 /* ExchangeRateClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7528142E75BE25006072C1 /* ExchangeRateClient.swift */; };
+		2B7528172E75BE8F006072C1 /* URLSession + ExchangeRateClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7528162E75BE8F006072C1 /* URLSession + ExchangeRateClient.swift */; };
+		2B75281A2E75BF38006072C1 /* ExchangeRateServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7528192E75BF38006072C1 /* ExchangeRateServiceTests.swift */; };
 		2B8541592AA507EF00ADECEB /* AddTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8541582AA507EF00ADECEB /* AddTransactionViewController.swift */; };
 		2B85415B2AA545DE00ADECEB /* NotesTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B85415A2AA545DE00ADECEB /* NotesTextField.swift */; };
 		2BC96F2B2AAB761D001D7042 /* CategoryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */; };
 		2BC96F2D2AAB7652001D7042 /* CategoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC96F2C2AAB7652001D7042 /* CategoryTableViewController.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2B7528092E75B3DB006072C1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B5EC0812AA34EC900305D14 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2B5EC0882AA34EC900305D14;
+			remoteInfo = "Wallet App";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		2B080BB22AC0A01100BC89E3 /* StatisticViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticViewCell.swift; sourceTree = "<group>"; };
@@ -86,6 +100,11 @@
 		2B5EC0AC2AA37A4F00305D14 /* TransactionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionViewCell.swift; sourceTree = "<group>"; };
 		2B6A16C02C8DD21000464C03 /* NBPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NBPResponse.swift; sourceTree = "<group>"; };
 		2B6AABB12C7F744A006B968A /* CurrencyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyButton.swift; sourceTree = "<group>"; };
+		2B7528052E75B3DB006072C1 /* WalletAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WalletAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B7528122E75B8A1006072C1 /* TransactionDataSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDataSourceTests.swift; sourceTree = "<group>"; };
+		2B7528142E75BE25006072C1 /* ExchangeRateClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateClient.swift; sourceTree = "<group>"; };
+		2B7528162E75BE8F006072C1 /* URLSession + ExchangeRateClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession + ExchangeRateClient.swift"; sourceTree = "<group>"; };
+		2B7528192E75BF38006072C1 /* ExchangeRateServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateServiceTests.swift; sourceTree = "<group>"; };
 		2B8541582AA507EF00ADECEB /* AddTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionViewController.swift; sourceTree = "<group>"; };
 		2B85415A2AA545DE00ADECEB /* NotesTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTextField.swift; sourceTree = "<group>"; };
 		2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewCell.swift; sourceTree = "<group>"; };
@@ -94,6 +113,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		2B5EC0862AA34EC900305D14 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2B7528022E75B3DB006072C1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -235,6 +261,8 @@
 			children = (
 				2B522A9D2E6A048200105245 /* models */,
 				2B522A982E69F3AF00105245 /* ExchangeRateService.swift */,
+				2B7528162E75BE8F006072C1 /* URLSession + ExchangeRateClient.swift */,
+				2B7528142E75BE25006072C1 /* ExchangeRateClient.swift */,
 			);
 			path = exchangeRate;
 			sourceTree = "<group>";
@@ -285,6 +313,7 @@
 			isa = PBXGroup;
 			children = (
 				2B5EC08B2AA34EC900305D14 /* Wallet App */,
+				2B75280F2E75B3E1006072C1 /* WalletAppTests */,
 				2B5EC08A2AA34EC900305D14 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -293,6 +322,7 @@
 			isa = PBXGroup;
 			children = (
 				2B5EC0892AA34EC900305D14 /* Wallet App.app */,
+				2B7528052E75B3DB006072C1 /* WalletAppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -307,6 +337,31 @@
 				2B00FAAB2ABCFB6B001D7E1E /* resources */,
 			);
 			path = "Wallet App";
+			sourceTree = "<group>";
+		};
+		2B75280F2E75B3E1006072C1 /* WalletAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				2B7528182E75BF1E006072C1 /* exchangeRate */,
+				2B7528112E75B880006072C1 /* dataSource */,
+			);
+			path = WalletAppTests;
+			sourceTree = "<group>";
+		};
+		2B7528112E75B880006072C1 /* dataSource */ = {
+			isa = PBXGroup;
+			children = (
+				2B7528122E75B8A1006072C1 /* TransactionDataSourceTests.swift */,
+			);
+			path = dataSource;
+			sourceTree = "<group>";
+		};
+		2B7528182E75BF1E006072C1 /* exchangeRate */ = {
+			isa = PBXGroup;
+			children = (
+				2B7528192E75BF38006072C1 /* ExchangeRateServiceTests.swift */,
+			);
+			path = exchangeRate;
 			sourceTree = "<group>";
 		};
 		2BCCEF412C3B63D200E24A57 /* main */ = {
@@ -362,6 +417,26 @@
 			productReference = 2B5EC0892AA34EC900305D14 /* Wallet App.app */;
 			productType = "com.apple.product-type.application";
 		};
+		2B7528042E75B3DB006072C1 /* WalletAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2B75280D2E75B3DB006072C1 /* Build configuration list for PBXNativeTarget "WalletAppTests" */;
+			buildPhases = (
+				2B7528012E75B3DB006072C1 /* Sources */,
+				2B7528022E75B3DB006072C1 /* Frameworks */,
+				2B7528032E75B3DB006072C1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2B75280A2E75B3DB006072C1 /* PBXTargetDependency */,
+			);
+			name = WalletAppTests;
+			packageProductDependencies = (
+			);
+			productName = WalletAppTests;
+			productReference = 2B7528052E75B3DB006072C1 /* WalletAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -369,11 +444,16 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1430;
+				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					2B5EC0882AA34EC900305D14 = {
 						CreatedOnToolsVersion = 14.3;
+					};
+					2B7528042E75B3DB006072C1 = {
+						CreatedOnToolsVersion = 16.2;
+						LastSwiftMigration = 1620;
+						TestTargetID = 2B5EC0882AA34EC900305D14;
 					};
 				};
 			};
@@ -393,6 +473,7 @@
 			projectRoot = "";
 			targets = (
 				2B5EC0882AA34EC900305D14 /* Wallet App */,
+				2B7528042E75B3DB006072C1 /* WalletAppTests */,
 			);
 		};
 /* End PBXProject section */
@@ -408,6 +489,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2B7528032E75B3DB006072C1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -419,6 +507,7 @@
 				2B522A8B2E69EBF700105245 /* MonthExpenses.swift in Sources */,
 				2B522A972E69F0E100105245 /* TransactionsSection.swift in Sources */,
 				2B522A5B2E647DF400105245 /* EmptyStatisticView.swift in Sources */,
+				2B7528172E75BE8F006072C1 /* URLSession + ExchangeRateClient.swift in Sources */,
 				2B5EC0A72AA359E700305D14 /* HistoryViewController.swift in Sources */,
 				2B522A4E2E6369BC00105245 /* TransactionServiceObserver.swift in Sources */,
 				2B5EC0A92AA3608B00305D14 /* TransactionModel.swift in Sources */,
@@ -428,6 +517,7 @@
 				2B5EC08D2AA34EC900305D14 /* AppDelegate.swift in Sources */,
 				2B522A882E69E98900105245 /* MainViewModelViewDelegate.swift in Sources */,
 				2BC96F2B2AAB761D001D7042 /* CategoryViewCell.swift in Sources */,
+				2B7528152E75BE25006072C1 /* ExchangeRateClient.swift in Sources */,
 				2B6AABB22C7F744A006B968A /* CurrencyButton.swift in Sources */,
 				2B0EE2322E59FBD20032441C /* TabBar.swift in Sources */,
 				2B522A992E69F3AF00105245 /* ExchangeRateService.swift in Sources */,
@@ -454,7 +544,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2B7528012E75B3DB006072C1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B75281A2E75BF38006072C1 /* ExchangeRateServiceTests.swift in Sources */,
+				2B7528132E75B8A1006072C1 /* TransactionDataSourceTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2B75280A2E75B3DB006072C1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2B5EC0882AA34EC900305D14 /* Wallet App */;
+			targetProxy = 2B7528092E75B3DB006072C1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		2B5EC0972AA34ECA00305D14 /* LaunchScreen.storyboard */ = {
@@ -644,6 +751,54 @@
 			};
 			name = Release;
 		};
+		2B75280B2E75B3DB006072C1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "-2.WalletAppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Wallet App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Wallet App";
+			};
+			name = Debug;
+		};
+		2B75280C2E75B3DB006072C1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "-2.WalletAppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Wallet App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Wallet App";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -661,6 +816,15 @@
 			buildConfigurations = (
 				2B5EC09E2AA34ECA00305D14 /* Debug */,
 				2B5EC09F2AA34ECA00305D14 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2B75280D2E75B3DB006072C1 /* Build configuration list for PBXNativeTarget "WalletAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2B75280B2E75B3DB006072C1 /* Debug */,
+				2B75280C2E75B3DB006072C1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
