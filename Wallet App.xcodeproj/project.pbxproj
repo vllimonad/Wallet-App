@@ -173,13 +173,13 @@
 		2B08DC852C78FD14003F49D0 /* services */ = {
 			isa = PBXGroup;
 			children = (
+				2B7528482E77169E006072C1 /* observer */,
 				2B522A9E2E6A049200105245 /* dataSource */,
 				2B522A9C2E6A046D00105245 /* exchangeRate */,
 				2B522A9A2E6A044A00105245 /* storage */,
 				2B522A482E635F6500105245 /* TransactionService.swift */,
 				2B7528432E76FE38006072C1 /* ExchangeRateServiceProtocol.swift */,
 				2B7528412E76FDA2006072C1 /* TransactionStorageProtocol.swift */,
-				2B522A4D2E6369BC00105245 /* TransactionServiceObserver.swift */,
 			);
 			path = services;
 			sourceTree = "<group>";
@@ -352,6 +352,7 @@
 		2B75280F2E75B3E1006072C1 /* WalletAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				2B7528492E77188D006072C1 /* screens */,
 				2B7528472E7715FD006072C1 /* services */,
 			);
 			path = WalletAppTests;
@@ -390,6 +391,21 @@
 				2B7528452E76FF38006072C1 /* TransactionServiceTests.swift */,
 			);
 			path = services;
+			sourceTree = "<group>";
+		};
+		2B7528482E77169E006072C1 /* observer */ = {
+			isa = PBXGroup;
+			children = (
+				2B522A4D2E6369BC00105245 /* TransactionServiceObserver.swift */,
+			);
+			path = observer;
+			sourceTree = "<group>";
+		};
+		2B7528492E77188D006072C1 /* screens */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = screens;
 			sourceTree = "<group>";
 		};
 		2BCCEF412C3B63D200E24A57 /* main */ = {

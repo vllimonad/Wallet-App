@@ -30,7 +30,7 @@ final class MockTransactionStorage: TransactionStorageProtocol {
     }
 }
 
-final class MockExchangeRateService: ExchangeRateServiceProtocol {
+final class StubExchangeRateService: ExchangeRateServiceProtocol {
     
     let rate: Double
     
@@ -47,7 +47,7 @@ final class TransactionServiceTests: XCTestCase {
 
     var storage: MockTransactionStorage!
     
-    var exchangeRateService: MockExchangeRateService!
+    var exchangeRateService: StubExchangeRateService!
     
     var sut: TransactionService!
     
@@ -55,9 +55,17 @@ final class TransactionServiceTests: XCTestCase {
         super.setUp()
         
         storage = MockTransactionStorage(models: [])
-        exchangeRateService = MockExchangeRateService(rate: 3.99)
+        exchangeRateService = StubExchangeRateService(rate: 3.99)
         
         sut = TransactionService(storage: storage, exchangeRateService: exchangeRateService)
+    }
+    
+    override func tearDown() {
+        storage = nil
+        exchangeRateService = nil
+        sut = nil
+        
+        super.tearDown()
     }
     
     @MainActor
