@@ -37,6 +37,31 @@ final class TransactionStorageTests: XCTestCase {
     }
     
     @MainActor
+    func test_GetModels_ReturnsModels() throws {
+        let model1 = TransactionModel(amount: 100,
+                                     currency: TransactionCurrency.eur,
+                                     date: Date(),
+                                     category: TransactionCategory.communication,
+                                     note: "",
+                                     exchangeRate: 1.0)
+        
+        let model2 = TransactionModel(amount: 100,
+                                     currency: TransactionCurrency.eur,
+                                     date: Date(),
+                                     category: TransactionCategory.communication,
+                                     note: "",
+                                     exchangeRate: 1.0)
+        try sut.addModel(model1)
+        try sut.addModel(model2)
+        
+        let models = sut.getModels()
+        
+        XCTAssertEqual(models.count, 2)
+        XCTAssert(models.contains(model1))
+        XCTAssert(models.contains(model2))
+    }
+    
+    @MainActor
     func test_AddModel_SavesModel() throws {
         let model = TransactionModel(amount: 100,
                                      currency: TransactionCurrency.eur,

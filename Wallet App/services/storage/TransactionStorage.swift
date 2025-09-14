@@ -28,7 +28,8 @@ final class TransactionStorage {
     func getModels() -> [TransactionModel] {
         let sortDescriptor = SortDescriptor<TransactionModel>(\.date, order: .reverse)
         let descriptor = FetchDescriptor<TransactionModel>(sortBy: [sortDescriptor])
-        return (try? modelContainer.mainContext.fetch(descriptor)) ?? []
+        let models = (try? modelContainer.mainContext.fetch(descriptor)) ?? []
+        return models
     }
     
     @MainActor
