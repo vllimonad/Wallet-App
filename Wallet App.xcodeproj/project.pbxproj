@@ -46,6 +46,7 @@
 		2B7528152E75BE25006072C1 /* ExchangeRateClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7528142E75BE25006072C1 /* ExchangeRateClient.swift */; };
 		2B7528172E75BE8F006072C1 /* URLSession + ExchangeRateClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7528162E75BE8F006072C1 /* URLSession + ExchangeRateClient.swift */; };
 		2B75281A2E75BF38006072C1 /* ExchangeRateServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7528192E75BF38006072C1 /* ExchangeRateServiceTests.swift */; };
+		2B7528402E76F065006072C1 /* TransactionStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B75283F2E76F065006072C1 /* TransactionStorageTests.swift */; };
 		2B8541592AA507EF00ADECEB /* AddTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8541582AA507EF00ADECEB /* AddTransactionViewController.swift */; };
 		2B85415B2AA545DE00ADECEB /* NotesTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B85415A2AA545DE00ADECEB /* NotesTextField.swift */; };
 		2BC96F2B2AAB761D001D7042 /* CategoryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */; };
@@ -105,6 +106,7 @@
 		2B7528142E75BE25006072C1 /* ExchangeRateClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateClient.swift; sourceTree = "<group>"; };
 		2B7528162E75BE8F006072C1 /* URLSession + ExchangeRateClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession + ExchangeRateClient.swift"; sourceTree = "<group>"; };
 		2B7528192E75BF38006072C1 /* ExchangeRateServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateServiceTests.swift; sourceTree = "<group>"; };
+		2B75283F2E76F065006072C1 /* TransactionStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionStorageTests.swift; sourceTree = "<group>"; };
 		2B8541582AA507EF00ADECEB /* AddTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionViewController.swift; sourceTree = "<group>"; };
 		2B85415A2AA545DE00ADECEB /* NotesTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTextField.swift; sourceTree = "<group>"; };
 		2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewCell.swift; sourceTree = "<group>"; };
@@ -342,6 +344,7 @@
 		2B75280F2E75B3E1006072C1 /* WalletAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				2B75283E2E76F04A006072C1 /* storage */,
 				2B7528182E75BF1E006072C1 /* exchangeRate */,
 				2B7528112E75B880006072C1 /* dataSource */,
 			);
@@ -362,6 +365,14 @@
 				2B7528192E75BF38006072C1 /* ExchangeRateServiceTests.swift */,
 			);
 			path = exchangeRate;
+			sourceTree = "<group>";
+		};
+		2B75283E2E76F04A006072C1 /* storage */ = {
+			isa = PBXGroup;
+			children = (
+				2B75283F2E76F065006072C1 /* TransactionStorageTests.swift */,
+			);
+			path = storage;
 			sourceTree = "<group>";
 		};
 		2BCCEF412C3B63D200E24A57 /* main */ = {
@@ -548,6 +559,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B7528402E76F065006072C1 /* TransactionStorageTests.swift in Sources */,
 				2B75281A2E75BF38006072C1 /* ExchangeRateServiceTests.swift in Sources */,
 				2B7528132E75B8A1006072C1 /* TransactionDataSourceTests.swift in Sources */,
 			);

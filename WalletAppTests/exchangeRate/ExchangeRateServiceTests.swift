@@ -50,6 +50,13 @@ final class ExchangeRateServiceTests: XCTestCase {
         sut = ExchangeRateService(client: stubExchangeRateClient)
     }
     
+    override func tearDown() {
+        dateString = nil
+        sut = nil
+        
+        super.tearDown()
+    }
+    
     func test_FetchRates_ReturnsCorrectRate() async throws {
         let currency = "USD"
         

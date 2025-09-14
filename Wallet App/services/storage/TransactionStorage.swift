@@ -12,9 +12,13 @@ final class TransactionStorage {
     
     private let modelContainer: ModelContainer
     
-    init() {
+    init(_ modelContainer: ModelContainer? = nil) {
         do {
-            self.modelContainer = try ModelContainer(for: TransactionModel.self)
+            if let modelContainer = modelContainer {
+                self.modelContainer = modelContainer
+            } else {
+                self.modelContainer = try ModelContainer(for: TransactionModel.self)
+            }
         } catch {
             fatalError(error.localizedDescription)
         }
