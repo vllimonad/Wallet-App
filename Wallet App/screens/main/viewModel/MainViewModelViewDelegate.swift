@@ -9,5 +9,6 @@ import Foundation
 
 protocol MainViewModelViewDelegate: AnyObject {
     
+    @MainActor
     func reloadStatistic()
 }

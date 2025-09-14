@@ -24,7 +24,6 @@ final class TransactionStorage: TransactionStorageProtocol {
         }
     }
     
-    @MainActor
     func getModels() -> [TransactionModel] {
         let sortDescriptor = SortDescriptor<TransactionModel>(\.date, order: .reverse)
         let descriptor = FetchDescriptor<TransactionModel>(sortBy: [sortDescriptor])
@@ -32,13 +31,11 @@ final class TransactionStorage: TransactionStorageProtocol {
         return models
     }
     
-    @MainActor
     func addModel(_ model: TransactionModel) throws {
         modelContainer.mainContext.insert(model)
         try saveContext()
     }
     
-    @MainActor
     func deleteModel(_ model: TransactionModel) throws {
         modelContainer.mainContext.delete(model)
         try saveContext()

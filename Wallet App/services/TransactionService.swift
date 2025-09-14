@@ -27,8 +27,8 @@ final class TransactionService: HistoryTransactionServiceProtocol {
     }
     
     private func fetchTransactions() {
-        Task {
-            self.transactions = await storage.getModels()
+        Task { @MainActor in
+            self.transactions = storage.getModels()
             observers.allObjects.forEach { $0.didAddTransaction() }
         }
     }
@@ -55,7 +55,6 @@ final class TransactionService: HistoryTransactionServiceProtocol {
         }
     }
     
-    @MainActor
     func removeTransaction(_ transaction: TransactionModel) {
         do {
             guard let transactionIndex = transactions.firstIndex(of: transaction) else { return }

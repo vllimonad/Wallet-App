@@ -101,20 +101,14 @@ extension HistoryViewController: UITableViewDataSource, UITableViewDelegate {
 extension HistoryViewController: HistoryViewModelViewDelegate {
     
     func reloadData() {
-        DispatchQueue.main.async { [weak self] in
-            self?.tableView.reloadData()
-        }
+        tableView.reloadData()
     }
     
     func deleteRow(at indexPath: IndexPath) {
-        DispatchQueue.main.async { [weak self] in
-            self?.tableView.deleteRows(at: [indexPath], with: .fade)
-        }
+        tableView.deleteRows(at: [indexPath], with: .fade)
     }
     
     func deleteSection(at indexPath: IndexPath) {
-        DispatchQueue.main.async { [weak self] in
-            self?.tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
-        }
+        tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
     }
 }

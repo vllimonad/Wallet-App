@@ -10,8 +10,10 @@ import Foundation
 @objc
 protocol TransactionServiceObserver: AnyObject {
     
+    @MainActor
     func didAddTransaction()
     
+    @MainActor
     @objc
     optional func didRemoveTransaction()
 }

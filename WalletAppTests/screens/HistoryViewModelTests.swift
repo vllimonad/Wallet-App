@@ -93,6 +93,7 @@ final class HistoryViewModelTests: XCTestCase {
         super.tearDown()
     }
     
+    @MainActor
     func test_DidAddTransaction_UpdatesTransactions() {
         sut.didAddTransaction()
         

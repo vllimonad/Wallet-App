@@ -17,7 +17,6 @@ final class ExchangeRateService: ExchangeRateServiceProtocol {
         self.exchangeRateClient = client
     }
     
-    @MainActor
     func fetchRates(_ currency: String, _ dateString: String) async throws -> Double {
         var components = URLComponents()
         components.scheme = "https"

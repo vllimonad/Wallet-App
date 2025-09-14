@@ -61,6 +61,7 @@ final class MainViewModel: TransactionServiceObserver {
         return expensesByMonthCategory
     }
     
+    @MainActor
     private func fetchTransactions() {
         let transactions = transactionService.transactions
         self.expenses = getMonthExpenses(from: transactions)

@@ -56,7 +56,6 @@ final class HistoryViewModel: TransactionServiceObserver {
 
 extension HistoryViewModel: HistoryViewModelType {
     
-    @MainActor
     func removeTransaction(at indexPath: IndexPath) {
         let transaction = transactions[indexPath.section].items.remove(at: indexPath.row)
         transactionService.removeTransaction(transaction)

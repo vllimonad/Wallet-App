@@ -185,20 +185,16 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
 extension MainViewController: MainViewModelViewDelegate {
     
     func reloadStatistic() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
-            
-            let hasRecords = !viewModel.getSelectedMonthExpenses().isEmpty
-            
-            monthLabel.text = viewModel.getSelectedDateDescription()
+        let hasRecords = !viewModel.getSelectedMonthExpenses().isEmpty
+        
+        monthLabel.text = viewModel.getSelectedDateDescription()
 
-            amountLabel.text = NSLocalizedString("Total", comment: "") + ": \(viewModel.getSelectedMonthTotalExpenses()) zł"
-            amountLabel.isHidden = !hasRecords
-                    
-            categoriesTableView.isHidden = !hasRecords
-            categoriesTableView.reloadData()
-            
-            emptyStatisticView.isHidden = hasRecords
-        }
+        amountLabel.text = NSLocalizedString("Total", comment: "") + ": \(viewModel.getSelectedMonthTotalExpenses()) zł"
+        amountLabel.isHidden = !hasRecords
+                
+        categoriesTableView.isHidden = !hasRecords
+        categoriesTableView.reloadData()
+        
+        emptyStatisticView.isHidden = hasRecords
     }
 }

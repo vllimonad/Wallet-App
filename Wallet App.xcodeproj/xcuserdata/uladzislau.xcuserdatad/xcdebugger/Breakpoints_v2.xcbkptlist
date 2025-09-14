@@ -78,8 +78,8 @@
             filePath = "Wallet App/screens/history/viewModel/HistoryViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
             landmarkName = "removeTransaction(at:)"
             landmarkType = "7">
          </BreakpointContent>
