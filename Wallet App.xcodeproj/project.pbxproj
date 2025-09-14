@@ -50,6 +50,8 @@
 		2B7528422E76FDA2006072C1 /* TransactionStorageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7528412E76FDA2006072C1 /* TransactionStorageProtocol.swift */; };
 		2B7528442E76FE38006072C1 /* ExchangeRateServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7528432E76FE38006072C1 /* ExchangeRateServiceProtocol.swift */; };
 		2B7528462E76FF38006072C1 /* TransactionServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7528452E76FF38006072C1 /* TransactionServiceTests.swift */; };
+		2B75284B2E772013006072C1 /* HistoryViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B75284A2E772013006072C1 /* HistoryViewModelTests.swift */; };
+		2B75284D2E772082006072C1 /* HistoryTransactionServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B75284C2E772082006072C1 /* HistoryTransactionServiceProtocol.swift */; };
 		2B8541592AA507EF00ADECEB /* AddTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8541582AA507EF00ADECEB /* AddTransactionViewController.swift */; };
 		2B85415B2AA545DE00ADECEB /* NotesTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B85415A2AA545DE00ADECEB /* NotesTextField.swift */; };
 		2BC96F2B2AAB761D001D7042 /* CategoryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */; };
@@ -113,6 +115,8 @@
 		2B7528412E76FDA2006072C1 /* TransactionStorageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionStorageProtocol.swift; sourceTree = "<group>"; };
 		2B7528432E76FE38006072C1 /* ExchangeRateServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateServiceProtocol.swift; sourceTree = "<group>"; };
 		2B7528452E76FF38006072C1 /* TransactionServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionServiceTests.swift; sourceTree = "<group>"; };
+		2B75284A2E772013006072C1 /* HistoryViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModelTests.swift; sourceTree = "<group>"; };
+		2B75284C2E772082006072C1 /* HistoryTransactionServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTransactionServiceProtocol.swift; sourceTree = "<group>"; };
 		2B8541582AA507EF00ADECEB /* AddTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionViewController.swift; sourceTree = "<group>"; };
 		2B85415A2AA545DE00ADECEB /* NotesTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTextField.swift; sourceTree = "<group>"; };
 		2BC96F2A2AAB761D001D7042 /* CategoryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewCell.swift; sourceTree = "<group>"; };
@@ -315,6 +319,7 @@
 			children = (
 				2B522A4B2E63659100105245 /* HistoryViewModel.swift */,
 				2B522A912E69EF0B00105245 /* HistoryViewModelViewDelegate.swift */,
+				2B75284C2E772082006072C1 /* HistoryTransactionServiceProtocol.swift */,
 			);
 			path = viewModel;
 			sourceTree = "<group>";
@@ -404,6 +409,7 @@
 		2B7528492E77188D006072C1 /* screens */ = {
 			isa = PBXGroup;
 			children = (
+				2B75284A2E772013006072C1 /* HistoryViewModelTests.swift */,
 			);
 			path = screens;
 			sourceTree = "<group>";
@@ -578,6 +584,7 @@
 				2B85415B2AA545DE00ADECEB /* NotesTextField.swift in Sources */,
 				2B0EE2522E5B2A730032441C /* MainViewModel.swift in Sources */,
 				2B522A502E6373FE00105245 /* TransactionDataSource.swift in Sources */,
+				2B75284D2E772082006072C1 /* HistoryTransactionServiceProtocol.swift in Sources */,
 				2B522A492E635F6500105245 /* TransactionService.swift in Sources */,
 				2B0EE2542E5B30D50032441C /* TransactionCategory.swift in Sources */,
 				2B5EC0AD2AA37A4F00305D14 /* TransactionViewCell.swift in Sources */,
@@ -595,6 +602,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B7528402E76F065006072C1 /* TransactionStorageTests.swift in Sources */,
+				2B75284B2E772013006072C1 /* HistoryViewModelTests.swift in Sources */,
 				2B75281A2E75BF38006072C1 /* ExchangeRateServiceTests.swift in Sources */,
 				2B7528462E76FF38006072C1 /* TransactionServiceTests.swift in Sources */,
 				2B7528132E75B8A1006072C1 /* TransactionDataSourceTests.swift in Sources */,

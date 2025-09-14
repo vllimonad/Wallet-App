@@ -9,7 +9,7 @@ import Foundation
 
 final class HistoryViewModel: TransactionServiceObserver {
     
-    private let transactionService: TransactionService
+    private let transactionService: HistoryTransactionServiceProtocol
     
     private let dateFormatter: DateFormatter
     
@@ -17,7 +17,7 @@ final class HistoryViewModel: TransactionServiceObserver {
     
     private(set) var transactions: [TransactionsSection]
     
-    init(_ transactionService: TransactionService) {
+    init(_ transactionService: HistoryTransactionServiceProtocol) {
         self.transactionService = transactionService
         self.transactions = []
         self.dateFormatter = DateFormatter()
@@ -56,17 +56,16 @@ final class HistoryViewModel: TransactionServiceObserver {
 
 extension HistoryViewModel: HistoryViewModelType {
     
+    @MainActor
     func removeTransaction(at indexPath: IndexPath) {
-        Task {
-            let transaction = transactions[indexPath.section].items.remove(at: indexPath.row)
-            await transactionService.removeTransaction(transaction)
-            
-            if transactions[indexPath.section].items.isEmpty {
-                transactions.remove(at: indexPath.section)
-                viewDelegate?.deleteSection(at: indexPath)
-            } else {
-                viewDelegate?.deleteRow(at: indexPath)
-            }
+        let transaction = transactions[indexPath.section].items.remove(at: indexPath.row)
+        transactionService.removeTransaction(transaction)
+        
+        if transactions[indexPath.section].items.isEmpty {
+            transactions.remove(at: indexPath.section)
+            viewDelegate?.deleteSection(at: indexPath)
+        } else {
+            viewDelegate?.deleteRow(at: indexPath)
         }
     }
     

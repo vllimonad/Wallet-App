@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class TransactionService {
+final class TransactionService: HistoryTransactionServiceProtocol {
     
     private let storage: TransactionStorageProtocol
     
