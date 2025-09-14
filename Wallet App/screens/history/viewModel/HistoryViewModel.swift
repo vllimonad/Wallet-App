@@ -57,14 +57,16 @@ final class HistoryViewModel: TransactionServiceObserver {
 extension HistoryViewModel: HistoryViewModelType {
     
     func removeTransaction(at indexPath: IndexPath) {
-        let transaction = transactions[indexPath.section].items.remove(at: indexPath.row)
-        transactionService.removeTransaction(transaction)
-        
-        if transactions[indexPath.section].items.isEmpty {
-            transactions.remove(at: indexPath.section)
-            viewDelegate?.deleteSection(at: indexPath)
-        } else {
-            viewDelegate?.deleteRow(at: indexPath)
+        Task {
+            let transaction = transactions[indexPath.section].items.remove(at: indexPath.row)
+            await transactionService.removeTransaction(transaction)
+            
+            if transactions[indexPath.section].items.isEmpty {
+                transactions.remove(at: indexPath.section)
+                viewDelegate?.deleteSection(at: indexPath)
+            } else {
+                viewDelegate?.deleteRow(at: indexPath)
+            }
         }
     }
     

@@ -8,7 +8,7 @@
 import Foundation
 import SwiftData
 
-final class TransactionStorage {
+final class TransactionStorage: TransactionStorageProtocol {
     
     private let modelContainer: ModelContainer
     
@@ -45,7 +45,7 @@ final class TransactionStorage {
     }
     
     @MainActor
-    func saveContext() throws {
+    private func saveContext() throws {
         try modelContainer.mainContext.save()
     }
 }

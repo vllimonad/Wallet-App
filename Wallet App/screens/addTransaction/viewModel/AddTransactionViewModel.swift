@@ -40,6 +40,8 @@ final class AddTransactionViewModel: AddTransactionViewModelType {
         
         let transaction = TransactionModel(amount: amount, currency: selectedCurrency, date: selectedDate, category: selectedCategory, note: note, exchangeRate: 1.0)
         
-        transactionService.addTransaction(transaction)
+        Task {
+            await transactionService.addTransaction(transaction)
+        }
     }
 }

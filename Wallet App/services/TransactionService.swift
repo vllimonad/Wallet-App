@@ -9,17 +9,18 @@ import Foundation
 
 final class TransactionService {
     
-    private let storage: TransactionStorage
+    private let storage: TransactionStorageProtocol
     
-    private let exchangeRateService: ExchangeRateService
+    private let exchangeRateService: ExchangeRateServiceProtocol
     
     private(set) var transactions: [TransactionModel]
     
     public var observers = NSHashTable<TransactionServiceObserver>.weakObjects()
     
-    init() {
-        self.storage = TransactionStorage()
-        self.exchangeRateService = ExchangeRateService()
+    init(storage: TransactionStorageProtocol = TransactionStorage(),
+         exchangeRateService: ExchangeRateServiceProtocol = ExchangeRateService()) {
+        self.storage = storage
+        self.exchangeRateService = exchangeRateService
         self.transactions = []
         
         fetchTransactions()
@@ -32,37 +33,39 @@ final class TransactionService {
         }
     }
     
-    func addTransaction(_ transaction: TransactionModel) {
-        Task { @MainActor in
-            do {
-                if transaction.currency != .pln {
-                    let transactionCurrency = transaction.currency.title
-                    let exchangeDate = previousWorkingDay(from: transaction.date)
-                    let exchangeDateString = formatDateToString(exchangeDate)
-                    
-                    transaction.exchangeRate = try await exchangeRateService.fetchRates(transactionCurrency, exchangeDateString)
-                } else {
-                    transaction.exchangeRate = 1.0
-                }
+    @MainActor
+    func addTransaction(_ transaction: TransactionModel) async {
+        do {
+            if transaction.currency != .pln {
+                let transactionCurrency = transaction.currency.title
+                let exchangeDate = previousWorkingDay(from: transaction.date)
+                let exchangeDateString = formatDateToString(exchangeDate)
                 
-                try storage.addModel(transaction)
-                transactions.append(transaction)
-                
-                observers.allObjects.forEach { $0.didAddTransaction() }
-            } catch {
-                print(error)
+                transaction.exchangeRate = try await exchangeRateService.fetchRates(transactionCurrency, exchangeDateString)
+            } else {
+                transaction.exchangeRate = 1.0
             }
+            
+            try storage.addModel(transaction)
+            transactions.append(transaction)
+            
+            observers.allObjects.forEach { $0.didAddTransaction() }
+        } catch {
+            print(error)
         }
     }
     
+    @MainActor
     func removeTransaction(_ transaction: TransactionModel) {
-        Task { @MainActor in
+        do {
             guard let transactionIndex = transactions.firstIndex(of: transaction) else { return }
             
             try storage.deleteModel(transaction)
             transactions.remove(at: transactionIndex)
             
             observers.allObjects.forEach { $0.didRemoveTransaction?() }
+        } catch {
+            print(error)
         }
     }
     

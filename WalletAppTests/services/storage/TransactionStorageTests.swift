@@ -81,11 +81,11 @@ final class TransactionStorageTests: XCTestCase {
     @MainActor
     func test_DeleteModel_DeletesModel() throws {
         let model = TransactionModel(amount: 100,
-                                      currency: TransactionCurrency.allCases.first!,
-                                      date: Date(),
-                                      category: TransactionCategory.allCases.first!,
-                                      note: "",
-                                      exchangeRate: 1.0)
+                                     currency: TransactionCurrency.eur,
+                                     date: Date(),
+                                     category: TransactionCategory.communication,
+                                     note: "",
+                                     exchangeRate: 1.0)
         
         try sut.addModel(model)
         try sut.deleteModel(model)
@@ -98,11 +98,11 @@ final class TransactionStorageTests: XCTestCase {
     @MainActor
     func test_DeleteModel_WhenEmpty_DoesNotThrow()  throws {
         let model = TransactionModel(amount: 100,
-                                      currency: TransactionCurrency.allCases.first!,
-                                      date: Date(),
-                                      category: TransactionCategory.allCases.first!,
-                                      note: "",
-                                      exchangeRate: 1.0)
+                                     currency: TransactionCurrency.eur,
+                                     date: Date(),
+                                     category: TransactionCategory.communication,
+                                     note: "",
+                                     exchangeRate: 1.0)
         
         XCTAssertNoThrow(try sut.deleteModel(model))
         
