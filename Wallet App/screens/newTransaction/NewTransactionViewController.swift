@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class AddTransactionViewController: UIViewController {
+final class NewTransactionViewController: UIViewController {
     
     private let amountTextField: UITextField
     
@@ -21,9 +21,9 @@ final class AddTransactionViewController: UIViewController {
     
     private let categoryValueLabel: UILabel
     
-    private let viewModel: AddTransactionViewModelType
+    private let viewModel: NewTransactionViewModelType
     
-    init(viewModel: AddTransactionViewModelType) {
+    init(viewModel: NewTransactionViewModelType) {
         self.viewModel = viewModel
         
         self.containerView = UIView()
@@ -290,7 +290,7 @@ final class AddTransactionViewController: UIViewController {
     }
 }
 
-extension AddTransactionViewController: UITextFieldDelegate, UITextViewDelegate {
+extension NewTransactionViewController: UITextFieldDelegate, UITextViewDelegate {
     
     func textField(_ textField: UITextField,
                    shouldChangeCharactersIn range: NSRange,

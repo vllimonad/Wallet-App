@@ -7,13 +7,13 @@
 
 import Foundation
 
-protocol MainViewModelType {
+protocol StatisticsViewModelType {
     
-    var viewDelegate: MainViewModelViewDelegate? { get set }
+    var viewDelegate: StatisticsViewModelViewDelegate? { get set }
     
-    func showNextMonth()
+    func moveToNextMonth()
     
-    func showPreviousMonth()
+    func moveToPreviousMonth()
     
     func getSelectedDateDescription() -> String
     
