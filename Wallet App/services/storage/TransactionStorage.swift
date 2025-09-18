@@ -8,39 +8,41 @@
 import Foundation
 import SwiftData
 
-final class TransactionStorage {
+final class TransactionStorage: TransactionStorageProtocol {
     
     private let modelContainer: ModelContainer
     
-    init() {
+    init(_ modelContainer: ModelContainer? = nil) {
         do {
-            self.modelContainer = try ModelContainer(for: TransactionModel.self)
+            if let modelContainer = modelContainer {
+                self.modelContainer = modelContainer
+            } else {
+                self.modelContainer = try ModelContainer(for: TransactionModel.self)
+            }
         } catch {
             fatalError(error.localizedDescription)
         }
     }
     
-    @MainActor
     func getModels() -> [TransactionModel] {
         let sortDescriptor = SortDescriptor<TransactionModel>(\.date, order: .reverse)
         let descriptor = FetchDescriptor<TransactionModel>(sortBy: [sortDescriptor])
-        return (try? modelContainer.mainContext.fetch(descriptor)) ?? []
+        let models = (try? modelContainer.mainContext.fetch(descriptor)) ?? []
+        return models
     }
     
-    @MainActor
     func addModel(_ model: TransactionModel) throws {
         modelContainer.mainContext.insert(model)
         try saveContext()
     }
     
-    @MainActor
     func deleteModel(_ model: TransactionModel) throws {
         modelContainer.mainContext.delete(model)
         try saveContext()
     }
     
     @MainActor
-    func saveContext() throws {
+    private func saveContext() throws {
         try modelContainer.mainContext.save()
     }
 }

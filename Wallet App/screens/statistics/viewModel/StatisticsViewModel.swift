@@ -7,19 +7,19 @@
 
 import Foundation
 
-final class MainViewModel: TransactionServiceObserver {
+final class StatisticsViewModel: TransactionServiceObserver {
     
-    private let transactionService: TransactionService
+    private let transactionService: StatisticsTransactionServiceProtocol
     
     private var expenses: [MonthExpenses]
     
-    private var selectedMonthIndex: Int
+    private(set) var selectedMonthIndex: Int
     
-    private var selectedYearIndex: Int
+    private(set) var selectedYearIndex: Int
     
-    weak var viewDelegate: MainViewModelViewDelegate?
+    weak var viewDelegate: StatisticsViewModelViewDelegate?
     
-    init(_ transactionService: TransactionService) {
+    init(_ transactionService: StatisticsTransactionServiceProtocol) {
         self.transactionService = transactionService
         self.expenses = []
         
@@ -61,6 +61,7 @@ final class MainViewModel: TransactionServiceObserver {
         return expensesByMonthCategory
     }
     
+    @MainActor
     private func fetchTransactions() {
         let transactions = transactionService.transactions
         self.expenses = getMonthExpenses(from: transactions)
@@ -77,7 +78,7 @@ final class MainViewModel: TransactionServiceObserver {
     }
 }
 
-extension MainViewModel: MainViewModelType {
+extension StatisticsViewModel: StatisticsViewModelType {
     
     func getSelectedMonthTotalExpenses() -> Double {
         expenses.first(where: {
@@ -93,7 +94,7 @@ extension MainViewModel: MainViewModelType {
         })?.items ?? []
     }
     
-    func showPreviousMonth() {
+    func moveToPreviousMonth() {
         if selectedMonthIndex == 0 {
             selectedMonthIndex = 11
             selectedYearIndex -= 1
@@ -102,7 +103,7 @@ extension MainViewModel: MainViewModelType {
         }
     }
     
-    func showNextMonth() {
+    func moveToNextMonth() {
         if selectedMonthIndex == 11 {
             selectedMonthIndex = 0
             selectedYearIndex += 1

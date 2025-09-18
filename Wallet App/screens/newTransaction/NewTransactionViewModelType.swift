@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol AddTransactionViewModelType: AnyObject {
+protocol NewTransactionViewModelType: AnyObject {
     
     var amount: Double? { get set }
     

@@ -9,7 +9,7 @@ import Foundation
 
 final class HistoryViewModel: TransactionServiceObserver {
     
-    private let transactionService: TransactionService
+    private let transactionService: HistoryTransactionServiceProtocol
     
     private let dateFormatter: DateFormatter
     
@@ -17,7 +17,7 @@ final class HistoryViewModel: TransactionServiceObserver {
     
     private(set) var transactions: [TransactionsSection]
     
-    init(_ transactionService: TransactionService) {
+    init(_ transactionService: HistoryTransactionServiceProtocol) {
         self.transactionService = transactionService
         self.transactions = []
         self.dateFormatter = DateFormatter()

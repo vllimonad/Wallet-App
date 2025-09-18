@@ -7,14 +7,28 @@
 
 import Foundation
 
-final class ExchangeRateService {
+final class ExchangeRateService: ExchangeRateServiceProtocol {
     
     private let baseUrlString = "https://api.nbp.pl/api/exchangerates/rates/a"
     
+    private let exchangeRateClient: ExchangeRateClient
+    
+    init(client: ExchangeRateClient = URLSession.shared) {
+        self.exchangeRateClient = client
+    }
+    
     func fetchRates(_ currency: String, _ dateString: String) async throws -> Double {
-        guard let url = URL(string: baseUrlString + "/\(currency)/" + dateString) else { return 1.0 }
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "api.nbp.pl"
+        components.path = "/api/exchangerates/rates/a/\(currency)/\(dateString)"
+
+        guard
+            let url = components.url,
+            currency.count == 3
+        else { return 1.0 }
         
-        let (data, _) = try await URLSession.shared.data(from: url)
+        let (data, _) = try await exchangeRateClient.data(from: url)
         
         let nbpResponse = try JSONDecoder().decode(NBPResponse.self, from: data)
         
