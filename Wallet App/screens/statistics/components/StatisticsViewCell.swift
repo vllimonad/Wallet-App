@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class StatisticViewCell: UITableViewCell {
+final class StatisticsViewCell: UITableViewCell {
     
     public static func reuseIdentifier() -> String {
         "\(Self.self)"

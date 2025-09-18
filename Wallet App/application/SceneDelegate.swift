@@ -15,7 +15,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private let tabBarController: TabBarController
     
-    private let mainViewController: MainViewController
+    private let mainViewController: StatisticsViewController
         
     private let transactionHistoryViewController: HistoryViewController
     
@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         self.tabBarController = TabBarController(transactionService)
 
-        self.mainViewController = MainViewController(viewModel: MainViewModel(transactionService))
+        self.mainViewController = StatisticsViewController(viewModel: StatisticsViewModel(transactionService))
         self.transactionHistoryViewController = HistoryViewController(viewModel: HistoryViewModel(transactionService))
         
         super.init()

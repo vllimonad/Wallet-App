@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MainViewController: UIViewController {
+final class StatisticsViewController: UIViewController {
     
     private let monthLabel: UILabel
     
@@ -21,11 +21,11 @@ final class MainViewController: UIViewController {
     
     private let emptyStatisticView: EmptyStatisticView
     
-    private var viewModel: MainViewModelType
+    private var viewModel: StatisticsViewModelType
     
     private var tableViewHeightConstraint: NSLayoutConstraint?
     
-    init(viewModel: MainViewModelType) {
+    init(viewModel: StatisticsViewModelType) {
         self.monthLabel = UILabel()
         self.backwardButton = UIButton()
         self.forwardButton = UIButton()
@@ -91,7 +91,7 @@ final class MainViewController: UIViewController {
         
         categoriesTableView.dataSource = self
         categoriesTableView.delegate = self
-        categoriesTableView.register(StatisticViewCell.self, forCellReuseIdentifier: StatisticViewCell.reuseIdentifier())
+        categoriesTableView.register(StatisticsViewCell.self, forCellReuseIdentifier: StatisticsViewCell.reuseIdentifier())
         categoriesTableView.allowsSelection = false
         categoriesTableView.separatorStyle = .none
         categoriesTableView.rowHeight = 70
@@ -162,14 +162,14 @@ final class MainViewController: UIViewController {
     }
 }
 
-extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+extension StatisticsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.getSelectedMonthExpenses().count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: StatisticViewCell.reuseIdentifier(), for: indexPath) as? StatisticViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: StatisticsViewCell.reuseIdentifier(), for: indexPath) as? StatisticsViewCell else {
             return UITableViewCell()
         }
         
@@ -182,7 +182,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-extension MainViewController: MainViewModelViewDelegate {
+extension StatisticsViewController: StatisticsViewModelViewDelegate {
     
     func reloadStatistic() {
         let hasRecords = !viewModel.getSelectedMonthExpenses().isEmpty

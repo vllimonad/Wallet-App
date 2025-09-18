@@ -7,9 +7,9 @@
 
 import Foundation
 
-final class MainViewModel: TransactionServiceObserver {
+final class StatisticsViewModel: TransactionServiceObserver {
     
-    private let transactionService: TransactionService
+    private let transactionService: StatisticsTransactionServiceProtocol
     
     private var expenses: [MonthExpenses]
     
@@ -17,9 +17,9 @@ final class MainViewModel: TransactionServiceObserver {
     
     private var selectedYearIndex: Int
     
-    weak var viewDelegate: MainViewModelViewDelegate?
+    weak var viewDelegate: StatisticsViewModelViewDelegate?
     
-    init(_ transactionService: TransactionService) {
+    init(_ transactionService: StatisticsTransactionServiceProtocol) {
         self.transactionService = transactionService
         self.expenses = []
         
@@ -78,7 +78,7 @@ final class MainViewModel: TransactionServiceObserver {
     }
 }
 
-extension MainViewModel: MainViewModelType {
+extension StatisticsViewModel: StatisticsViewModelType {
     
     func getSelectedMonthTotalExpenses() -> Double {
         expenses.first(where: {

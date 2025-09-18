@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol MainViewModelViewDelegate: AnyObject {
+protocol StatisticsViewModelViewDelegate: AnyObject {
     
     @MainActor
     func reloadStatistic()

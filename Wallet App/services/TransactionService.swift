@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class TransactionService: NewTransactionServiceProtocol, HistoryTransactionServiceProtocol {
+final class TransactionService: NewTransactionServiceProtocol, HistoryTransactionServiceProtocol, StatisticsTransactionServiceProtocol {
     
     private let storage: TransactionStorageProtocol
     

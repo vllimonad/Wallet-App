@@ -7,9 +7,9 @@
 
 import Foundation
 
-protocol MainViewModelType {
+protocol StatisticsViewModelType {
     
-    var viewDelegate: MainViewModelViewDelegate? { get set }
+    var viewDelegate: StatisticsViewModelViewDelegate? { get set }
     
     func showNextMonth()
     
