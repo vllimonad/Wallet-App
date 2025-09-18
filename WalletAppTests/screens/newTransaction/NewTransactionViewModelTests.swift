@@ -35,6 +35,13 @@ final class NewTransactionViewModelTests: XCTestCase {
         sut = NewTransactionViewModel(transactionService)
     }
     
+    override func tearDown() {
+        transactionService = nil
+        sut = nil
+        
+        super.tearDown()
+    }
+    
     func test_Init_CreatesDefaultParameters() {
         XCTAssertTrue(Calendar.current.isDateInToday(sut.selectedDate))
         XCTAssertEqual(sut.selectedCurrency, .pln)

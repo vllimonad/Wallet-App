@@ -13,9 +13,9 @@ final class StatisticsViewModel: TransactionServiceObserver {
     
     private var expenses: [MonthExpenses]
     
-    private var selectedMonthIndex: Int
+    private(set) var selectedMonthIndex: Int
     
-    private var selectedYearIndex: Int
+    private(set) var selectedYearIndex: Int
     
     weak var viewDelegate: StatisticsViewModelViewDelegate?
     
@@ -94,7 +94,7 @@ extension StatisticsViewModel: StatisticsViewModelType {
         })?.items ?? []
     }
     
-    func showPreviousMonth() {
+    func moveToPreviousMonth() {
         if selectedMonthIndex == 0 {
             selectedMonthIndex = 11
             selectedYearIndex -= 1
@@ -103,7 +103,7 @@ extension StatisticsViewModel: StatisticsViewModelType {
         }
     }
     
-    func showNextMonth() {
+    func moveToNextMonth() {
         if selectedMonthIndex == 11 {
             selectedMonthIndex = 0
             selectedYearIndex += 1

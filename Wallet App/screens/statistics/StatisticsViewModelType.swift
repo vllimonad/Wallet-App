@@ -11,9 +11,9 @@ protocol StatisticsViewModelType {
     
     var viewDelegate: StatisticsViewModelViewDelegate? { get set }
     
-    func showNextMonth()
+    func moveToNextMonth()
     
-    func showPreviousMonth()
+    func moveToPreviousMonth()
     
     func getSelectedDateDescription() -> String
     

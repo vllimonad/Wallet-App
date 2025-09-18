@@ -151,13 +151,13 @@ final class StatisticsViewController: UIViewController {
     
     @objc
     private func didTapNextButton() {
-        viewModel.showNextMonth()
+        viewModel.moveToNextMonth()
         reloadStatistic()
     }
     
     @objc
     private func didTapPreviousButton() {
-        viewModel.showPreviousMonth()
+        viewModel.moveToPreviousMonth()
         reloadStatistic()
     }
 }
