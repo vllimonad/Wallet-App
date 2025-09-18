@@ -43,8 +43,8 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
         tabBar.didTapAddRecord = { [weak self] in
             guard let self else { return }
             
-            let addTransactionViewModel = AddTransactionViewModel(transactionService)
-            let addTransactionViewController = AddTransactionViewController(viewModel: addTransactionViewModel)
+            let addTransactionViewModel = NewTransactionViewModel(transactionService)
+            let addTransactionViewController = NewTransactionViewController(viewModel: addTransactionViewModel)
             
             self.present(UINavigationController(rootViewController: addTransactionViewController), animated: true)
         }
